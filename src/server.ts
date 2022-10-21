@@ -13,7 +13,7 @@ import jwt from 'jsonwebtoken';
 
 import {ApolloServer} from 'apollo-server-express';
 import { readFile } from 'fs/promises';
-import {resolvers} from '../src/test-db/resolvers.js';
+import {resolvers} from '../test-db/resolvers.js';
 
 
 
@@ -37,25 +37,47 @@ app.get( "/", ( req:any, res:any ) => {
 const loggingMidware = async (resolve, root, args, context, info) => {
     context.test = "AWHOOOOOO!"
     
-    //console.log('logging resolver args:', "resolve ",resolve, "root: ", root,"args: ", args, "info: ", info );
+    //console.log('logging resolver args:', "resolve: ",resolve, "root: ", root,"args: ", args, "info: ", info );
     //console.log("context: ", context);
     //console.log(context.fieldNodes.arguments[0]);
     console.log("YEEEEEEEEEE")
     const result = await resolve(root, args, context, info)
+    console.log('result: ', result);
     return result;
   }
 
+const middleware2 = async (resolve, root, args, context, info) => {
+    console.log("Second Middleware");
+    const result = await resolve(root, args, context, info)
+    console.log(result);
+    return result;
+}
+
 const typeDefs = await readFile('src/schema.graphql', 'utf-8');
 
+// const testMidware = {
+//   Query: {
+//     jobs: loggingMidware
+//   },
+//   Job: {
+//     company: middleware2
+//   }
+// }
 
 // Add middleware limiters to middleware array
-const middleware = [loggingMidware]
+const middleware = [loggingMidware, middleware2]
+// const middleware = [testMidware]
+
+// console.log(resolvers);
 
 const schema = makeExecutableSchema({typeDefs, resolvers});
+// console.log(schema);
 const schemaWithMiddleware = applyMiddleware(schema, ...middleware);
 
+
+
 const apolloServer = new ApolloServer({ 
-  //context : ({req, res}: any) => ({req, res}),
+  context : ({req, res}: any) => ({req, res}),
   schema: schemaWithMiddleware,
  });
 
