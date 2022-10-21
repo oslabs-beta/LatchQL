@@ -1,0 +1,12 @@
+{
+    "admin" : {
+        "depthLimit" : [Infinity],
+        "rateLimit" : [Inifinity],
+        "costLimit" : [Inifinity]
+    },
+    "user" : {
+        "depthLimit" : [4],
+        "rateLimit" : [5000],
+        "costLimit" : [1000]
+    }    
+}
