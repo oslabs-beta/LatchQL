@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+      "target": "es2017",
+      "module": "ES2022",
+      "esModuleInterop": true,
+      "declaration": true,
+      "skipLibCheck": true,
+      "outDir": "./lib",
+      "strict": true,
+      "noImplicitAny": false,
+      "moduleResolution": "node",
+      "sourceMap": true,
+      "paths": {
+        "*" : [
+            "/node_modules/*"
+        ]
+      }
+    },
+    "include": ["src"],
+    "exclude": ["node_modules", "**/__tests__/*"]
+  }
