@@ -8,7 +8,8 @@
     "build": "tsc",
     "prestart": "npm run build",
     "start": "nodemon lib/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "NODE_ENV=development nodemon lib/server.js"
   },
   "repository": {
     "type": "git",
