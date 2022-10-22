@@ -40,16 +40,16 @@ const loggingMidware = async (resolve, root, args, context, info) => {
     //console.log('logging resolver args:', "resolve: ",resolve, "root: ", root,"args: ", args, "info: ", info );
     //console.log("context: ", context);
     //console.log(context.fieldNodes.arguments[0]);
-    console.log("YEEEEEEEEEE")
+    console.log("first middleware")
     const result = await resolve(root, args, context, info)
-    console.log('result: ', result);
+    console.log('first middleware result: ', result);
     return result;
   }
 
 const middleware2 = async (resolve, root, args, context, info) => {
     console.log("Second Middleware");
     const result = await resolve(root, args, context, info)
-    console.log(result);
+    console.log("Second middleware result: ", result);
     return result;
 }
 
