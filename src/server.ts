@@ -1,10 +1,3 @@
-// const express = require('express');
-// const {ApolloServer} = require('apollo-server-express');
-// const {readFile} = require('fs/promises');
-// const {resolvers} = require('../src/test-db/resolvers.js')
-// const {makeExecutableSchema} = require('@graphql-tools/schema');
-// const {applyMiddleware} = require('graphql-middleware');
-// const {bodyParser} = require('body-parser');
 import cors from "cors";
 import express from "express";
 import { expressjwt } from "express-jwt";
@@ -14,13 +7,14 @@ import { ApolloServer } from "apollo-server-express";
 import { readFile } from "fs/promises";
 import { resolvers } from "../test-db/resolvers.js";
 import path from "path";
+import { GraphQLError } from "graphql";
 
 import { makeExecutableSchema } from "@graphql-tools/schema";
 import { applyMiddleware } from "graphql-middleware";
 
 // Import Limiters
 import { calcCost } from "./limiters/cost-limiter.js";
-// import { depthLimit } from "./limiters/depth-limiter.js";
+import { depthLimit } from "./limiters/depth-limiter.js";
 
 const app = express();
 const port = 8080; // default port to listen
@@ -37,37 +31,48 @@ const testMidware = async (resolve, root, args, context, info) => {
     const query = context.req.body.query;
     const authLimits = await readFile("./latch_config.json", "utf8");
     const parsedLimits = JSON.parse(authLimits);
-    const depthLimit = parseInt(parsedLimits.admin.depthLimit);
+    const maxDepth = parseInt(parsedLimits.admin.depthLimit);
     const rateLimit = parseInt(parsedLimits.admin.rateLimit);
     const costLimit = parseInt(parsedLimits.admin.costLimit);
+    const depthLimitExceed = depthLimit(query, maxDepth);
+    if (depthLimitExceed) {
+      throw new GraphQLError(
+        `Your query exceeds maximum operation depth of ${maxDepth}`,
+        null,
+        null,
+        null,
+        null,
+        null,
+        {
+          code: "DEPTH_LIMIT_EXCEEDED",
+          http: {
+            status: 404,
+          },
+        }
+      );
+    }
     const { costSum, withinLimit } = calcCost(query, 1.5, costLimit);
     if (!withinLimit) {
-      context.limitError = "You have exceeded your cost limit";
-      //return { error: "You have exceeded your cost limit" };
+      throw new GraphQLError(
+        `Your query exceeds maximum operation cost of ${costLimit}`,
+        null,
+        null,
+        null,
+        null,
+        null,
+        {
+          code: "LIMIT_EXCEEDED",
+          http: {
+            status: 404,
+          },
+        }
+      );
     }
-    console.log(parsedLimits);
-    console.log(costSum);
     context.alreadyRan = true;
-  }
-  if (context.limitError) {
-    console.log("not running resolver");
-    return context.limitError;
   }
   console.log("running resolver");
   const result = await resolve(root, args, context, info);
   return result;
-
-  // const cache = {};
-  // const query = context.req.body.query;
-  // const cost = calcCost(query, 1.5);
-  // let ran;
-  // if (!cache[ran]) {
-  //   cache[ran] = 1;
-  //   console.log(cost);
-  //   console.log("first middleware");
-  // }
-  // const result = await resolve(root, args, context, info);
-  // return result;
 };
 
 // const middleware2 = async (resolve, root, args, context, info) => {

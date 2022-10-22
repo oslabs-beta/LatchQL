@@ -1,7 +1,17 @@
 {
   "admin": {
-    "depthLimit": "10",
+    "depthLimit": "1",
     "rateLimit": "750",
-    "costLimit": "2"
+    "costLimit": "1"
+  },
+  "user" : {
+    "depthLimit": "1",
+    "rateLimit": "750",
+    "costLimit": "1"
+  },
+  "gary" : {
+    "depthLimit": "1",
+    "rateLimit": "500",
+    "costLimit": "1"
   }
 }
