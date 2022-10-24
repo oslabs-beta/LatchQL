@@ -41,6 +41,7 @@
     "ts-node": "^10.9.1"
   },
   "dependencies": {
+    "@graphql-codegen/typescript-resolvers": "^2.7.5",
     "@graphql-tools/schema": "^9.0.4",
     "apollo-server-express": "^3.10.3",
     "cors": "^2.8.5",
