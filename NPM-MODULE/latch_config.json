@@ -1,8 +1,8 @@
 {
   "admin": {
-    "depthLimit": "1",
+    "depthLimit": "5",
     "rateLimit": "750",
-    "costLimit": "1"
+    "costLimit": "100"
   },
   "user" : {
     "depthLimit": "1",

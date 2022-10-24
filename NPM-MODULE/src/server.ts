@@ -88,6 +88,8 @@ const testMidware = async (resolve, root, args, context, info) => {
 
 const typeDefs = await readFile("src/schema.graphql", "utf-8");
 
+console.log(typeof typeDefs);
+console.log(typeof resolvers);
 // const testMidware = {
 //   Query: {
 //     jobs: loggingMidware,
