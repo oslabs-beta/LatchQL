@@ -1,5 +1,5 @@
 .mainframe {
-  background: red;
+  background: #282b30;
   width: 97%;
   height: 85%;
   display: flex;
@@ -9,6 +9,11 @@
 
 #url {
   width: 100%;
-  padding: 10px;
-  font-size: 1.5rem;
+  padding: 5px;
+  font-size: 1.1rem;
+}
+
+#run-btn {
+  height: 50px;
+  width: 80px;
 }
