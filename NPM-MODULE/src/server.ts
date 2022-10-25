@@ -17,6 +17,7 @@ import { calcCost } from "./limiters/cost-limiter.js";
 import { depthLimit } from "./limiters/depth-limiter.js";
 
 import LatchQL from "./latch-ql-npm/latch.js";
+import { jwtController } from "./latch-ql-npm/latch-auth.js";
 
 
 const app = express();
@@ -26,6 +27,18 @@ const port = 8080; // default port to listen
 app.get("/", (req: any, res: any) => {
   res.send("Hello world!");
 });
+
+
+//helper middleware function for testing JwtController
+function authSet(req, res, next){
+  res.locals.authLevel = "user";
+  res.locals.userName = "Ray";
+  next();
+}
+//test route for jwtController
+app.post('/login', authSet, jwtController.setJwt, (req, res) => {
+  return res.status(200).send('YES RESPONSE');
+})
 
 const typeDefs = await readFile("src/schema.graphql", "utf-8");
 
