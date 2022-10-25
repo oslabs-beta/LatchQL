@@ -1,0 +1,13 @@
+.metrics {
+  display: flex;
+  justify-content: space-between;
+  background-color: greenyellow;
+  margin-top: 20px;
+}
+
+.metrics span {
+  font-size: 2rem;
+  padding: 10px;
+  background: lightblue;
+  margin: 20px 80px;
+}

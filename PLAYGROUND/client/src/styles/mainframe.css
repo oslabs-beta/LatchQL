@@ -1,0 +1,14 @@
+.mainframe {
+  background: red;
+  width: 97%;
+  height: 85%;
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+#url {
+  width: 100%;
+  padding: 10px;
+  font-size: 1.5rem;
+}
