@@ -43,6 +43,7 @@
   "dependencies": {
     "@graphql-codegen/typescript-resolvers": "^2.7.5",
     "@graphql-tools/schema": "^9.0.4",
+    "@types/jsonwebtoken": "^8.5.9",
     "apollo-server-express": "^3.10.3",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",

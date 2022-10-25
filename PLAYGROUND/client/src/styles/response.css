@@ -1,0 +1,15 @@
+.response {
+  background-color: antiquewhite;
+  width: 48%;
+  padding: 10px;
+  /* display: flex;
+  flex-direction: column; */
+}
+
+.response span {
+  font-size: 1.1rem;
+}
+
+.response textarea {
+  padding: 20px;
+}

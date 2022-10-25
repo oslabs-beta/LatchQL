@@ -1,0 +1,15 @@
+.request {
+  padding: 10px;
+}
+
+.request textarea {
+  padding: 20px;
+}
+
+/* #req-var {
+  margin-top: 10px;
+} */
+
+.request span {
+  font-size: 1.1rem;
+}

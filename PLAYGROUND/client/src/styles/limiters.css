@@ -1,0 +1,16 @@
+.limiters {
+  background: yellow;
+  padding: 10px;
+  display: flex;
+}
+
+.limiter {
+  background: lightcyan;
+  padding: 5px;
+  width: 200px;
+  margin: 0px 5px;
+}
+
+.limiter span {
+  font-size: 1.3rem;
+}
