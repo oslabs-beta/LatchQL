@@ -1,11 +1,13 @@
 .limiters {
-  background: yellow;
+  background: #282b30;
+  border-radius: 10px;
   padding: 10px;
   display: flex;
 }
 
 .limiter {
-  background: lightcyan;
+  background: #54565a;
+  border-radius: 10px;
   padding: 5px;
   width: 200px;
   margin: 0px 5px;
@@ -13,4 +15,5 @@
 
 .limiter span {
   font-size: 1.3rem;
+  background-color: #54565a;
 }

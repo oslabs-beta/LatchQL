@@ -4,8 +4,12 @@ import "../styles/metrics.css";
 function Metrics() {
   return (
     <div className="metrics">
-      <span>Response Time:</span>
-      <span>CPU Usage:</span>
+      <div className="metric">
+        <span className="metric-span">Response Time:</span>
+      </div>
+      <div className="metric">
+        <span className="metric-span">CPU Usage:</span>
+      </div>
     </div>
   );
 }

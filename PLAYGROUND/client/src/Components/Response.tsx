@@ -6,6 +6,7 @@ import "../styles/response.css";
 function Response() {
   return (
     <div className="response">
+      <span>Response</span>
       <ResponseBody />
       <Metrics />
     </div>

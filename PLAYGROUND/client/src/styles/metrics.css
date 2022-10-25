@@ -1,13 +1,18 @@
 .metrics {
+  background: #282b30;
+  border-radius: 10px;
+  padding: 10px;
   display: flex;
   justify-content: space-between;
-  background-color: greenyellow;
-  margin-top: 20px;
 }
 
-.metrics span {
-  font-size: 2rem;
-  padding: 10px;
-  background: lightblue;
-  margin: 20px 80px;
+.metric {
+  background: #36393e;
+  border-radius: 10px;
+  padding: 45px;
+  width: 200px;
+}
+
+.metric-span {
+  background-color: #36393e;
 }
