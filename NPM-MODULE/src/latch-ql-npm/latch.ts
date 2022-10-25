@@ -20,11 +20,15 @@ import {
   ResolveProjectReferencePathHost,
 } from "typescript";
 import { rateLimiter } from "../limiters/rate-limiter.js";
+import * as dotenv from 'dotenv';
+import jwt_decode from 'jwt-decode';
 
 type schema = {
   typeDefs: string;
   resolvers: Object;
 };
+
+
 
 export default class LatchQL {
   public typeDefs: string;
@@ -56,14 +60,33 @@ export default class LatchQL {
     // context.test = "AWHOOOOOO!";
     if (!context.alreadyRan) {
       const query = context.req.body.query;
+      const token = context.req.headers.authorization.split(' ')[1];
+      let authLevel : string = "nonUser"; 
+      //pull the secret key from the .env file
+      dotenv.config();
+      let key: string;
+      if(process.env.SECRET_KEY)  key = process.env.SECRET_KEY;
+      else key = "GENERICKEY";
+      //verify the JWT -- if not valid, the authLevel will reamin "nonUser"
+      jwt.verify(token, key, (err, decoded) => {
+        if(err){
+          console.log(err);
+        }else{
+          authLevel = decoded.authLevel;
+        }
+      });
+
       const authLimits = await readFile("./latch_config.json", "utf8");
       const parsedLimits = JSON.parse(authLimits);
-      const maxDepth = parseInt(parsedLimits.admin.depthLimit);
-      const rateLimit = parseInt(parsedLimits.admin.rateLimit);
-      const costLimit = parseInt(parsedLimits.admin.costLimit);
+
+      console.log(parsedLimits[authLevel].depthLimit);
+
+      const maxDepth = parseInt(parsedLimits[authLevel].depthLimit);
+      const rateLimit = parseInt(parsedLimits[authLevel].rateLimit);
+      const costLimit = parseInt(parsedLimits[authLevel].costLimit);
       const depthLimitExceed = depthLimit(query, maxDepth);
       const user_ip = context.req.socket.remoteAddress;
-      console.log(context.req.headers);
+      //console.log(context.req.headers);
       if (depthLimitExceed) {
         throw new GraphQLError(
           `Your query exceeds maximum operation depth of ${maxDepth}`,

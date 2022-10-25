@@ -13,5 +13,10 @@
     "depthLimit": "1",
     "rateLimit": "500",
     "costLimit": "1"
+  },
+  "non-user" : {
+    "depthLimit": "0",
+    "rateLimit": "0",
+    "costLimit": "0"
   }
 }

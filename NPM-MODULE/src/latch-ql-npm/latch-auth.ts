@@ -1,7 +1,7 @@
 import cors from "cors";
-import express, { NextFunction } from "express";
+import express, { NextFunction, Request, Response } from "express";
 import { expressjwt } from "express-jwt";
-import jwt from "jsonwebtoken";
+import jwt, { Secret } from "jsonwebtoken";
 import { updateShorthandPropertyAssignment } from "typescript";
 import * as dotenv from 'dotenv';
 
@@ -25,17 +25,18 @@ type jwtController = {
 }
 
 
-
 export const jwtController: jwtController = {
-    setJwt : (req, res, next) => {
+    setJwt : (req: Request, res: authRes, next: NextFunction) => {
         if(!res.locals.authLevel || !res.locals.userName){
             return next();
         }
         let authLevel: string = res.locals.authLevel;
         let userName: string = res.locals.userName;
-        
+        console.log("Hello from inside jwtController");
+        console.log(authLevel, userName);
         const payload = {userName: userName, authLevel: authLevel};
-        const token: string = jwt.sign(payload, key, {expiresIn: "5d"});
+        const token: string= jwt.sign(payload, key, {expiresIn: "5d"});
+        console.log(token);
         return res.json({token});
     }
 };
