@@ -22,21 +22,7 @@ app.get('/', (req, res) => {
  */
 app.use(express.static(path.resolve(__dirname, '../client')));
 
-// fetch('localhost:8080/graphql', {
-//     method:'POST',
-//     body: JSON.stringify({
-//         anything:anything
-//     }),
-//     headers: {
-//         "Content-Type": "application/json; charset=UTF-8",
-//         "GUI":"admin"
-//     }
-// })
-/**
- * define route handlers
- */
-// app.use('/', userRouter);
-// Unknown route Handler
+
 
 
 app.use((req, res) => res.status(404).send('You are in the wrong place :O'));

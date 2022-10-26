@@ -1,0 +1,40 @@
+.auth {
+  width: 30%;
+  background: #16222f;
+  align-items: center;
+  padding: 5px 10px;
+  border: 1px solid white;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.auth:hover {
+  cursor: pointer;
+}
+
+.auth img {
+  width: 20px;
+  background-color: #16222f;
+  /* filter: invert(100%) sepia(0%) saturate(7430%) hue-rotate(223deg)
+    brightness(118%) contrast(100%); */
+}
+
+.auth span {
+  background-color: #16222f;
+}
+
+.dropdown {
+  border: none;
+  background-color: #16222f;
+  width: 100%;
+  height: 100%;
+}
+
+.dropdown:hover {
+  cursor: pointer;
+}
+
+.dd-menu li {
+  list-style: none;
+}
