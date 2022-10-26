@@ -60,22 +60,32 @@ export default class LatchQL {
     // context.test = "AWHOOOOOO!";
     if (!context.alreadyRan) {
       const query = context.req.body.query;
+      
+      console.log(context.req.headers);
+      // the JWT token
       const token = context.req.headers.authorization.split(' ')[1];
-      let authLevel : string = "nonUser"; 
-      //pull the secret key from the .env file
-      dotenv.config();
-      let key: string;
-      if(process.env.SECRET_KEY)  key = process.env.SECRET_KEY;
-      else key = "GENERICKEY";
-      //verify the JWT -- if not valid, the authLevel will reamin "nonUser"
-      jwt.verify(token, key, (err, decoded) => {
-        if(err){
-          console.log(err);
-        }else{
-          authLevel = decoded.authLevel;
-        }
-      });
+      // if user logs in from GUI, bypass the JWT
+      let authLevel : string = "nonUser";
+      if(context.req.headers['gui']){
+        authLevel = context.req.headers['gui'];  
 
+        // if not, do the JWT authorization
+      }else{
+      
+        //pull the secret key from the .env file
+        dotenv.config();
+        let key: string;
+        if(process.env.SECRET_KEY)  key = process.env.SECRET_KEY;
+        else key = "GENERICKEY";
+        //verify the JWT -- if not valid, the authLevel will reamin "nonUser"
+        jwt.verify(token, key, (err, decoded) => {
+          if(err){
+            console.log(err);
+          }else{
+            authLevel = decoded.authLevel;
+          }
+        });
+      }
       const authLimits = await readFile("./latch_config.json", "utf8");
       const parsedLimits = JSON.parse(authLimits);
 
