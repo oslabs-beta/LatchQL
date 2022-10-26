@@ -21,7 +21,7 @@ import {
 } from "typescript";
 import { rateLimiter } from "../limiters/rate-limiter.js";
 import * as dotenv from 'dotenv';
-import jwt_decode from 'jwt-decode';
+import process from 'process';
 
 type schema = {
   typeDefs: string;
@@ -58,20 +58,23 @@ export default class LatchQL {
   }
   async middleWare(resolve, root, args, context, info) {
     // context.test = "AWHOOOOOO!";
+    let currentDate = new Date();
+    context.res.locals.cpu = [process.cpuUsage()];
+    context.res.locals.time = [currentDate.getTime()];
     if (!context.alreadyRan) {
       const query = context.req.body.query;
       
       console.log(context.req.headers);
       // the JWT token
-      const token = context.req.headers.authorization.split(' ')[1];
+      
       // if user logs in from GUI, bypass the JWT
       let authLevel : string = "nonUser";
       if(context.req.headers['gui']){
         authLevel = context.req.headers['gui'];  
-
+        console.log(authLevel);
         // if not, do the JWT authorization
       }else{
-      
+        const token = context.req.headers.authorization.split(' ')[1];
         //pull the secret key from the .env file
         dotenv.config();
         let key: string;
@@ -152,6 +155,12 @@ export default class LatchQL {
     }
     console.log("running resolver");
     const result = await resolve(root, args, context, info);
+    const now = new Date();
+    context.res.locals.time.push(now.getTime());
+    context.res.locals.cpu.push(process.cpuUsage());
+    console.log(context.res.locals.time);
+    console.log(context.res.locals.cpu);
+   
     return result;
   }
   async startLatch(app: any) {
@@ -161,7 +170,19 @@ export default class LatchQL {
       path: "/graphql",
     });
     app.get("/latchql", (req: any, res: any) => {
-      res.send("HEEEEEEERE's YOUR GUI!!");
-    });
+      readFile("./latch_config.json","utf-8")
+        .then(data => {
+          res.status(200).send(data);
+        }) 
+        .catch(err => {
+          console.log(err);
+          res.status(500).send(err);
+        })
+        
+    })
+
+      
+      
+  
   }
 }

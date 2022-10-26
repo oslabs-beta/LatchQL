@@ -3,12 +3,28 @@
     "id": "uogQAZnLcAlT6lMuNbpQg",
     "email": "alice@facegle.io",
     "password": "alice123",
-    "companyId": "pVbRRBQtMVw6lUAkj1k43"
+    "companyId": "pVbRRBQtMVw6lUAkj1k43",
+    "carId" : "1"
   },
   {
     "id": "i0Nn6qvicHP5DTuKTyaq0",
     "email": "bob@goobook.co",
     "password": "bob123",
-    "companyId": "wvdB54Gqbdp_NZTXK9Tue"
+    "companyId": "wvdB54Gqbdp_NZTXK9Tue",
+    "carId" : "2"
+  },
+  {
+    "id": "i0Nn6qvicHP5DTuKTyaq5",
+    "email": "melmo@goobook.co",
+    "password": "bob123",
+    "companyId": "wvdB54Gqbdp_NZTXK9Tue",
+    "carId" : "4"
+  },
+  {
+    "id": "i0Nn6qvicHP5DTuKTyaq7",
+    "email": "dan@goobook.co",
+    "password": "bob123",
+    "companyId": "wvdB54Gqbdp_NZTXK9Tue",
+    "carId" : "3"
   }
 ]
