@@ -1,5 +1,5 @@
 .mainframe {
-  background: #282b30;
+  background: #121921;
   width: 97%;
   height: 85%;
   display: flex;
@@ -11,9 +11,18 @@
   width: 100%;
   padding: 5px;
   font-size: 1.1rem;
+  background-color: #16222f;
+  border: white 0.5px solid;
+  border-radius: 10px;
 }
 
-#run-btn {
-  height: 50px;
-  width: 80px;
+.url-div {
+  padding: 10px;
+  border-radius: 10px;
+  background: #16222f;
+  margin: 0px 20px;
+}
+
+.url-div input {
+  text-decoration: none;
 }

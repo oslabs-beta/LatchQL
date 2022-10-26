@@ -1,18 +1,25 @@
 .response {
-  background-color: #282b30;
-  width: 45%;
+  background-color: #16222f;
   padding: 10px;
   display: flex;
   flex-direction: column;
-}
-
-.response span {
-  font-size: 1.1rem;
-  background-color: #282b30;
+  border-radius: 10px;
+  width: 49%;
 }
 
 .response textarea {
   padding: 30px;
-  background-color: #282b30;
+  background-color: #16222f;
+  border-radius: 10px;
+  width: 100%;
+}
+
+.response span {
+  font-size: 1.1rem;
+  background-color: #16222f;
   border-radius: 10px;
 }
+
+
+
+
