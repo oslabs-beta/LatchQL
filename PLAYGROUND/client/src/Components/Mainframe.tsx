@@ -1,22 +1,42 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../styles/mainframe.css";
 import Query from "./Query";
 import Response from "./Response";
 
-type queryHandler = {
-  queryHandler: () => void;
+export type LimitsObj = {
+  depthLimit: number;
+  costLimit: number;
+  rateLimit: number;
 };
 
 function Mainframe() {
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState<string>("");
+  const [response, setResponse] = useState<string>("");
+  const [limits, setLimits] = useState<LimitsObj>({
+    depthLimit: 0,
+    costLimit: 0,
+    rateLimit: 0,
+  });
 
-  const queryHandler = (query: string): void => {
+  const queryHandler = (query: string) => {
     setQuery(query);
   };
 
+
+  const sendQuery = () => {
+    //fetch()
+    //.then(res => res.json())
+    //.then()
+  };
+
+  useEffect(() => {
+    // fetch (get) preset limits from user server
+    // setLimits({})
+  }, []);
+
   return (
     <div className="main">
-      <div>
+      <div className="url-div">
         <input
           id="url"
           type="text"
@@ -25,9 +45,15 @@ function Mainframe() {
         />
       </div>
       <div className="mainframe">
-        <Query />
-        <button id="run-btn">Run Query</button>
-        <Response />
+        <Query
+          limits={limits}
+          queryHandler={queryHandler}
+          sendQuery={sendQuery}
+        />
+        {/* <button onClick={() => sendQuery()} id="run-btn">
+          Run Query
+        </button> */}
+        <Response response={response} />
       </div>
     </div>
   );

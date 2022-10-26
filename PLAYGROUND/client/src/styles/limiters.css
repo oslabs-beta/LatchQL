@@ -1,19 +1,20 @@
 .limiters {
-  background: #282b30;
+  background: #16222f;
   border-radius: 10px;
   padding: 10px;
   display: flex;
 }
 
 .limiter {
-  background: #54565a;
+  background: #16222f;
   border-radius: 10px;
   padding: 5px;
   width: 200px;
   margin: 0px 5px;
+  border: 1px white solid;
 }
 
 .limiter span {
   font-size: 1.3rem;
-  background-color: #54565a;
+  background-color: #16222f;
 }

@@ -3,11 +3,15 @@ import Metrics from "./Metrics";
 import ResponseBody from "./ResponseBody";
 import "../styles/response.css";
 
-function Response() {
+type ResponseProps = {
+  response: string
+}
+
+function Response(props: ResponseProps) {
   return (
     <div className="response">
       <span>Response</span>
-      <ResponseBody />
+      <ResponseBody response={props.response} />
       <Metrics />
     </div>
   );

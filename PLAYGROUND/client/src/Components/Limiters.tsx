@@ -1,17 +1,22 @@
 import React from "react";
 import "../styles/limiters.css";
+import { LimitsObj } from "./Mainframe";
 
-function Limiters() {
+type LimitersProps = {
+  limits: LimitsObj;
+};
+
+function Limiters(props: LimitersProps) {
   return (
     <div className="limiters">
       <div className="limiter">
-        <span>Depth Limit: </span>
+        <span>Depth Limit: {props.limits.depthLimit}</span>
       </div>
       <div className="limiter">
-        <span>Cost Limit: </span>
+        <span>Cost Limit: {props.limits.costLimit}</span>
       </div>
       <div className="limiter">
-        <span>Rate Limit: </span>
+        <span>Rate Limit: {props.limits.rateLimit}</span>
       </div>
     </div>
   );
