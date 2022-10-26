@@ -22,17 +22,21 @@ function Mainframe() {
     setQuery(query);
   };
 
-
   const sendQuery = () => {
     //fetch()
     //.then(res => res.json())
     //.then()
   };
 
+  const displayLimits = (authLvl: string) => {
+    // setLimits({})
+    console.log(authLvl);
+  };
+
   useEffect(() => {
     // fetch (get) preset limits from user server
-    // setLimits({})
-  }, []);
+    // displayLimits({})
+  }, [limits]);
 
   return (
     <div className="main">
@@ -49,6 +53,7 @@ function Mainframe() {
           limits={limits}
           queryHandler={queryHandler}
           sendQuery={sendQuery}
+          displayLimits={displayLimits}
         />
         {/* <button onClick={() => sendQuery()} id="run-btn">
           Run Query
