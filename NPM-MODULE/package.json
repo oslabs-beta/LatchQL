@@ -7,8 +7,10 @@
   "scripts": {
     "build": "tsc",
     "prestart": "npm run build",
-    "start": "nodemon lib/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "run-s kill-redis start-redis backend",
+    "backend": "ttab -t 'Running server' nodemon lib/server.js",
+    "kill-redis": "ttab -t 'Killing preexisting redis server' killall redis-server",
+    "start-redis": "ttab -t 'Running redis server' redis-server",
     "dev": "NODE_ENV=development nodemon lib/server.js"
   },
   "repository": {
@@ -38,7 +40,9 @@
     "@types/node": "^16.11.68",
     "body-parser": "^1.20.1",
     "nodemon": "^2.0.20",
-    "ts-node": "^10.9.1"
+    "npm-run-all": "^4.1.5",
+    "ts-node": "^10.9.1",
+    "ttab": "^0.7.3"
   },
   "dependencies": {
     "@graphql-codegen/typescript-resolvers": "^2.7.5",
