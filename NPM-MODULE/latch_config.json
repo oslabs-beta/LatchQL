@@ -1,7 +1,7 @@
 {
   "Admin": {
-    "depthLimit": "5",
-    "rateLimit": "750",
+    "depthLimit": "100",
+    "rateLimit": "100",
     "costLimit": "100"
   },
   "Non-User": {

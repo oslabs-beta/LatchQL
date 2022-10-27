@@ -1,0 +1,32 @@
+[
+    {
+      "id": "1",
+      "make": "Ford",
+      "model" : "Fmoomer"
+    },
+    {
+      "id": "2",
+      "make": "Harley",
+      "model" : "Gmmoomer"
+    },
+    {
+      "id": "3",
+      "make": "Chevy",
+      "model" : "Hot Dog"
+    },
+    {
+      "id": "4",
+      "make": "Cadillac",
+      "model" : "Mountain Man"
+    },
+    {
+      "id": "5",
+      "make": "Porsche",
+      "model" : "Old Smoothy"
+    },
+    {
+      "id": "6",
+      "make": "Gold",
+      "model" : "Horse"
+    },
+  ]
