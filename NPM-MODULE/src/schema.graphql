@@ -2,11 +2,15 @@ type Query {
   job(id: ID!): Job
   jobs: [Job!]
   company(id: ID!): Company
+  users: [User!]
+  companies: [Company!]
 }
 
 type Company {
   id: ID!
   name: String!
+  description: String
+  ceoId: CEO
 }
 
 type Job {
@@ -14,4 +18,32 @@ type Job {
   title: String!
   description: String
   company: Company
+}
+
+type User {
+  id: ID!
+  email: String
+  pw: String
+  companyId: Company
+  carId: Car
+}
+
+type Car {
+  id: ID!
+  color: String
+  typeId: CarType
+}
+
+type CarType {
+  id: ID!
+  make: String
+  model: String
+}
+
+type CEO {
+  id: ID!
+  name: String
+  hairColor: String
+  carId: Car
+  userId: User
 }

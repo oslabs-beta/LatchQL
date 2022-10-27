@@ -10,5 +10,11 @@
     "name": "Goobook",
     "description": "We are a startup on a mission to disrupt search social media. Think Google meet Facebook.",
     "ceoId" : "33333"
+  },
+  {
+    "id": "wvdB54Gqbdp_NZTXK9Wed",
+    "name": "BlockCoin",
+    "description": "Something about money... mostly conspiracy theories.",
+    "ceoId" : "22222"
   }
 ]
