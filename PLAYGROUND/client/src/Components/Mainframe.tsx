@@ -43,7 +43,6 @@ function Mainframe() {
       .then((res) => res.json())
       .then((data) => {
         setResponse(JSON.stringify(data));
-        // setResponse(data);
       })
       .catch((err) => console.log(err));
   };
