@@ -1,5 +1,5 @@
 .auth {
-  width: 30%;
+  width: 20%;
   background: #16222f;
   align-items: center;
   padding: 5px 10px;
@@ -35,6 +35,23 @@
   cursor: pointer;
 }
 
+.dd-menu {
+  position: absolute;
+  top: 155px;
+  left: 30px;
+  background-color: #16222f;
+  padding: 10px;
+  border: .5px solid white;
+  width: 10%;
+}
+
 .dd-menu li {
   list-style: none;
+  background: #16222f;
+  padding: 10px
+}
+
+.dd-menu li:hover {
+  border: 1px solid rgb(1, 210, 1);
+  border-radius: 10px;
 }

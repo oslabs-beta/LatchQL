@@ -23,6 +23,9 @@ import { rateLimiter } from "../limiters/rate-limiter.js";
 import * as dotenv from "dotenv";
 import process from "process";
 
+import redis from "redis";
+
+
 type schema = {
   typeDefs: string;
   resolvers: Object;
@@ -40,7 +43,6 @@ export default class LatchQL {
     this.schema = this.createSchema();
     this.apolloServer = this.createApolloServer();
   }
-
   createSchema() {
     //const args = {typeDefs: this.typeDefs, resolvers: this.resolvers};
     const schema = makeExecutableSchema({ typeDefs: this.typeDefs, resolvers });
@@ -56,12 +58,20 @@ export default class LatchQL {
   }
  
   async middleWare(resolve, root, args, context, info) {
+    const redisClient = redis.createClient();
+    await redisClient.connect();
     context.test = "AWHOOOOOO!";
     console.log("inside midware");
-    let currentDate = new Date();
-    context.res.locals.cpu = [process.cpuUsage()];
-    context.res.locals.time = [currentDate.getTime()];
+    // let currentDate = new Date();
+    
+
+    //context.res.locals.cpu = [process.cpuUsage().system];
+    // context.res.locals.time = [currentDate.getTime()];
     if (!context.alreadyRan) {
+      //let cpu = process.cpuUsage().system;
+     // await redisClient.incrBy('cpu', context.res.locals.cpu[0]);
+      //redisClient.expire('cpu', 1);
+      context.res.locals.cpuStart = process.cpuUsage().system;
       const query = context.req.body.query;
 
       console.log(query);
@@ -138,7 +148,7 @@ export default class LatchQL {
       const withinRateLimit = await rateLimiter(user_ip, costSum, rateLimit);
       if (!withinRateLimit) {
         throw new GraphQLError(
-          `Your query exceeds maximum operation cost of ${rateLimit}/30sec`,
+          `Your query exceeds maximum rate limit of ${rateLimit}`,
           null,
           null,
           null,
@@ -158,10 +168,19 @@ export default class LatchQL {
     console.log("running resolver");
     const result = await resolve(root, args, context, info);
     const now = new Date();
-    context.res.locals.time.push(now.getTime());
-    context.res.locals.cpu.push(process.cpuUsage());
-    // console.log(context.res.locals.time);
-    // console.log(context.res.locals.cpu);
+    // context.res.locals.time.push(now.getTime());
+    let currCpu = process.cpuUsage().system;
+    //context.res.locals.cpu.push(currCpu);
+    const totalCpu = currCpu - context.res.locals.cpuStart;
+    
+    await redisClient.set('cpu', totalCpu);
+
+    const logging = await redisClient.get('cpu');
+    console.log("are we connected?: ", logging);
+    
+    //await redisClient.incrBy('cpu', curr)
+    //console.log(context.res.locals.time);
+    //console.log(context.res.locals.cpu);
 
     return result;
   }
@@ -180,6 +199,20 @@ export default class LatchQL {
         .catch((err) => {
           console.log(err);
           res.status(500).send(err);
+        });
+    });
+    app.get("/metrics", async (req: any, res: any) => {
+      const redisClient = redis.createClient();
+      await redisClient.connect();
+      res.header("Access-Control-Allow-Origin", "*");
+      redisClient.get('cpu')
+        .then((data) => {
+          res.status(200).send(data);
+        })
+        .catch((err) => {
+          console.log(err);
+          res.status(500).send(err);
+          //[cpuUse, responseTime]
         });
     });
   }
