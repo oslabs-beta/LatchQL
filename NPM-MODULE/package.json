@@ -8,7 +8,7 @@
     "build": "tsc",
     "prestart": "npm run build",
     "start": "run-s kill-redis start-redis backend",
-    "backend": "ttab -t 'Running server' node lib/server.js",
+    "backend": "ttab -t 'Running server' nodemon lib/server.js",
     "kill-redis": "ttab -t 'Killing preexisting redis server' killall redis-server",
     "start-redis": "ttab -t 'Running redis server' redis-server",
     "dev": "NODE_ENV=development nodemon lib/server.js"

@@ -54,24 +54,27 @@ export default class LatchQL {
     });
     return apolloServer;
   }
+ 
   async middleWare(resolve, root, args, context, info) {
-    // context.test = "AWHOOOOOO!";
+    context.test = "AWHOOOOOO!";
+    console.log("inside midware");
     let currentDate = new Date();
     context.res.locals.cpu = [process.cpuUsage()];
     context.res.locals.time = [currentDate.getTime()];
     if (!context.alreadyRan) {
       const query = context.req.body.query;
 
-      console.log(context.req.headers);
+      console.log(query);
       // the JWT token
 
       // if user logs in from GUI, bypass the JWT
-      let authLevel: string = "nonUser";
-      if (context.req.headers["gui"]) {
+      let authLevel: string = "Non-User";
+      if (context.req.headers['gui']) {
         authLevel = context.req.headers["gui"];
         console.log(authLevel);
         // if not, do the JWT authorization
       } else {
+        console.log("hi");
         const token = context.req.headers.authorization.split(" ")[1];
         //pull the secret key from the .env file
         dotenv.config();
@@ -131,7 +134,7 @@ export default class LatchQL {
           }
         );
       }
-      const withinRateLimit = rateLimiter(user_ip, costSum, rateLimit);
+      const withinRateLimit = await rateLimiter(user_ip, costSum, rateLimit);
       if (!withinRateLimit) {
         throw new GraphQLError(
           `Your query exceeds maximum operation cost of ${rateLimit}/30sec`,

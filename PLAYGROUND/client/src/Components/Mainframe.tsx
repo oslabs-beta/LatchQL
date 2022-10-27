@@ -3,31 +3,25 @@ import "../styles/mainframe.css";
 import Query from "./Query";
 import Response from "./Response";
 
-// interface AuthType {
-//   [key: string] : LimitsObj
-// }
-
-export type AuthorizationType = {
-  [key: string]: LimitsObj;
-};
-
 export type LimitsObj = {
   depthLimit: number;
   costLimit: number;
   rateLimit: number;
 };
 
+// export type ResponseType = {
+//   [data: string] : Array<>
+// }
+
 function Mainframe() {
   const [query, setQuery] = useState<string>("");
   const [response, setResponse] = useState<string>("");
   const [authorizationLevel, setAuthorizationLevel] =
     useState<string>("Non-User");
-  const [limits, setLimits] = useState<AuthorizationType>({
-    authorizationLevel: {
-      depthLimit: 0,
-      costLimit: 0,
-      rateLimit: 0,
-    },
+  const [limits, setLimits] = useState<LimitsObj>({
+    depthLimit: 0,
+    costLimit: 0,
+    rateLimit: 0,
   });
 
   const queryHandler = (query: string) => {
@@ -35,14 +29,26 @@ function Mainframe() {
   };
 
   const sendQuery = () => {
-    //fetch()
-    //.then(res => res.json())
-    //.then()
+    console.log(query);
+    fetch("http://localhost:8080/graphql", {
+      method: "POST",
+      body: JSON.stringify({
+        query: `${query}`,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        gui: "Admin",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setResponse(JSON.stringify(data));
+        // setResponse(data);
+      })
+      .catch((err) => console.log(err));
   };
 
   const displayLimits = (authLvl: string) => {
-    // setLimits({})
-    console.log("in displayLimits", authLvl);
     setAuthorizationLevel(authLvl);
   };
 
@@ -50,15 +56,7 @@ function Mainframe() {
     fetch("http://localhost:8080/latchql")
       .then((res) => res.json())
       .then((data) => {
-        console.log("in fetch", data);
-        const targetPreset = {};
-        for (let key in data) {
-          if (key === authorizationLevel) {
-            targetPreset[key] = data[key]
-          }
-        }
-        console.log(targetPreset);
-        // setLimits(targetPreset);
+        setLimits(data[authorizationLevel]);
       })
       .catch((err) => console.log(err));
   }, [authorizationLevel]);
@@ -80,9 +78,6 @@ function Mainframe() {
           sendQuery={sendQuery}
           displayLimits={displayLimits}
         />
-        {/* <button onClick={() => sendQuery()} id="run-btn">
-          Run Query
-        </button> */}
         <Response response={response} />
       </div>
     </div>

@@ -4,8 +4,8 @@ import ResponseBody from "./ResponseBody";
 import "../styles/response.css";
 
 type ResponseProps = {
-  response: string
-}
+  response: string;
+};
 
 function Response(props: ResponseProps) {
   return (

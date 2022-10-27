@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import Limiters from "./Limiters";
 import Request from "./Request";
 import "../styles/query.css";
-import { LimitsObj, AuthorizationType } from "./Mainframe";
+import { LimitsObj } from "./Mainframe";
 import PresetDropdown from "./PresetDropdown";
 
 type QueryProps = {
   queryHandler: (query: string) => void;
-  limits: AuthorizationType;
+  // limits: AuthorizationType;
+  limits: LimitsObj;
   sendQuery: () => void;
   displayLimits: (authLvl: string) => void;
 };
