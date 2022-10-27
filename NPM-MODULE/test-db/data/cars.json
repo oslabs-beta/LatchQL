@@ -1,38 +1,38 @@
 [
     {
-      "id": "1",
+      "id": "1111",
       "color": "blue",
-      "typeId": "1",
+      "typeId": "111",
       "description": "One headlight."
     },
     {
-      "id": "2",
+      "id": "2222",
       "color": "brown",
-      "typeId": "3",
+      "typeId": "333",
       "description": "Christine."
     },
     {
-      "id": "3",
+      "id": "3333",
       "color": "yellow",
-      "typeId": "2",
+      "typeId": "222",
       "description": "Rich."
     },
     {
-      "id": "4",
+      "id": "4444",
       "color": "mauve",
-      "typeId": "4",
+      "typeId": "444",
       "description": "Shiny."
     },
     {
-      "id": "5",
+      "id": "5555",
       "color": "purple",
-      "typeId": "5",
+      "typeId": "555",
       "description": "Wowza."
     },
     {
-      "id": "6",
+      "id": "6666",
       "color": "blue",
-      "typeId": "1",
+      "typeId": "111",
       "description": "One headlight."
     }
   ]
