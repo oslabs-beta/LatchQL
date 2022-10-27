@@ -1,8 +1,8 @@
-const express = require('express');
+const express = require("express");
 const app = express();
-const path = require('path');
-const cors = require('cors');
-const PORT = process.env.PORT || 5000;
+const path = require("path");
+const cors = require("cors");
+const PORT = process.env.PORT || 5555;
 app.use(cors());
 app.use(express.json());
 
@@ -14,25 +14,22 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // basic get request to get index.html
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/index.html'));
-  })
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "../client/index.html"));
+});
 /**
  * handle requests for static files
  */
-app.use(express.static(path.resolve(__dirname, '../client')));
+app.use(express.static(path.resolve(__dirname, "../client")));
 
-
-
-
-app.use((req, res) => res.status(404).send('You are in the wrong place :O'));
+app.use((req, res) => res.status(404).send("You are in the wrong place :O"));
 
 // Global error handler
 app.use((err, req, res, next) => {
   const defaultErr = {
-    log: 'Express error handler caught unkown middleware error',
+    log: "Express error handler caught unkown middleware error",
     status: 500,
-    message: { err: 'An error occured' },
+    message: { err: "An error occured" },
   };
   const errObj = Object.assign({}, defaultErr, err);
   console.log(errObj.log);
@@ -40,7 +37,7 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`Server listening on port: ${PORT}`);
-  });
+  console.log(`Server listening on port: ${PORT}`);
+});
 
 module.exports = app;

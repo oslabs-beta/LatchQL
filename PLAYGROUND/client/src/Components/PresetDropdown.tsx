@@ -23,7 +23,7 @@ function PresetDropdown(props: PresetDropdownProps) {
         <div className="dd-menu">
           <ul>
             <li onClick={() => authLevelHandler("Non-User")}>Non-User Level</li>
-            <li onClick={() => authLevelHandler("User")}>User Level</li>
+            <li onClick={() => authLevelHandler("Admin")}>Admin Level</li>
           </ul>
         </div>
       ) : (
