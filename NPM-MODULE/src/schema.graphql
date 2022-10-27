@@ -4,13 +4,14 @@ type Query {
   company(id: ID!): Company
   users: [User!]
   companies: [Company!]
+  ceo(id: ID): Ceo
 }
 
 type Company {
   id: ID!
   name: String!
   description: String
-  ceo: CEO
+  ceo: Ceo
 }
 
 type Job {
@@ -31,7 +32,8 @@ type User {
 type Car {
   id: ID
   color: String
-  type: CarType
+  style: CarType
+  description: String
 }
 
 type CarType {
@@ -40,7 +42,7 @@ type CarType {
   model: String
 }
 
-type CEO {
+type Ceo {
   id: ID
   name: String
   hairColor: String
