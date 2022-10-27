@@ -10,7 +10,7 @@ type Company {
   id: ID!
   name: String!
   description: String
-  ceoId: CEO
+  ceo: CEO
 }
 
 type Job {
@@ -24,26 +24,26 @@ type User {
   id: ID!
   email: String
   pw: String
-  companyId: Company
-  carId: Car
+  company: Company
+  car: Car
 }
 
 type Car {
-  id: ID!
+  id: ID
   color: String
-  typeId: CarType
+  type: CarType
 }
 
 type CarType {
-  id: ID!
+  id: ID
   make: String
   model: String
 }
 
 type CEO {
-  id: ID!
+  id: ID
   name: String
   hairColor: String
-  carId: Car
-  userId: User
+  car: Car
+  user: User
 }

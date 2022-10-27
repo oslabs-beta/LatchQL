@@ -88,6 +88,7 @@ export default class LatchQL {
         });
       }
       const authLimits = await readFile("./latch_config.json", "utf8");
+      console.log(authLimits);
       const parsedLimits = JSON.parse(authLimits);
 
       console.log(parsedLimits[authLevel].depthLimit);
