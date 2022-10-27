@@ -1,20 +1,18 @@
 {
-    "compilerOptions": {
-      "target": "es2017",
-      "module": "ES2022",
-      "esModuleInterop": true,
-      "declaration": true,
-      "skipLibCheck": true,
-      "outDir": "./lib",
-      "strict": true,
-      "noImplicitAny": false,
-      "moduleResolution": "node",
-      "sourceMap": true,
-      "paths": {
-        "*" : [
-            "/node_modules/*"
-        ]
-      }
-    },
-    "exclude": ["node_modules", "**/__tests__/*"]
-  }
+  "compilerOptions": {
+    "target": "es2017",
+    "module": "ES2022",
+    "esModuleInterop": true,
+    "declaration": true,
+    "skipLibCheck": true,
+    "outDir": "./lib",
+    "strict": true,
+    "noImplicitAny": false,
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "paths": {
+      "*": ["/node_modules/*"]
+    }
+  },
+  "exclude": ["node_modules", "**/__tests__/*"]
+}
