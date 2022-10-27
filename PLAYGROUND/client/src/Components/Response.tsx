@@ -5,6 +5,8 @@ import "../styles/response.css";
 
 type ResponseProps = {
   response: string;
+  cpuUsage: number;
+  resTime: number;
 };
 
 function Response(props: ResponseProps) {
@@ -12,7 +14,7 @@ function Response(props: ResponseProps) {
     <div className="response">
       <span>Response</span>
       <ResponseBody response={props.response} />
-      <Metrics />
+      <Metrics cpuUsage={props.cpuUsage} resTime={props.resTime} />
     </div>
   );
 }

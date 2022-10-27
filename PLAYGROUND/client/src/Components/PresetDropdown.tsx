@@ -21,9 +21,10 @@ function PresetDropdown(props: PresetDropdownProps) {
       <img id="dropdown" src={dropdown} />
       {preset ? (
         <div className="dd-menu">
-          <ul>
+          <ul className="dd-ul">
             <li onClick={() => authLevelHandler("Non-User")}>Non-User Level</li>
             <li onClick={() => authLevelHandler("Admin")}>Admin Level</li>
+            <li onClick={() => authLevelHandler("Gary")}>Gary Level</li>
           </ul>
         </div>
       ) : (
