@@ -1,20 +1,10 @@
 {
-  "admin": {
+  "Admin": {
     "depthLimit": "5",
     "rateLimit": "750",
     "costLimit": "100"
   },
-  "user" : {
-    "depthLimit": "1",
-    "rateLimit": "750",
-    "costLimit": "1"
-  },
-  "gary" : {
-    "depthLimit": "1",
-    "rateLimit": "500",
-    "costLimit": "1"
-  },
-  "non-user" : {
+  "Non-User": {
     "depthLimit": "0",
     "rateLimit": "0",
     "costLimit": "0"

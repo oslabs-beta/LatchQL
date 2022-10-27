@@ -20,15 +20,13 @@ import {
   ResolveProjectReferencePathHost,
 } from "typescript";
 import { rateLimiter } from "../limiters/rate-limiter.js";
-import * as dotenv from 'dotenv';
-import process from 'process';
+import * as dotenv from "dotenv";
+import process from "process";
 
 type schema = {
   typeDefs: string;
   resolvers: Object;
 };
-
-
 
 export default class LatchQL {
   public typeDefs: string;
@@ -63,28 +61,28 @@ export default class LatchQL {
     context.res.locals.time = [currentDate.getTime()];
     if (!context.alreadyRan) {
       const query = context.req.body.query;
-      
+
       console.log(context.req.headers);
       // the JWT token
-      
+
       // if user logs in from GUI, bypass the JWT
-      let authLevel : string = "nonUser";
-      if(context.req.headers['gui']){
-        authLevel = context.req.headers['gui'];  
+      let authLevel: string = "nonUser";
+      if (context.req.headers["gui"]) {
+        authLevel = context.req.headers["gui"];
         console.log(authLevel);
         // if not, do the JWT authorization
-      }else{
-        const token = context.req.headers.authorization.split(' ')[1];
+      } else {
+        const token = context.req.headers.authorization.split(" ")[1];
         //pull the secret key from the .env file
         dotenv.config();
         let key: string;
-        if(process.env.SECRET_KEY)  key = process.env.SECRET_KEY;
+        if (process.env.SECRET_KEY) key = process.env.SECRET_KEY;
         else key = "GENERICKEY";
         //verify the JWT -- if not valid, the authLevel will reamin "nonUser"
         jwt.verify(token, key, (err, decoded) => {
-          if(err){
+          if (err) {
             console.log(err);
-          }else{
+          } else {
             authLevel = decoded.authLevel;
           }
         });
@@ -160,7 +158,7 @@ export default class LatchQL {
     context.res.locals.cpu.push(process.cpuUsage());
     console.log(context.res.locals.time);
     console.log(context.res.locals.cpu);
-   
+
     return result;
   }
   async startLatch(app: any) {
@@ -170,19 +168,15 @@ export default class LatchQL {
       path: "/graphql",
     });
     app.get("/latchql", (req: any, res: any) => {
-      readFile("./latch_config.json","utf-8")
-        .then(data => {
+      res.header("Access-Control-Allow-Origin", "*");
+      readFile("./latch_config.json", "utf-8")
+        .then((data) => {
           res.status(200).send(data);
-        }) 
-        .catch(err => {
+        })
+        .catch((err) => {
           console.log(err);
           res.status(500).send(err);
-        })
-        
-    })
-
-      
-      
-  
+        });
+    });
   }
 }
