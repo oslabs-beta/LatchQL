@@ -40,9 +40,12 @@ function Mainframe() {
         gui: "Admin",
       },
     })
-      .then((res) => res.json())
+      .then((res) => {
+        console.log(res);
+        res.json();
+      })
       .then((data) => {
-        setResponse(JSON.stringify(data));
+        setResponse(JSON.stringify(data, null, 4));
       })
       .catch((err) => console.log(err));
   };

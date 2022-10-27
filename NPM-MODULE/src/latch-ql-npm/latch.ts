@@ -160,8 +160,8 @@ export default class LatchQL {
     const now = new Date();
     context.res.locals.time.push(now.getTime());
     context.res.locals.cpu.push(process.cpuUsage());
-    console.log(context.res.locals.time);
-    console.log(context.res.locals.cpu);
+    // console.log(context.res.locals.time);
+    // console.log(context.res.locals.cpu);
 
     return result;
   }
