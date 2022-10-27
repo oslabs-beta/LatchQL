@@ -72,6 +72,8 @@ export default class LatchQL {
      // await redisClient.incrBy('cpu', context.res.locals.cpu[0]);
       //redisClient.expire('cpu', 1);
       context.res.locals.cpuStart = process.cpuUsage().system;
+      let now = new Date();
+      context.res.locals.timeStart = now.getTime();
       const query = context.req.body.query;
 
       console.log(query);
@@ -167,20 +169,15 @@ export default class LatchQL {
     }
     console.log("running resolver");
     const result = await resolve(root, args, context, info);
-    const now = new Date();
+    const newDate = new Date();
     // context.res.locals.time.push(now.getTime());
     let currCpu = process.cpuUsage().system;
     //context.res.locals.cpu.push(currCpu);
     const totalCpu = currCpu - context.res.locals.cpuStart;
-    
     await redisClient.set('cpu', totalCpu);
 
-    const logging = await redisClient.get('cpu');
-    console.log("are we connected?: ", logging);
-    
-    //await redisClient.incrBy('cpu', curr)
-    //console.log(context.res.locals.time);
-    //console.log(context.res.locals.cpu);
+    const totalTime = newDate.getTime() - context.res.locals.timeStart;
+    await redisClient.set('time', totalTime);
 
     return result;
   }
@@ -202,18 +199,17 @@ export default class LatchQL {
         });
     });
     app.get("/metrics", async (req: any, res: any) => {
-      const redisClient = redis.createClient();
-      await redisClient.connect();
-      res.header("Access-Control-Allow-Origin", "*");
-      redisClient.get('cpu')
-        .then((data) => {
-          res.status(200).send(data);
-        })
-        .catch((err) => {
-          console.log(err);
-          res.status(500).send(err);
-          //[cpuUse, responseTime]
-        });
+      try{
+        const redisClient = redis.createClient();
+        await redisClient.connect();
+        res.header("Access-Control-Allow-Origin", "*");
+        const cpu = await redisClient.get('cpu');
+        const time = await redisClient.get('time');
+        res.status(200).send([cpu, time]);
+      }catch(err){
+        console.log(err);
+        res.status(500).send(err);
+      }
     });
   }
 }
