@@ -20,8 +20,13 @@
     brightness(118%) contrast(100%); */
 }
 
+#level {
+  font-size: 0.9rem;
+}
+
 .auth span {
   background-color: #16222f;
+  font-size: 0.75rem;
 }
 
 .dropdown {
@@ -41,14 +46,14 @@
   left: 30px;
   background-color: #16222f;
   padding: 10px;
-  border: .5px solid white;
+  border: 0.5px solid white;
   width: 10%;
 }
 
 .dd-menu li {
   list-style: none;
   background: #16222f;
-  padding: 10px
+  padding: 10px;
 }
 
 .dd-menu li:hover {

@@ -19,8 +19,8 @@ function Mainframe() {
     costLimit: 0,
     rateLimit: 0,
   });
-  const [resTime, setResTime] = useState(0)
-  const [cpuUsage, setCpuUsage] = useState<number>(0)
+  const [resTime, setResTime] = useState(0);
+  const [cpuUsage, setCpuUsage] = useState<number>(0);
 
   const queryHandler = (query: string) => {
     setQuery(query);
@@ -44,7 +44,7 @@ function Mainframe() {
       })
       .then((data) => {
         setResponse(JSON.stringify(data, null, 4));
-        getMetrics()
+        getMetrics();
       })
       .catch((err) => console.log(err));
   };
@@ -55,15 +55,15 @@ function Mainframe() {
 
   const getMetrics = () => {
     fetch("http://localhost:8080/metrics")
-    .then(res => res.json())
-    .then(data => {
-      console.log(data)
-      // setMetrics
-      setCpuUsage(data[0])
-      setResTime(data[1])
-    })
-    .catch(err => console.log(err))
-  }
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        // setMetrics
+        setCpuUsage(data[0].toFixed(2));
+        setResTime(data[1]);
+      })
+      .catch((err) => console.log(err));
+  };
 
   useEffect(() => {
     fetch("http://localhost:8080/latchql")
@@ -80,7 +80,7 @@ function Mainframe() {
         <input
           id="url"
           type="text"
-          value="http://localhost:3000/latchql"
+          value="http://localhost:8080/latchql"
           readOnly={true}
         />
       </div>

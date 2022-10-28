@@ -25,7 +25,6 @@ import process from "process";
 
 import redis from "redis";
 
-
 type schema = {
   typeDefs: string;
   resolvers: Object;
@@ -56,20 +55,19 @@ export default class LatchQL {
     });
     return apolloServer;
   }
- 
+
   async middleWare(resolve, root, args, context, info) {
     const redisClient = redis.createClient();
     await redisClient.connect();
     context.test = "AWHOOOOOO!";
     console.log("inside midware");
     // let currentDate = new Date();
-    
 
     //context.res.locals.cpu = [process.cpuUsage().system];
     // context.res.locals.time = [currentDate.getTime()];
     if (!context.alreadyRan) {
       //let cpu = process.cpuUsage().system;
-     // await redisClient.incrBy('cpu', context.res.locals.cpu[0]);
+      // await redisClient.incrBy('cpu', context.res.locals.cpu[0]);
       //redisClient.expire('cpu', 1);
       context.res.locals.cpuStart = process.cpuUsage().system;
       let now = new Date();
@@ -81,7 +79,7 @@ export default class LatchQL {
 
       // if user logs in from GUI, bypass the JWT
       let authLevel: string = "Non-User";
-      if (context.req.headers['gui']) {
+      if (context.req.headers["gui"]) {
         authLevel = context.req.headers["gui"];
         console.log(authLevel);
         // if not, do the JWT authorization
@@ -150,7 +148,7 @@ export default class LatchQL {
       const withinRateLimit = await rateLimiter(user_ip, costSum, rateLimit);
       if (!withinRateLimit) {
         throw new GraphQLError(
-          `Your query exceeds maximum rate limit of ${rateLimit}`,
+          `Your query exceeds maximum rate limit of ${rateLimit} per 10s`,
           null,
           null,
           null,
@@ -174,10 +172,10 @@ export default class LatchQL {
     let currCpu = process.cpuUsage().system;
     //context.res.locals.cpu.push(currCpu);
     const totalCpu = currCpu - context.res.locals.cpuStart;
-    await redisClient.set('cpu', totalCpu);
+    await redisClient.set("cpu", totalCpu);
 
     const totalTime = newDate.getTime() - context.res.locals.timeStart;
-    await redisClient.set('time', totalTime);
+    await redisClient.set("time", totalTime);
 
     return result;
   }
@@ -199,14 +197,15 @@ export default class LatchQL {
         });
     });
     app.get("/metrics", async (req: any, res: any) => {
-      try{
+      try {
         const redisClient = redis.createClient();
         await redisClient.connect();
         res.header("Access-Control-Allow-Origin", "*");
-        const cpu = await redisClient.get('cpu');
-        const time = await redisClient.get('time');
-        res.status(200).send([cpu, time]);
-      }catch(err){
+        const cpu = await redisClient.get("cpu");
+        const time = await redisClient.get("time");
+        const percent = Number(cpu) / 1000 / Number(time);
+        res.status(200).send([percent, time]);
+      } catch (err) {
         console.log(err);
         res.status(500).send(err);
       }

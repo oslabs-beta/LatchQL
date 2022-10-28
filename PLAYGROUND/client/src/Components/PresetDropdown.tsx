@@ -17,7 +17,7 @@ function PresetDropdown(props: PresetDropdownProps) {
 
   return (
     <div className="auth" onClick={() => togglePreset(!preset)}>
-      <span>{authLevel}</span>
+      <span id="level">{authLevel}</span>
       <img id="dropdown" src={dropdown} />
       {preset ? (
         <div className="dd-menu">
