@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "../styles/req.css";
+import CodeEditor from './Code-editor';
 
 type RequestProps = {
   queryHandler: (query: string) => void;
@@ -19,13 +20,18 @@ function Request(props: RequestProps) {
           Run Query
         </button>
       </div>
-      <textarea
+      <CodeEditor 
+      initialValue="TYPE YOUR QUERY HERE"
+      onChange={(value)=>props.queryHandler(value)}
+        />
+      {/* <textarea
         onChange={(e) => props.queryHandler(e.target.value)}
         name="req-body"
         id="req-body"
         cols={69}
         rows={15}
-      ></textarea>
+      ></textarea> */}
+   
       <span>Variables</span>
       <textarea
         readOnly={true}
