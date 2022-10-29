@@ -11,6 +11,7 @@ import { GraphQLError, GraphQLSchema } from "graphql";
 
 import { makeExecutableSchema } from "@graphql-tools/schema";
 import { applyMiddleware } from "graphql-middleware";
+import {graphqlHTTP} from "express-graphql";
 
 // Import Limiters
 import { calcCost } from "../limiters/cost-limiter.js";
@@ -34,33 +35,39 @@ export default class LatchQL {
   public typeDefs: string;
   public resolvers: {};
   private schema: GraphQLSchema;
-  public apolloServer: any; //figure out TS here
+  private schemaWithMiddleWare: any;
+  //public apolloServer: any; //figure out TS here
   // public middleWare: ((resolve: any, root: any, args: any, context: any, info: any) => Promise<any>);
   constructor(types: string, resolvers: {}) {
     this.typeDefs = types;
     this.resolvers = resolvers;
     this.schema = this.createSchema();
-    this.apolloServer = this.createApolloServer();
+    this.schemaWithMiddleWare = this.addMiddleWare();
+    //this.apolloServer = this.createApolloServer();
   }
   createSchema() {
     //const args = {typeDefs: this.typeDefs, resolvers: this.resolvers};
     const schema = makeExecutableSchema({ typeDefs: this.typeDefs, resolvers });
     return schema;
   }
-  createApolloServer() {
+  // createApolloServer() {
+  //   const schemaWithMiddleware = applyMiddleware(this.schema, this.middleWare);
+  //   const apolloServer = new ApolloServer({
+  //     context: ({ req, res }: any) => ({ req, res }),
+  //     schema: schemaWithMiddleware,
+  //   });
+  //   return apolloServer;
+  // }
+  addMiddleWare(){
     const schemaWithMiddleware = applyMiddleware(this.schema, this.middleWare);
-    const apolloServer = new ApolloServer({
-      context: ({ req, res }: any) => ({ req, res }),
-      schema: schemaWithMiddleware,
-    });
-    return apolloServer;
+    return schemaWithMiddleware;
   }
-
   async middleWare(resolve, root, args, context, info) {
     const redisClient = redis.createClient();
     await redisClient.connect();
     context.test = "AWHOOOOOO!";
     console.log("inside midware");
+    console.log(context);
     // let currentDate = new Date();
 
     //context.res.locals.cpu = [process.cpuUsage().system];
@@ -180,11 +187,17 @@ export default class LatchQL {
     return result;
   }
   async startLatch(app: any) {
-    await this.apolloServer.start();
-    this.apolloServer.applyMiddleware({
-      app,
-      path: "/graphql",
-    });
+   // await this.apolloServer.start();
+    // this.apolloServer.applyMiddleware({
+    //   app,
+    //   path: "/graphql",
+    // });
+    app.use('/graphql', graphqlHTTP({
+      schema : this.schemaWithMiddleWare,
+      rootValue: this.resolvers,
+      graphiql: false,
+      context: ({ req, res }: any) => ({ req, res })
+    }))
     app.get("/latchql", (req: any, res: any) => {
       res.header("Access-Control-Allow-Origin", "*");
       readFile("./latch_config.json", "utf-8")
