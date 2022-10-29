@@ -29,17 +29,22 @@ function PresetDropdown(props: PresetDropdownProps) {
         </div>
       ) : (
         ""
-      )}
-
-      {/* <select onChange={(e: Mouse...) => props.displayLimits(e.target.value)}
-        className="dropdown">
+      )} 
+   
+{/* <div> */}
+{/* <select onChange={(e:React.ChangeEvent<HTMLSelectElement>) => authLevelHandler(e.target.value)}
+        className="auth" >
+        <option selected disabled>
+        authLevel
+        </option>
         <option value="user">
           User Level
         </option>
         <option
           value="admin">
           Admin Level
-        </option>*/}
+        </option>
+        </select > */}
     </div>
   );
 }
