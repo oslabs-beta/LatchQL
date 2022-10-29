@@ -17,28 +17,34 @@ function PresetDropdown(props: PresetDropdownProps) {
 
   return (
     <div className="auth" onClick={() => togglePreset(!preset)}>
-      <span>{authLevel}</span>
+      <span id="level">{authLevel}</span>
       <img id="dropdown" src={dropdown} />
       {preset ? (
         <div className="dd-menu">
-          <ul>
+          <ul className="dd-ul">
             <li onClick={() => authLevelHandler("Non-User")}>Non-User Level</li>
             <li onClick={() => authLevelHandler("Admin")}>Admin Level</li>
+            <li onClick={() => authLevelHandler("Gary")}>Gary Level</li>
           </ul>
         </div>
       ) : (
         ""
-      )}
-
-      {/* <select onChange={(e: Mouse...) => props.displayLimits(e.target.value)}
-        className="dropdown">
+      )} 
+   
+{/* <div> */}
+{/* <select onChange={(e:React.ChangeEvent<HTMLSelectElement>) => authLevelHandler(e.target.value)}
+        className="auth" >
+        <option selected disabled>
+        authLevel
+        </option>
         <option value="user">
           User Level
         </option>
         <option
           value="admin">
           Admin Level
-        </option> */}
+        </option>
+        </select > */}
     </div>
   );
 }

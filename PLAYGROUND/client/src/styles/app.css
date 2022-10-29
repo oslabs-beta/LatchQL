@@ -1,0 +1,24 @@
+#logo {
+  width: 120px;
+  /* background-color: transparent; */
+  /* background-color: #0ff; */
+}
+
+.top img {
+  background-color: transparent;
+}
+
+    /* .glow {
+    width: 200px;
+    box-shadow: 50px 50px 50px 10px #0ff;
+    } */
+
+.app span {
+  font-size: 1.3rem;
+}
+
+.top {
+  margin: 20px 0px 0px 20px;
+  display: flex;
+  align-items: center;
+}

@@ -5,6 +5,7 @@
   flex-direction: column;
   border-radius: 10px;
   width: 49%;
+  height: 98%;
 }
 
 .response textarea {
@@ -19,7 +20,3 @@
   background-color: #16222f;
   border-radius: 10px;
 }
-
-
-
-

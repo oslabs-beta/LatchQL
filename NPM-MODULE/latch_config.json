@@ -4,6 +4,11 @@
     "rateLimit": "100",
     "costLimit": "100"
   },
+  "Gary": {
+    "depthLimit": "10",
+    "rateLimit": "25",
+    "costLimit": "10"
+  },
   "Non-User": {
     "depthLimit": "0",
     "rateLimit": "0",

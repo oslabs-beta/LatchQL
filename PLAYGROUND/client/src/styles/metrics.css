@@ -9,11 +9,11 @@
 .metric {
   background: #16222f;
   border-radius: 10px;
-  padding: 45px;
+  padding: 35px;
   width: 200px;
   border: 1px white solid;
 }
 
 .metric-span {
-  background-color: #36393e;
+  background-color: #16222f;
 }

@@ -9,10 +9,6 @@ export type LimitsObj = {
   rateLimit: number;
 };
 
-// export type ResponseType = {
-//   [data: string] : Array<>
-// }
-
 function Mainframe() {
   const [query, setQuery] = useState<string>("");
   const [response, setResponse] = useState<string>("");
@@ -23,6 +19,8 @@ function Mainframe() {
     costLimit: 0,
     rateLimit: 0,
   });
+  const [resTime, setResTime] = useState(0);
+  const [cpuUsage, setCpuUsage] = useState<number>(0);
 
   const queryHandler = (query: string) => {
     setQuery(query);
@@ -37,7 +35,7 @@ function Mainframe() {
       }),
       headers: {
         "Content-Type": "application/json",
-        gui: "Admin",
+        gui: authorizationLevel,
       },
     })
       .then((res) => {
@@ -46,12 +44,25 @@ function Mainframe() {
       })
       .then((data) => {
         setResponse(JSON.stringify(data, null, 4));
+        getMetrics();
       })
       .catch((err) => console.log(err));
   };
 
   const displayLimits = (authLvl: string) => {
     setAuthorizationLevel(authLvl);
+  };
+
+  const getMetrics = () => {
+    fetch("http://localhost:8080/metrics")
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        // setMetrics
+        setCpuUsage(data[0].toFixed(2));
+        setResTime(data[1]);
+      })
+      .catch((err) => console.log(err));
   };
 
   useEffect(() => {
@@ -69,7 +80,7 @@ function Mainframe() {
         <input
           id="url"
           type="text"
-          value="http://localhost:3000/latchql"
+          value="http://localhost:8080/latchql"
           readOnly={true}
         />
       </div>
@@ -80,7 +91,7 @@ function Mainframe() {
           sendQuery={sendQuery}
           displayLimits={displayLimits}
         />
-        <Response response={response} />
+        <Response response={response} cpuUsage={cpuUsage} resTime={resTime} />
       </div>
     </div>
   );
