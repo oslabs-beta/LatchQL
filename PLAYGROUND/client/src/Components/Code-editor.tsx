@@ -44,7 +44,7 @@ const CodeEditor: React.FC<CodeEditorProps>  = ({onChange,initialValue}) => {
     <MonacoEditor
     editorDidMount={onEditorDidMount} 
     value={initialValue}
-    height="500px" 
+    height="360px" 
     language='graphql' 
     theme="vs-dark" 
     options={{
@@ -52,9 +52,9 @@ const CodeEditor: React.FC<CodeEditorProps>  = ({onChange,initialValue}) => {
         minimap:{enabled:false},
         folding:false,
         lineNumbersMinChars:3,
-        fontSize:16,
+        fontSize:14,
         scrollBeyondLastLine:false,
-        automaticLayout:true
+        automaticLayout:true,
     }}/>
     </div>
     )

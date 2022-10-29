@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "../styles/req.css";
 import CodeEditor from './Code-editor';
+import MonacoEditor, {EditorDidMount} from '@monaco-editor/react'
 
 type RequestProps = {
   queryHandler: (query: string) => void;
@@ -33,13 +34,14 @@ function Request(props: RequestProps) {
       ></textarea> */}
    
       <span>Variables</span>
-      <textarea
+      <MonacoEditor  />
+      {/* <textarea
         readOnly={true}
         name="req-variables"
         id="req-var"
         cols={69}
         rows={6}
-      ></textarea>
+      ></textarea> */}
     </div>
   );
 }
