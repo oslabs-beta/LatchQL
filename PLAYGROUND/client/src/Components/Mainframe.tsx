@@ -9,6 +9,10 @@ export type LimitsObj = {
   rateLimit: number;
 };
 
+export type PresetType = {
+  [key: string]: [value: LimitsObj];
+};
+
 function Mainframe() {
   const [query, setQuery] = useState<string>("");
   const [response, setResponse] = useState<string>("");
@@ -21,6 +25,7 @@ function Mainframe() {
   });
   const [resTime, setResTime] = useState(0);
   const [cpuUsage, setCpuUsage] = useState<number>(0);
+  const [allPresets, setAllPresets] = useState<string[]>([]);
 
   const queryHandler = (query: string) => {
     setQuery(query);
@@ -71,7 +76,14 @@ function Mainframe() {
     fetch("http://localhost:8080/latchql")
       .then((res) => res.json())
       .then((data) => {
+        // console.log("presets:", data);
         setLimits(data[authorizationLevel]);
+        console.log("data:", data);
+        const presetsArr = [];
+        for (const key in data) {
+          presetsArr.push(key);
+        }
+        setAllPresets(presetsArr);
       })
       .catch((err) => console.log(err));
   }, [authorizationLevel]);
@@ -88,6 +100,7 @@ function Mainframe() {
       </div>
       <div className="mainframe">
         <Query
+          allPresets={allPresets}
           limits={limits}
           queryHandler={queryHandler}
           sendQuery={sendQuery}

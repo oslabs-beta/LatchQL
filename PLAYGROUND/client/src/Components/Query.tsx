@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Limiters from "./Limiters";
 import Request from "./Request";
 import "../styles/query.css";
-import { LimitsObj } from "./Mainframe";
+import { LimitsObj, PresetType } from "./Mainframe";
 
 type QueryProps = {
   queryHandler: (query: string) => string;
@@ -10,6 +10,7 @@ type QueryProps = {
   limits: LimitsObj;
   sendQuery: () => void;
   displayLimits: (authLvl: string) => void;
+  allPresets: string[]
 };
 
 function Query(props: QueryProps) {
@@ -57,7 +58,11 @@ function Query(props: QueryProps) {
 
   return (
     <div className="query">
-      <Limiters limits={props.limits} displayLimits={props.displayLimits} />
+      <Limiters
+        limits={props.limits}
+        displayLimits={props.displayLimits}
+        allPresets={props.allPresets}
+      />
       <Request
         currCostNum={currCostNum}
         currCost={currCost}
