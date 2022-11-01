@@ -13,5 +13,10 @@
     "depthLimit": "0",
     "rateLimit": "0",
     "costLimit": "0"
+  },
+  "Celine-Machine": {
+    "depthLimit": "999",
+    "rateLimit": "999",
+    "costLimit": "999"
   }
 }
