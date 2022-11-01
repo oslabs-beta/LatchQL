@@ -1,4 +1,5 @@
 import React from "react";
+import MonacoEditor from "@monaco-editor/react";
 
 type ResponseBodyProps = {
   response: string;
@@ -7,14 +8,22 @@ type ResponseBodyProps = {
 function ResponseBody(props: ResponseBodyProps) {
   return (
     <div>
-      <textarea
+      <MonacoEditor
         value={props.response}
-        name="response"
-        id="res"
-        cols={86}
-        rows={20}
-        readOnly={true}
-      ></textarea>
+        height="500px"
+        language="graphql"
+        theme="vs-dark"
+        options={{
+          wordWrap: "on",
+          minimap: { enabled: false },
+          folding: false,
+          lineNumbersMinChars: 3,
+          fontSize: 15,
+          scrollBeyondLastLine: false,
+          automaticLayout: true,
+          readOnly: true,
+        }}
+      />
     </div>
   );
 }

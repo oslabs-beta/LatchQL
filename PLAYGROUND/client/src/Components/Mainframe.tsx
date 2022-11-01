@@ -24,6 +24,7 @@ function Mainframe() {
 
   const queryHandler = (query: string) => {
     setQuery(query);
+    return query;
   };
 
   const sendQuery = () => {
@@ -36,6 +37,7 @@ function Mainframe() {
       headers: {
         "Content-Type": "application/json",
         gui: authorizationLevel,
+        "Access-Control-Allow-Origin": "*",
       },
     })
       .then((res) => {
