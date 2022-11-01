@@ -11,6 +11,7 @@ import { GraphQLError, GraphQLSchema } from "graphql";
 
 import { makeExecutableSchema } from "@graphql-tools/schema";
 import { applyMiddleware } from "graphql-middleware";
+import { graphqlHTTP } from "express-graphql";
 
 // Import Limiters
 import { calcCost } from "../limiters/cost-limiter.js";
@@ -34,33 +35,42 @@ export default class LatchQL {
   public typeDefs: string;
   public resolvers: {};
   private schema: GraphQLSchema;
-  public apolloServer: any; //figure out TS here
+  private schemaWithMiddleWare: any;
+  //public apolloServer: any; //figure out TS here
   // public middleWare: ((resolve: any, root: any, args: any, context: any, info: any) => Promise<any>);
   constructor(types: string, resolvers: {}) {
     this.typeDefs = types;
     this.resolvers = resolvers;
     this.schema = this.createSchema();
-    this.apolloServer = this.createApolloServer();
+    this.schemaWithMiddleWare = this.addMiddleWare();
+    // this.depthLimit = this.depthLimit(this);
+    //this.apolloServer = this.createApolloServer();
   }
   createSchema() {
     //const args = {typeDefs: this.typeDefs, resolvers: this.resolvers};
     const schema = makeExecutableSchema({ typeDefs: this.typeDefs, resolvers });
     return schema;
   }
-  createApolloServer() {
+  // createApolloServer() {
+  //   const schemaWithMiddleware = applyMiddleware(this.schema, this.middleWare);
+  //   const apolloServer = new ApolloServer({
+  //     context: ({ req, res }: any) => ({ req, res }),
+  //     schema: schemaWithMiddleware,
+  //   });
+  //   return apolloServer;
+  // }
+  addMiddleWare() {
     const schemaWithMiddleware = applyMiddleware(this.schema, this.middleWare);
-    const apolloServer = new ApolloServer({
-      context: ({ req, res }: any) => ({ req, res }),
-      schema: schemaWithMiddleware,
-    });
-    return apolloServer;
+    return schemaWithMiddleware;
   }
-
   async middleWare(resolve, root, args, context, info) {
     const redisClient = redis.createClient();
     await redisClient.connect();
     context.test = "AWHOOOOOO!";
     console.log("inside midware");
+    console.log(context.req.headers);
+    //console.log(context);
+    console.log(context.params.query);
     // let currentDate = new Date();
 
     //context.res.locals.cpu = [process.cpuUsage().system];
@@ -72,7 +82,7 @@ export default class LatchQL {
       context.res.locals.cpuStart = process.cpuUsage().system;
       let now = new Date();
       context.res.locals.timeStart = now.getTime();
-      const query = context.req.body.query;
+      const query = context.params.query;
 
       console.log(query);
       // the JWT token
@@ -101,10 +111,7 @@ export default class LatchQL {
         });
       }
       const authLimits = await readFile("./latch_config.json", "utf8");
-      console.log(authLimits);
       const parsedLimits = JSON.parse(authLimits);
-
-      console.log(parsedLimits[authLevel].depthLimit);
 
       const maxDepth = parseInt(parsedLimits[authLevel].depthLimit);
       const rateLimit = parseInt(parsedLimits[authLevel].rateLimit);
@@ -112,7 +119,7 @@ export default class LatchQL {
       const depthLimitExceed = depthLimit(query, maxDepth);
       const user_ip = context.req.socket.remoteAddress;
       //console.log(context.req.headers);
-      if (depthLimitExceed) {
+      if (!depthLimitExceed) {
         throw new GraphQLError(
           `Your query exceeds maximum operation depth of ${maxDepth}`,
           null,
@@ -179,12 +186,19 @@ export default class LatchQL {
 
     return result;
   }
+
   async startLatch(app: any) {
-    await this.apolloServer.start();
-    this.apolloServer.applyMiddleware({
-      app,
-      path: "/graphql",
-    });
+    app.use(
+      "/graphql",
+      graphqlHTTP((req, res: any, params) => {
+        return {
+          schema: this.schemaWithMiddleWare,
+          rootValue: this.resolvers,
+          graphiql: true,
+          context: { req, res, params },
+        };
+      })
+    );
     app.get("/latchql", (req: any, res: any) => {
       res.header("Access-Control-Allow-Origin", "*");
       readFile("./latch_config.json", "utf-8")

@@ -1,14 +1,24 @@
 import React, { useState } from "react";
 import "../styles/req.css";
-import CodeEditor from './Code-editor';
-import MonacoEditor, {EditorDidMount} from '@monaco-editor/react'
+import CodeEditor from "./Code-editor";
+import MonacoEditor, { EditorDidMount } from "@monaco-editor/react";
 
 type RequestProps = {
-  queryHandler: (query: string) => void;
+  queryHandler: (query: string) => string;
   sendQuery: () => void;
+  currDepth: number;
+  currDepthNum: (str: string) => void;
+  currCost: number;
+  currCostNum: (str: string) => void;
 };
 
 function Request(props: RequestProps) {
+
+  function twoCalls(value: string){
+    props.currDepthNum(props.queryHandler(value));
+    props.currCostNum(props.queryHandler(value));
+  }
+
   return (
     <div className="request">
       <div className="jj">
@@ -21,27 +31,33 @@ function Request(props: RequestProps) {
           Run Query
         </button>
       </div>
-      <CodeEditor 
-      initialValue="TYPE YOUR QUERY HERE"
-      onChange={(value)=>props.queryHandler(value)}
-        />
-      {/* <textarea
-        onChange={(e) => props.queryHandler(e.target.value)}
-        name="req-body"
-        id="req-body"
-        cols={69}
-        rows={15}
-      ></textarea> */}
-   
+      <CodeEditor
+        initialValue=""
+        onChange={(value) => twoCalls(value)}
+      />
+      <div className="currDepth">
+        Current Depth: {props.currDepth}
+      </div>
+      <div className="currCost">
+        Current Cost: {props.currCost}
+      </div>
+
       <span>Variables</span>
-      <MonacoEditor  />
-      {/* <textarea
-        readOnly={true}
-        name="req-variables"
-        id="req-var"
-        cols={69}
-        rows={6}
-      ></textarea> */}
+      <MonacoEditor
+        value=""
+        height="160px"
+        language="graphql"
+        theme="vs-dark"
+        options={{
+          wordWrap: "on",
+          minimap: { enabled: false },
+          folding: false,
+          lineNumbersMinChars: 3,
+          fontSize: 14,
+          scrollBeyondLastLine: false,
+          automaticLayout: true,
+        }}
+      />
     </div>
   );
 }
