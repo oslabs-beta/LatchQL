@@ -1,0 +1,8 @@
+ {
+    "queryDepth1": "{ jobs { title description } }",
+    "queryDepth6": "{ jobs { title { movie { hotdogs { pizza { lemonade{ goretex} } } } } } }",
+    "queryFragDepth5": "{ jobs { ...frag } } fragment frag on GummyBears { flavor { color { hatSize bears are cool { pizza { baseball } } } } }",
+    "queryFragDepth3": "{ jobs { ...frag } } fragment frag on Yellow { sun { bananas { butter } } }",
+    "queryMutation1": "{ mutation { createStudent(collegeId:'col-2',firstName:'Tim',lastName:'George') } }",
+    "queryMutation4": "{ turtles { ninjas { teenagers { mutations { createTurtle(name:'Leonardo', weapon: 'Katana', color: 'blue') } } } } }"
+}
