@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "../styles/req.css";
 import CodeEditor from "./Code-editor";
-import MonacoEditor, { EditorDidMount } from "@monaco-editor/react";
+import Editor from "@monaco-editor/react";
 
 type RequestProps = {
   queryHandler: (query: string) => string;
@@ -13,8 +13,7 @@ type RequestProps = {
 };
 
 function Request(props: RequestProps) {
-
-  function twoCalls(value: string){
+  function twoCalls(value: string) {
     props.currDepthNum(props.queryHandler(value));
     props.currCostNum(props.queryHandler(value));
   }
@@ -31,19 +30,12 @@ function Request(props: RequestProps) {
           Run Query
         </button>
       </div>
-      <CodeEditor
-        initialValue=""
-        onChange={(value) => twoCalls(value)}
-      />
-      <div className="currDepth">
-        Current Depth: {props.currDepth}
-      </div>
-      <div className="currCost">
-        Current Cost: {props.currCost}
-      </div>
+      <CodeEditor queryHandler={props.queryHandler} />
+      <div className="currDepth">Current Depth: {props.currDepth}</div>
+      <div className="currCost">Current Cost: {props.currCost}</div>
 
       <span>Variables</span>
-      <MonacoEditor
+      <Editor
         value=""
         height="160px"
         language="graphql"

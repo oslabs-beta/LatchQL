@@ -1,12 +1,10 @@
-import cors from "cors";
 import express from "express";
 import { expressjwt } from "express-jwt";
+import proxy from "express-http-proxy";
 import jwt from "jsonwebtoken";
 
-import { ApolloServer } from "apollo-server-express";
 import { readFile } from "fs/promises";
 import { resolvers } from "../../test-db/resolvers.js";
-import path from "path";
 import { GraphQLError, GraphQLSchema } from "graphql";
 
 import { makeExecutableSchema } from "@graphql-tools/schema";
@@ -18,7 +16,6 @@ import { calcCost } from "../limiters/cost-limiter.js";
 import { depthLimit } from "../limiters/depth-limiter.js";
 import {
   isConstructorDeclaration,
-  ResolveProjectReferencePathHost,
 } from "typescript";
 import { rateLimiter } from "../limiters/rate-limiter.js";
 import * as dotenv from "dotenv";
@@ -26,39 +23,21 @@ import process from "process";
 
 import redis from "redis";
 
-type schema = {
-  typeDefs: string;
-  resolvers: Object;
-};
-
 export default class LatchQL {
   public typeDefs: string;
   public resolvers: {};
   private schema: GraphQLSchema;
   private schemaWithMiddleWare: any;
-  //public apolloServer: any; //figure out TS here
-  // public middleWare: ((resolve: any, root: any, args: any, context: any, info: any) => Promise<any>);
   constructor(types: string, resolvers: {}) {
     this.typeDefs = types;
     this.resolvers = resolvers;
     this.schema = this.createSchema();
     this.schemaWithMiddleWare = this.addMiddleWare();
-    // this.depthLimit = this.depthLimit(this);
-    //this.apolloServer = this.createApolloServer();
   }
   createSchema() {
-    //const args = {typeDefs: this.typeDefs, resolvers: this.resolvers};
     const schema = makeExecutableSchema({ typeDefs: this.typeDefs, resolvers });
     return schema;
   }
-  // createApolloServer() {
-  //   const schemaWithMiddleware = applyMiddleware(this.schema, this.middleWare);
-  //   const apolloServer = new ApolloServer({
-  //     context: ({ req, res }: any) => ({ req, res }),
-  //     schema: schemaWithMiddleware,
-  //   });
-  //   return apolloServer;
-  // }
   addMiddleWare() {
     const schemaWithMiddleware = applyMiddleware(this.schema, this.middleWare);
     return schemaWithMiddleware;
@@ -66,32 +45,17 @@ export default class LatchQL {
   async middleWare(resolve, root, args, context, info) {
     const redisClient = redis.createClient();
     await redisClient.connect();
-    context.test = "AWHOOOOOO!";
-    console.log("inside midware");
-    console.log(context.req.headers);
-    //console.log(context);
-    console.log(context.params.query);
-    // let currentDate = new Date();
 
-    //context.res.locals.cpu = [process.cpuUsage().system];
-    // context.res.locals.time = [currentDate.getTime()];
     if (!context.alreadyRan) {
-      //let cpu = process.cpuUsage().system;
-      // await redisClient.incrBy('cpu', context.res.locals.cpu[0]);
-      //redisClient.expire('cpu', 1);
       context.res.locals.cpuStart = process.cpuUsage().system;
       let now = new Date();
       context.res.locals.timeStart = now.getTime();
       const query = context.params.query;
 
-      console.log(query);
-      // the JWT token
-
       // if user logs in from GUI, bypass the JWT
       let authLevel: string = "Non-User";
       if (context.req.headers["gui"]) {
         authLevel = context.req.headers["gui"];
-        console.log(authLevel);
         // if not, do the JWT authorization
       } else {
         console.log("hi");
@@ -118,7 +82,6 @@ export default class LatchQL {
       const costLimit = parseInt(parsedLimits[authLevel].costLimit);
       const depthLimitExceed = depthLimit(query, maxDepth);
       const user_ip = context.req.socket.remoteAddress;
-      //console.log(context.req.headers);
       if (!depthLimitExceed) {
         throw new GraphQLError(
           `Your query exceeds maximum operation depth of ${maxDepth}`,
@@ -175,9 +138,7 @@ export default class LatchQL {
     console.log("running resolver");
     const result = await resolve(root, args, context, info);
     const newDate = new Date();
-    // context.res.locals.time.push(now.getTime());
     let currCpu = process.cpuUsage().system;
-    //context.res.locals.cpu.push(currCpu);
     const totalCpu = currCpu - context.res.locals.cpuStart;
     await redisClient.set("cpu", totalCpu);
 
@@ -187,20 +148,23 @@ export default class LatchQL {
     return result;
   }
 
-  async startLatch(app: any) {
+  async startLatch(app: any, port: number) {
+    const newServer = express();
+    newServer.all("/*", proxy(`http://localhost:${port}`));
     app.use(
       "/graphql",
       graphqlHTTP((req, res: any, params) => {
         return {
           schema: this.schemaWithMiddleWare,
           rootValue: this.resolvers,
-          graphiql: true,
+          graphiql: false,
           context: { req, res, params },
         };
       })
     );
     app.get("/latchql", (req: any, res: any) => {
       res.header("Access-Control-Allow-Origin", "*");
+      console.log("made it to host server /latchql");
       readFile("./latch_config.json", "utf-8")
         .then((data) => {
           res.status(200).send(data);
@@ -223,6 +187,9 @@ export default class LatchQL {
         console.log(err);
         res.status(500).send(err);
       }
+    });
+    newServer.listen(2222, () => {
+      console.log("Proxying GUI requests on port 2222");
     });
   }
 }
