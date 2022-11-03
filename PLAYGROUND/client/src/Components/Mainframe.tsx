@@ -14,9 +14,9 @@ export type PresetType = {
 };
 
 function Mainframe() {
-  // console.log("process:", window.process.env.PORT);
   const [query, setQuery] = useState<string>("");
   const [response, setResponse] = useState<string>("");
+  const [variables, setVariables] = useState("");
   const [authorizationLevel, setAuthorizationLevel] =
     useState<string>("Non-User");
   const [limits, setLimits] = useState<LimitsObj>({
@@ -34,11 +34,11 @@ function Mainframe() {
   };
 
   const sendQuery = () => {
-    console.log("sending query");
     fetch("http://localhost:2222/graphql", {
       method: "POST",
       body: JSON.stringify({
         query: `${query}`,
+        variables: variables,
       }),
       headers: {
         "Content-Type": "application/json",
@@ -50,7 +50,7 @@ function Mainframe() {
         return res.json();
       })
       .then((data) => {
-        console.log("data from frontend", data);
+        // console.log("data from frontend", data);
         setResponse(JSON.stringify(data, null, 4));
         getMetrics();
       })
@@ -69,6 +69,11 @@ function Mainframe() {
         setResTime(data[1]);
       })
       .catch((err) => console.log(err));
+  };
+
+  const variableHandler = (vars: string) => {
+    // console.log(vars);
+    setVariables(vars);
   };
 
   useEffect(() => {
@@ -101,6 +106,7 @@ function Mainframe() {
           allPresets={allPresets}
           limits={limits}
           queryHandler={queryHandler}
+          variableHandler={variableHandler}
           sendQuery={sendQuery}
           displayLimits={displayLimits}
         />

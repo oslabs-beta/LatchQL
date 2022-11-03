@@ -9,8 +9,9 @@ type QueryProps = {
   // limits: AuthorizationType;
   limits: LimitsObj;
   sendQuery: () => void;
+  variableHandler: (vars: string) => void;
   displayLimits: (authLvl: string) => void;
-  allPresets: string[]
+  allPresets: string[];
 };
 
 function Query(props: QueryProps) {
@@ -70,6 +71,7 @@ function Query(props: QueryProps) {
         currDepth={currDepth}
         queryHandler={props.queryHandler}
         sendQuery={props.sendQuery}
+        variableHandler={props.variableHandler}
       />
     </div>
   );
