@@ -72,7 +72,6 @@ function Mainframe() {
   };
 
   const variableHandler = (vars: string) => {
-    // console.log(vars);
     setVariables(vars);
   };
 
