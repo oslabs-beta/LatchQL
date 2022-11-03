@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "../styles/req.css";
 import CodeEditor from "./Code-editor";
 import Editor from "@monaco-editor/react";
+import { editor } from "monaco-editor/esm/vs/editor/editor.api";
 
 type RequestProps = {
   queryHandler: (query: string) => string;
@@ -10,6 +11,7 @@ type RequestProps = {
   currDepthNum: (str: string) => void;
   currCost: number;
   currCostNum: (str: string) => void;
+  variableHandler: (vars: string) => void;
 };
 
 function Request(props: RequestProps) {
@@ -17,6 +19,13 @@ function Request(props: RequestProps) {
     props.currDepthNum(props.queryHandler(value));
     props.currCostNum(props.queryHandler(value));
   }
+
+  const onVarsChange = (
+    value?: any,
+    ev?: editor.IModelContentChangedEvent
+  ): any => {
+    props.variableHandler(value);
+  };
 
   return (
     <div className="request">
@@ -36,9 +45,10 @@ function Request(props: RequestProps) {
 
       <span>Variables</span>
       <Editor
+        onChange={onVarsChange}
         value=""
         height="160px"
-        language="graphql"
+        language="json"
         theme="vs-dark"
         options={{
           wordWrap: "on",
