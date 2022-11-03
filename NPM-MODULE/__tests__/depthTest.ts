@@ -1,7 +1,7 @@
 // import { describe, it } from "node:test";
 import { describe, it, expect, beforeAll } from '@jest/globals';
-import { depthLimit } from '../lib/limiters/depth-limiter.js';
-
+import { depthLimit } from '../src/limiters/depth-limiter.js';
+//const depthLimit = require('../lib/limiters/depth-limiter.js');
 import fs from "fs";
 
 
@@ -16,6 +16,7 @@ describe('Testing depth limiter', () => {
             return;
         }
         queries = JSON.parse(data);
+        console.log(queries);
     });
     done();
   });

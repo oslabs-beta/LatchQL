@@ -5,14 +5,14 @@
   "type": "module",
   "main": "lib/server.js",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc -p tsconfig.json",
     "prestart": "npm run build",
     "start": "run-s kill-redis start-redis backend",
     "backend": "ttab -t 'Running server' node lib/server.js",
     "kill-redis": "ttab -t 'Killing preexisting redis server' killall redis-server",
     "start-redis": "ttab -t 'Running redis server' redis-server",
     "dev": "NODE_ENV=development nodemon lib/server.js",
-    "test": "jest --verbose"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -73,8 +73,5 @@
     "redis-server": "^1.2.2",
     "tslint": "^6.1.3",
     "typescript": "^4.8.4"
-  },
-  "transform": {
-    "^.+\\.(t|j)sx?$": "ts-jest"
   }
 }

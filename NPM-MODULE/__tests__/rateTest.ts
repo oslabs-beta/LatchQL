@@ -1,11 +1,7 @@
 // import { describe, it } from "node:test";
 import { describe, it, expect, beforeAll } from '@jest/globals';
-import { rateLimiter } from '../lib/limiters/rate-limiter.js';
+import { rateLimiter } from '../src/limiters/rate-limiter.js';
 import fs from "fs";
-
-// import redis from "redis";
-// const redisClient = redis.createClient();
-// await redisClient.connect();
 
 describe('Testing rate limiter', () => {
   

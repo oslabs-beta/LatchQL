@@ -45,6 +45,8 @@ export const depthLimit = (str: string, maxDepth: number): boolean => {
   else return true;
 };
 
+// module.exports = depthLimit;
+
 // export const depthLimit = (str: any, maxDepth: number): boolean => {
 //   const storage: string[] = [];
 //   let depthNow: number = 0;

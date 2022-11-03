@@ -1,6 +1,6 @@
 // import { describe, it } from "node:test";
 import { describe, it, expect, beforeAll } from '@jest/globals';
-import { calcCost } from '../lib/limiters/cost-limiter.js';
+import { calcCost } from '../src/limiters/cost-limiter.js';
 import fs from "fs";
 
 describe('Testing cost limiter', () => {
