@@ -14,6 +14,7 @@ export type PresetType = {
 };
 
 function Mainframe() {
+  // console.log("process:", window.process.env.PORT);
   const [query, setQuery] = useState<string>("");
   const [response, setResponse] = useState<string>("");
   const [authorizationLevel, setAuthorizationLevel] =
@@ -33,8 +34,8 @@ function Mainframe() {
   };
 
   const sendQuery = () => {
-    console.log(query);
-    fetch("http://localhost:8080/graphql", {
+    console.log("sending query");
+    fetch("http://localhost:2222/graphql", {
       method: "POST",
       body: JSON.stringify({
         query: `${query}`,
@@ -46,10 +47,10 @@ function Mainframe() {
       },
     })
       .then((res) => {
-        console.log(res);
         return res.json();
       })
       .then((data) => {
+        console.log("data from frontend", data);
         setResponse(JSON.stringify(data, null, 4));
         getMetrics();
       })
@@ -61,11 +62,9 @@ function Mainframe() {
   };
 
   const getMetrics = () => {
-    fetch("http://localhost:8080/metrics")
+    fetch("http://localhost:2222/metrics")
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
-        // setMetrics
         setCpuUsage(data[0].toFixed(2));
         setResTime(data[1]);
       })
@@ -73,12 +72,11 @@ function Mainframe() {
   };
 
   useEffect(() => {
-    fetch("http://localhost:8080/latchql")
+    fetch("http://localhost:2222/latchql")
       .then((res) => res.json())
       .then((data) => {
-        // console.log("presets:", data);
+        console.log("presets:", data);
         setLimits(data[authorizationLevel]);
-        console.log("data:", data);
         const presetsArr = [];
         for (const key in data) {
           presetsArr.push(key);

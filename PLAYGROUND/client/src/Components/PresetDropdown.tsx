@@ -1,7 +1,6 @@
 import React, { useState, MouseEvent, useEffect } from "react";
 import dropdown from "../assets/dropdown.png";
 import "../styles/presetdropdown.css";
-import { LimitsObj, PresetType } from "./Mainframe";
 
 type PresetDropdownProps = {
   displayLimits: (authLvl: string) => void;
@@ -24,32 +23,14 @@ function PresetDropdown(props: PresetDropdownProps) {
       {preset ? (
         <div className="dd-menu">
           <ul className="dd-ul">
-            {/* <li onClick={() => authLevelHandler("Non-User")}>Non-User Level</li>
-            <li onClick={() => authLevelHandler("Admin")}>Admin Level</li>
-            <li onClick={() => authLevelHandler("Gary")}>Gary Level</li> */}
             {props.allPresets.map((auth) => (
-              <li onClick={() => authLevelHandler(auth)}>{auth} Level</li>
+              <li onClick={() => authLevelHandler(auth)}>{auth}</li>
             ))}
           </ul>
         </div>
       ) : (
         ""
       )}
-
-      {/* <div> */}
-      {/* <select onChange={(e:React.ChangeEvent<HTMLSelectElement>) => authLevelHandler(e.target.value)}
-        className="auth" >
-        <option selected disabled>
-        authLevel
-        </option>
-        <option value="user">
-          User Level
-        </option>
-        <option
-          value="admin">
-          Admin Level
-        </option>
-        </select > */}
     </div>
   );
 }

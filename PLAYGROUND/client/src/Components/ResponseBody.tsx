@@ -1,5 +1,5 @@
 import React from "react";
-import MonacoEditor from "@monaco-editor/react";
+import Editor from "@monaco-editor/react";
 
 type ResponseBodyProps = {
   response: string;
@@ -8,9 +8,9 @@ type ResponseBodyProps = {
 function ResponseBody(props: ResponseBodyProps) {
   return (
     <div>
-      <MonacoEditor
+      <Editor
         value={props.response}
-        height="500px"
+        height="430px"
         language="graphql"
         theme="vs-dark"
         options={{
@@ -18,10 +18,9 @@ function ResponseBody(props: ResponseBodyProps) {
           minimap: { enabled: false },
           folding: false,
           lineNumbersMinChars: 3,
-          fontSize: 15,
+          fontSize: 14,
           scrollBeyondLastLine: false,
           automaticLayout: true,
-          readOnly: true,
         }}
       />
     </div>
