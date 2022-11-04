@@ -25,7 +25,7 @@
 //   };
 // };
 
-export const calcCost = (str, depthFactor, costLimit) => {
+export const calcCost = (str, depthFactor?, costLimit?) => {
   let query = str.slice(0, str.indexOf('fragment'));
   let fragments = str.slice(str.indexOf('fragment'));
 
