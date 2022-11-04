@@ -3,26 +3,32 @@ import { describe, it, expect, beforeAll } from '@jest/globals';
 import { depthLimit } from '../src/limiters/depth-limiter.js';
 //const depthLimit = require('../lib/limiters/depth-limiter.js');
 import fs from "fs";
-
+import path from 'path';
 
 
 describe('Testing depth limiter', () => {
   
-  let queries: {queryDepth1:string, queryDepth6:string, queryFragDepth5:string, queryFragDepth3:string, queryMutation1:string, queryMutation4:string};
+  // let queries: {queryDepth1:string, queryDepth6:string, queryFragDepth5:string, queryFragDepth3:string, queryMutation1:string, queryMutation4:string};
+  interface Queries {
+    [key: string]: string;
+  }
+
+  let queries: any;
   beforeAll((done) => {
-    fs.readFile("./testQueries.json", "utf8", (err, data) => {
-        if(err){ 
-            console.log(err);
-            return;
-        }
-        queries = JSON.parse(data);
-        console.log(queries);
-    });
+    const data = fs.readFileSync(path.resolve(__dirname, "../../__tests__/testQueries.json"), "utf8")
+    
+    queries = JSON.parse(data);
+        //console.log(queries);
+    console.log(depthLimit);
+    console.log(depthLimit("{ jobs { title description }",5));
     done();
-  });
+  }) 
   it('returns true if query is within depth limit', () => {
-    expect(depthLimit(queries.queryDepth1, 5)).toBe(true)
-    expect(depthLimit(queries.queryDepth6, 10)).toBe(true)
+    console.log(queries.queryDepth1);
+    const {queryDepth1, queryDepth6 } = queries;
+    console.log(queryDepth1, queryDepth6);
+    expect(depthLimit(queryDepth1, 5)).toEqual(true)
+    expect(depthLimit(queryDepth6, 10)).toEqual(true)
   });
   it('returns false if query is not within depth limit', () => {
     expect(depthLimit(queries.queryDepth1, 0)).toBe(false)
