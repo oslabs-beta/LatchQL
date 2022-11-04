@@ -1,4 +1,5 @@
-export const depthLimit = (str: string, maxDepth: number): boolean => {
+export const depthLimit = (str: string, maxDepth: number): any => {
+  let withinLimit;
   let query = str.slice(0, str.indexOf("fragment"));
   let fragments = str.slice(str.indexOf("fragment"));
   const fragDepths = {};
@@ -41,8 +42,8 @@ export const depthLimit = (str: string, maxDepth: number): boolean => {
     }
   });
 
-  if (calcDepth(query) > maxDepth) return false;
-  else return true;
+  calcDepth(query) > maxDepth ? (withinLimit = false) : (withinLimit = true);
+  return { withinLimit: withinLimit, depth: calcDepth(query) };
 };
 // depthLimit("{ jobs { title description } }", 5)
 // module.exports = depthLimit;

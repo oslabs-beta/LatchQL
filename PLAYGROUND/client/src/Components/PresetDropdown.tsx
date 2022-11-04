@@ -1,14 +1,15 @@
-import React, { useState, MouseEvent } from "react";
+import React, { useState, MouseEvent, useEffect } from "react";
 import dropdown from "../assets/dropdown.png";
 import "../styles/presetdropdown.css";
 
 type PresetDropdownProps = {
   displayLimits: (authLvl: string) => void;
+  allPresets: string[];
 };
 
 function PresetDropdown(props: PresetDropdownProps) {
-  const [preset, togglePreset] = useState(false);
-  const [authLevel, setAuthLevel] = useState("Non-User");
+  const [preset, togglePreset] = useState<boolean>(false);
+  const [authLevel, setAuthLevel] = useState<string>("Non-User");
 
   const authLevelHandler = (authoLevel: string) => {
     setAuthLevel(authoLevel);
@@ -22,29 +23,14 @@ function PresetDropdown(props: PresetDropdownProps) {
       {preset ? (
         <div className="dd-menu">
           <ul className="dd-ul">
-            <li onClick={() => authLevelHandler("Non-User")}>Non-User Level</li>
-            <li onClick={() => authLevelHandler("Admin")}>Admin Level</li>
-            <li onClick={() => authLevelHandler("Gary")}>Gary Level</li>
+            {props.allPresets.map((auth) => (
+              <li onClick={() => authLevelHandler(auth)}>{auth}</li>
+            ))}
           </ul>
         </div>
       ) : (
         ""
-      )} 
-   
-{/* <div> */}
-{/* <select onChange={(e:React.ChangeEvent<HTMLSelectElement>) => authLevelHandler(e.target.value)}
-        className="auth" >
-        <option selected disabled>
-        authLevel
-        </option>
-        <option value="user">
-          User Level
-        </option>
-        <option
-          value="admin">
-          Admin Level
-        </option>
-        </select > */}
+      )}
     </div>
   );
 }

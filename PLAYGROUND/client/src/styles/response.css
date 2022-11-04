@@ -4,16 +4,17 @@
   display: flex;
   flex-direction: column;
   border-radius: 10px;
-  width: 49%;
-  height: 103%;
+  width: 47%;
+  height: 97%;
+  margin-right: 40px;
 }
 
-.response textarea {
+/* .response textarea {
   padding: 30px;
   background-color: #16222f;
   border-radius: 10px;
   width: 100%;
-}
+} */
 
 .response span {
   font-size: 1.1rem;

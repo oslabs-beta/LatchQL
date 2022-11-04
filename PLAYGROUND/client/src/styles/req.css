@@ -53,3 +53,39 @@
   cursor: pointer;
   background-color: #4095c6;
 }
+
+.previews {
+  display: flex;
+  justify-content: space-between;
+  align-items: center ;
+}
+
+.previews span {
+  margin-right: 20px;
+  background-color: #121921;
+  color: #405874;
+  padding: 5px;
+}
+
+.previews button {
+  display: inline-block;
+  padding: 0.3em 1.2em;
+  margin: 0 0.3em 0.3em 0;
+  border-radius: 2em;
+  box-sizing: border-box;
+  text-decoration: none;
+  color: #ffffff;
+  background-color: #c69c07;
+  text-align: center;
+  transition: all 0.2s;
+  border: none;
+}
+
+.previews button:hover {
+  cursor: pointer;
+  background-color: #4095c6;
+}
+
+.previews-btn {
+  padding: 5px;
+}

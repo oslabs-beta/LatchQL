@@ -17,8 +17,6 @@
 .auth img {
   width: 20px;
   background-color: #16222f;
-  /* filter: invert(100%) sepia(0%) saturate(7430%) hue-rotate(223deg)
-    brightness(118%) contrast(100%); */
 }
 
 #level {
@@ -43,18 +41,23 @@
 
 .dd-menu {
   position: absolute;
-  top: 155px;
+  top: 175px;
   left: 30px;
   background-color: #16222f;
   padding: 10px;
-  border: 0.5px solid white;
-  width: 10%;
+  border-left: 1px solid white;
+  border-right: 1px solid white;
+  border-bottom: 1px solid white;
+  width: 8.08%;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
 }
 
 .dd-menu li {
   list-style: none;
   background: #16222f;
   padding: 10px;
+  font-size: 14px;
 }
 
 .dd-menu li:hover {

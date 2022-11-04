@@ -1,23 +1,25 @@
 import React, { useState } from "react";
 import "../styles/req.css";
 import CodeEditor from "./Code-editor";
-import MonacoEditor, { EditorDidMount } from "@monaco-editor/react";
+import Editor from "@monaco-editor/react";
+import { editor } from "monaco-editor/esm/vs/editor/editor.api";
 
 type RequestProps = {
   queryHandler: (query: string) => string;
   sendQuery: () => void;
-  currDepth: number;
-  currDepthNum: (str: string) => void;
-  currCost: number;
-  currCostNum: (str: string) => void;
+  variableHandler: (vars: string) => void;
+  previewsHandler: () => void;
+  depthPreview: number;
+  costPreview: number;
 };
 
 function Request(props: RequestProps) {
-
-  function twoCalls(value: string){
-    props.currDepthNum(props.queryHandler(value));
-    props.currCostNum(props.queryHandler(value));
-  }
+  const onVarsChange = (
+    value?: any,
+    ev?: editor.IModelContentChangedEvent
+  ): any => {
+    props.variableHandler(value);
+  };
 
   return (
     <div className="request">
@@ -31,22 +33,23 @@ function Request(props: RequestProps) {
           Run Query
         </button>
       </div>
-      <CodeEditor
-        initialValue=""
-        onChange={(value) => twoCalls(value)}
-      />
-      <div className="currDepth">
-        Current Depth: {props.currDepth}
-      </div>
-      <div className="currCost">
-        Current Cost: {props.currCost}
+      <CodeEditor queryHandler={props.queryHandler} />
+      <div className="previews">
+        <div className="previews-dc">
+          <span>Current Depth: {props.depthPreview}</span>
+          <span>Current Cost: {props.costPreview}</span>
+        </div>
+        <div className="previews-btn">
+          <button onClick={() => props.previewsHandler()}>Preview</button>
+        </div>
       </div>
 
       <span>Variables</span>
-      <MonacoEditor
+      <Editor
+        onChange={onVarsChange}
         value=""
         height="160px"
-        language="graphql"
+        language="json"
         theme="vs-dark"
         options={{
           wordWrap: "on",
