@@ -17,6 +17,8 @@ function Mainframe() {
   const [query, setQuery] = useState<string>("");
   const [response, setResponse] = useState<string>("");
   const [variables, setVariables] = useState("");
+  const [depthPreview, setDepthPreview] = useState<number>(0);
+  const [costPreview, setCostPreview] = useState<number>(0);
   const [authorizationLevel, setAuthorizationLevel] =
     useState<string>("Non-User");
   const [limits, setLimits] = useState<LimitsObj>({
@@ -75,11 +77,33 @@ function Mainframe() {
     setVariables(vars);
   };
 
+  const previewsHandler = () => {
+    console.log("queryPreview:", query);
+    fetch("http://localhost:2222/previews", {
+      method: "POST",
+      body: JSON.stringify({
+        queryPreview: `${query}`,
+        maxDepth: limits.depthLimit,
+        maxCost: limits.costLimit,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        gui: authorizationLevel,
+        "Access-Control-Allow-Origin": "*",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setCostPreview(data[1].costSum);
+        setDepthPreview(data[0].depth);
+      })
+      .catch((err) => console.log(err));
+  };
+
   useEffect(() => {
     fetch("http://localhost:2222/latchql")
       .then((res) => res.json())
       .then((data) => {
-        console.log("presets:", data);
         setLimits(data[authorizationLevel]);
         const presetsArr = [];
         for (const key in data) {
@@ -108,6 +132,9 @@ function Mainframe() {
           variableHandler={variableHandler}
           sendQuery={sendQuery}
           displayLimits={displayLimits}
+          previewsHandler={previewsHandler}
+          depthPreview={depthPreview}
+          costPreview={costPreview}
         />
         <Response response={response} cpuUsage={cpuUsage} resTime={resTime} />
       </div>

@@ -8,6 +8,7 @@ import { jwtController } from "./latch-ql-npm/latch-auth.js";
 const app = express();
 const port = 8080; // default port to listen
 app.use(cors());
+app.use(express.json());
 
 //helper middleware function for testing JwtController
 function authSet(req, res, next) {

@@ -78,9 +78,9 @@ export default class LatchQL {
       const maxDepth = parseInt(parsedLimits[authLevel].depthLimit);
       const rateLimit = parseInt(parsedLimits[authLevel].rateLimit);
       const costLimit = parseInt(parsedLimits[authLevel].costLimit);
-      const depthLimitExceed = depthLimit(query, maxDepth);
+      const depthLimitResult = depthLimit(query, maxDepth);
       const user_ip = context.req.socket.remoteAddress;
-      if (!depthLimitExceed) {
+      if (!depthLimitResult.withinLimit) {
         throw new GraphQLError(
           `Your query exceeds maximum operation depth of ${maxDepth}`,
           null,
@@ -173,6 +173,7 @@ export default class LatchQL {
           res.status(500).send(err);
         });
     });
+
     app.get("/metrics", async (req: any, res: any) => {
       try {
         const redisClient = redis.createClient();
@@ -187,6 +188,32 @@ export default class LatchQL {
         res.status(500).send(err);
       }
     });
+
+    app.post("/previews", async (req: any, res: any) => {
+      // console.log("req.body:", req.body);
+      try {
+        // console.log(
+        //   "coming in from frontend :",
+        //   req.body.queryPreview,
+        //   req.body.maxDepth
+        // );
+        const depthPreview = await depthLimit(
+          req.body.queryPreview,
+          req.body.maxDepth
+        );
+        const costPreview = await calcCost(
+          req.body.queryPreview,
+          1.5,
+          req.body.maxCost
+        );
+        // console.log("in latch post req", depthPreview);
+        return res.status(200).json([depthPreview, costPreview]);
+      } catch (err) {
+        console.log(err);
+        res.status(500).send(err);
+      }
+    });
+
     newServer.listen(2222, () => {
       console.log("Proxying GUI requests on port 2222");
     });
