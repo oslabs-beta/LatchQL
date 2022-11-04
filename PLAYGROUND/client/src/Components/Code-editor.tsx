@@ -33,6 +33,7 @@ function CodeEditor(props: CodeEditorProps) {
           fontSize: 14,
           scrollBeyondLastLine: false,
           automaticLayout: true,
+          formatOnType: true,
         }}
       />
     </>
