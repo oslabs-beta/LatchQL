@@ -2,21 +2,19 @@
 import { describe, it, expect, beforeAll } from '@jest/globals';
 import { calcCost } from '../src/limiters/cost-limiter.js';
 import fs from "fs";
+import path from 'path';
 
 describe('Testing cost limiter', () => {
-  
-  let queries: {queryCost2:string, queryCost10:string};
-
+  interface Queries {
+    [key: string]: string;
+  }
+  let queries: Queries;
   beforeAll((done) => {
-    fs.readFile("./testQueries.json", "utf8", (err, data) => {
-        if(err){ 
-            console.log(err);
-            return;
-        }
-        queries = JSON.parse(data);
-    });
+    const data = fs.readFileSync(path.resolve(__dirname, "../../__tests__/testQueries.json"), "utf8")
+    
+    queries = JSON.parse(data);
     done();
-  });
+  }) 
 
   it('returns true if query is within cost limit', () => {
     expect(calcCost(queries.queryCost2, 1.5, 5)).toBe(true)
@@ -26,18 +24,18 @@ describe('Testing cost limiter', () => {
     expect(calcCost(queries.queryCost2, 1.5, 1)).toBe(false)
     expect(calcCost(queries.queryCost10, 1.5, 5)).toBe(false)
   });
-  // it('successfully identifies query cost with fragment within bounds', () => {
+  xit('successfully identifies query cost with fragment within bounds', () => {
+    expect(calcCost(queries.))
+  });
+  xit('successfully identifies query cost with fragement not within bounds', () => {
 
-  // });
-  // it('successfully identifies query cost with fragement not within bounds', () => {
+  });
+  xit('successfully identifies query cost with mutation within bounds', () => {
 
-  // });
-  // it('successfully identifies query cost with mutation within bounds', () => {
+  });
+  xit('successfully identifies query cost with mutation not within bounds', () => {
 
-  // });
-  // it('successfully identifies query cost with mutation not within bounds', () => {
-
-  // });
+  });
 
 
 })

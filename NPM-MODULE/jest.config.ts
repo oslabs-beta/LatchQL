@@ -5,11 +5,11 @@ const config: Config.InitialOptions = {
   preset: "ts-jest",
   testEnvironment: "node",
   verbose: true,
-  automock: true,
+  automock: false,
   extensionsToTreatAsEsm: ['.ts'],
   transform: {
     '^.+\\.(ts|tsx)?$': 'ts-jest',
-    "^.+\\.(js|jsx)$": "babel-jest",
+    "^.+\\.jsx?$": "babel-jest"
   },
   transformIgnorePatterns: ["node_modules"]
 }
