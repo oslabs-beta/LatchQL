@@ -14,9 +14,7 @@ import { graphqlHTTP } from "express-graphql";
 // Import Limiters
 import { calcCost } from "../limiters/cost-limiter.js";
 import { depthLimit } from "../limiters/depth-limiter.js";
-import {
-  isConstructorDeclaration,
-} from "typescript";
+import { isConstructorDeclaration } from "typescript";
 import { rateLimiter } from "../limiters/rate-limiter.js";
 import * as dotenv from "dotenv";
 import process from "process";
@@ -99,6 +97,7 @@ export default class LatchQL {
         );
       }
       const { costSum, withinLimit } = calcCost(query, 1.5, costLimit);
+      console.log("COST SUM, WITHIN LIMIT:", costSum, withinLimit);
       if (!withinLimit) {
         throw new GraphQLError(
           `Your query exceeds maximum operation cost of ${costLimit}`,

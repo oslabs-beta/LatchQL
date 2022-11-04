@@ -38,7 +38,7 @@ function Mainframe() {
       method: "POST",
       body: JSON.stringify({
         query: `${query}`,
-        variables: variables,
+        variables: JSON.stringify({ variables }),
       }),
       headers: {
         "Content-Type": "application/json",
