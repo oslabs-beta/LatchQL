@@ -45,6 +45,8 @@ export const depthLimit = (str: string, maxDepth: number): any => {
   calcDepth(query) > maxDepth ? (withinLimit = false) : (withinLimit = true);
   return { withinLimit: withinLimit, depth: calcDepth(query) };
 };
+// depthLimit("{ jobs { title description } }", 5)
+// module.exports = depthLimit;
 
 // export const depthLimit = (str: any, maxDepth: number): boolean => {
 //   const storage: string[] = [];

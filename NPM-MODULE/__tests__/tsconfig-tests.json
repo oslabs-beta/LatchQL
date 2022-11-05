@@ -1,0 +1,5 @@
+{
+    "extends": "../tsconfig.json",
+    "module": "es2022",
+    "target": "es2017"
+}
