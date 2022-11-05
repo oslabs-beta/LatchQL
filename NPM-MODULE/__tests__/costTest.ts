@@ -25,7 +25,7 @@ describe('Testing cost limiter', () => {
     expect(calcCost(queries.queryCost10, 1.5, 5)).toBe(false)
   });
   xit('successfully identifies query cost with fragment within bounds', () => {
-    expect(calcCost(queries.))
+    
   });
   xit('successfully identifies query cost with fragement not within bounds', () => {
 

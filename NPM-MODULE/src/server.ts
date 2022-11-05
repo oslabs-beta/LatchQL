@@ -9,7 +9,8 @@ const app = express();
 const port = 8080; // default port to listen
 app.use(cors());
 app.use(express.json());
-
+// /NPM-MODULE/lib/src/server.js
+// /NPM-MODULE/test-db/resolvers.js
 //helper middleware function for testing JwtController
 function authSet(req, res, next) {
   res.locals.authLevel = "user";
