@@ -9,7 +9,8 @@
     "queryFragDepth5": "{ jobs { ...frag } } fragment frag on Yellow { sun { bananas { butter } } }",
     "queryMutation1": "{ mutation { createStudent(collegeId:'col-2',firstName:'Tim',lastName:'George') } }",
     "queryMutation4": "{ turtles { ninjas { teenagers { mutations { createTurtle(name:'Leonardo', weapon: 'Katana', color: 'blue') } } } } }",
-    "queryCost2":"{ jobs { title description } }",
-    "queryCost10":"{ jobs { title description { company { ceo salary } } } }",
-    "queryCost" : "{ jobs { ...frag } } fragment frag on GummyBears { flavor { color { hatSize bears are cool { pizza { baseball } } } } }"
+    "queryCost6":"{ \njobs { \n title \n description \n } \n }",
+    "queryCost15":"{  \n jobs { \n title \n description { \n company { \n ceo \n salary \n } \n } \n } \n }",
+    "queryCostFrag27" : "{ \n jobs { \n ...frag \n } \n } \n fragment frag on GummyBears { \n flavor { \n color { \n hatSize \n bears \n are \n cool { \n pizza { \n baseball \n } \n } \n } \n } \n }",
+    "queryCostFrag6" : "{ \n jobs { \n ...frag \n } \n } \n fragment frag on Pants { \n fit \n fold \n }"
 }

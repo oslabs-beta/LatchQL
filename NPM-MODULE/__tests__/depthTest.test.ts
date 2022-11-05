@@ -2,7 +2,7 @@
 import { describe, it, expect, beforeAll, test, jest } from '@jest/globals';
 // import * as latchFile from '../src/latch-ql-npm/latch.js'
 // import * as depthFile from '../src/limiters/depth-limiter.js';
-import { depthLimit } from '../src/limiters/depth-limiter.js';
+import { depthLimit } from '../lib/limiters/depth-limiter.js';
 
 //const depthLimit = require('../lib/limiters/depth-limiter.js');
 import fs from "fs";
@@ -15,7 +15,7 @@ describe('Testing depth limiter', () => {
   }
   let queries: Queries;
   beforeAll((done) => {
-    const data = fs.readFileSync(path.resolve(__dirname, "../../__tests__/testQueries.json"), "utf8")
+    const data = fs.readFileSync(path.resolve(__dirname, "./testQueries.json"), "utf8")
     
     queries = JSON.parse(data);
     done();
@@ -38,27 +38,27 @@ describe('Testing depth limiter', () => {
     // expect(latchFile.depthLimit(queries.queryDepth1, 5)).toEqual(true);
     // expect(depthMock).toHaveBeenCalledWith(queries.queryDepth1, 5);
     
-    expect(depthLimit(queries.queryDepth1, 5)).toBeTruthy();
-    expect(depthLimit(queries.queryDepth6, 10)).toBe(true);
+    expect(depthLimit(queries.queryDepth1, 5).withinLimit).toBeTruthy();
+    expect(depthLimit(queries.queryDepth6, 10).withinLimit).toBe(true);
   });
   it('returns false if query is not within depth limit', () => {
-    expect(depthLimit(queries.queryDepth1, 0)).toBe(false)
-    expect(depthLimit(queries.queryDepth6, 3)).toBe(false)
+    expect(depthLimit(queries.queryDepth1, 0).withinLimit).toBe(false)
+    expect(depthLimit(queries.queryDepth6, 3).withinLimit).toBe(false)
   });
   it('successfully identifies query depth with fragment within bounds', () => {
-    expect(depthLimit(queries.queryFragDepth7, 10)).toBe(true)
-    expect(depthLimit(queries.queryFragDepth5, 10)).toBe(true)
+    expect(depthLimit(queries.queryFragDepth7, 10).withinLimit).toBe(true)
+    expect(depthLimit(queries.queryFragDepth5, 10).withinLimit).toBe(true)
   });
   it('successfully identifies query depth with fragement not within bounds', () => {
-    expect(depthLimit(queries.queryFragDepth7, 2)).toBe(false)
-    expect(depthLimit(queries.queryFragDepth5, 1)).toBe(false)
+    expect(depthLimit(queries.queryFragDepth7, 2).withinLimit).toBe(false)
+    expect(depthLimit(queries.queryFragDepth5, 1).withinLimit).toBe(false)
   });
   it('successfully identifies query depth with mutation within bounds', () => {
-    expect(depthLimit(queries.queryMutation1, 10)).toBe(true)
-    expect(depthLimit(queries.queryMutation4, 8)).toBe(true)
+    expect(depthLimit(queries.queryMutation1, 10).withinLimit).toBe(true)
+    expect(depthLimit(queries.queryMutation4, 8).withinLimit).toBe(true)
   });
   it('successfully identifies query depth with mutation not within bounds', () => {
-    expect(depthLimit(queries.queryMutation1, 0)).toBe(false)
-    expect(depthLimit(queries.queryMutation4, 3)).toBe(false)
+    expect(depthLimit(queries.queryMutation1, 0).withinLimit).toBe(false)
+    expect(depthLimit(queries.queryMutation4, 3).withinLimit).toBe(false)
   });
 })

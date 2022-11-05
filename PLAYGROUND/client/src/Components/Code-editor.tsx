@@ -18,8 +18,9 @@ function CodeEditor(props: CodeEditorProps) {
   };
 
   return (
-    <>
+    <div id="query-field">
       <Editor
+        className="query-field"
         onChange={onEditorChange}
         height="300px"
         defaultLanguage="graphql"
@@ -36,7 +37,7 @@ function CodeEditor(props: CodeEditorProps) {
           formatOnType: true,
         }}
       />
-    </>
+    </div>
   );
 }
 

@@ -6,10 +6,9 @@ import "./styles/app.css";
 function App() {
   return (
     <div className="app">
-      <div className="glow"></div>
       <div className="top">
         <img id="logo" src={logo} />
-        <span>Playground</span>
+        <span id="header">Playground</span>
       </div>
       <Mainframe />
     </div>
