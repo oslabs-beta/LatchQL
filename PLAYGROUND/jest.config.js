@@ -2,10 +2,13 @@ module.exports = {
 	preset: 'jest-puppeteer',
 	testMatch: ["**/?(*.)+(spec|test).[j]s"],
 	testPathIgnorePatterns: ['/node_modules/', 'build'], // 
-	// setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
+	moduleDirectories: ["node_modules", "src", "__tests__"],
 	transform: {
-		"^.+\\.ts?$": "ts-jest"
-	}
-	// globalSetup: './jest.global-setup.ts', // will be called once before all tests are executed
-	// globalTeardown: './jest.global-teardown.ts' // will be called once after all tests are executed
+		"^.+\\.(ts|js)x?$": "ts-jest"
+		// "^.+\\.(js|jsx)$": "babel-jest",
+	},
+	moduleNameMapper:{
+		"\\.(css|less|sass|scss)$": "<rootDir>/__mocks__/styleMock.js",
+		"\\.(gif|ttf|eot|svg)$": "<rootDir>/__mocks__/fileMock.js"
+    }
 };
