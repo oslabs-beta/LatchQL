@@ -1,5 +1,5 @@
 {
-  "name": "latchql",
+  "name": "root-latch",
   "version": "1.0.0",
   "description": "a one stop shop for securing a graphQL API",
   "type": "module",
@@ -64,6 +64,7 @@
     "express-http-proxy": "^1.6.3",
     "express-jwt": "^7.7.5",
     "fakebase": "^0.3.0",
+    "find-config": "^1.0.0",
     "fs": "^0.0.1-security",
     "graphql": "^15.8.0",
     "graphql-middleware": "^6.1.33",

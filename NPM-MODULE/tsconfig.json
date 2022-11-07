@@ -6,7 +6,7 @@
     "esModuleInterop": true,
     "declaration": true,
     "skipLibCheck": true,
-    "outDir": "./lib",
+    "outDir": "./lib2",
     "strict": true,
     "noImplicitAny": false,
     "moduleResolution": "node",
@@ -16,6 +16,6 @@
     },
     "forceConsistentCasingInFileNames": true,
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "dummy"],
   "exclude": ["node_modules"]
 }
