@@ -12,6 +12,6 @@ const config: Config.InitialOptions = {
     "^.+\\.jsx?$": "babel-jest"
   },
   transformIgnorePatterns: ["node_modules"],
-  setupFilesAfterEnv: ['./jest.setup.redis-mock.js']
+  // setupFilesAfterEnv: ['./jest.setup.redis-mock.js']
 }
 export default config;

@@ -32,12 +32,4 @@ describe('Testing cost limiter', () => {
     expect(calcCost(queries.queryCostFrag27, 1.5, 20).withinLimit).toBe(false)
     expect(calcCost(queries.queryCostFrag6, 1.5, 5).withinLimit).toBe(false)
   });
-  xit('successfully identifies query cost with mutation within bounds', () => {
-
-  });
-  xit('successfully identifies query cost with mutation not within bounds', () => {
-
-  });
-
-
 })

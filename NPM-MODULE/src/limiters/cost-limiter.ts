@@ -26,11 +26,12 @@
 // };
 
 export const calcCost = (str, depthFactor?, costLimit?) => {
+
+  //seperate the queries and fragments into different string
   let query = str.slice(0, str.indexOf('fragment'));
   let fragments = str.slice(str.indexOf('fragment'));
 
-  console.log(fragments);
-
+  // if there more than one fragment, seper
   const fragsArr = fragments.split('fragment');
 
   console.log(fragsArr);
