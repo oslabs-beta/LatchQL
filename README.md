@@ -9,4 +9,4 @@ Johnjered Tolentino: [GitHub](https://github.com/Johnjeredivant) | [LinkedIn](ht
 Raymond Kim: [GitHub](https://github.com/reykeem) | [LinkedIn](https://www.linkedin.com/in/raymondhkim/) 
 
 # License
-Distributed under the MIT License. See [LICENSE](https://www.google.com) for more information.
+Distributed under the MIT License. See [LICENSE](https://github.com/oslabs-beta/LatchQL/blob/main/LICENSE.md) for more information.
