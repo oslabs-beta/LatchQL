@@ -1,0 +1,51 @@
+type Query {
+  job(id: ID!): Job
+  jobs: [Job!]
+  company(id: ID!): Company
+  users: [User!]
+  companies: [Company!]
+  ceo(id: ID): Ceo
+}
+
+type Company {
+  id: ID!
+  name: String!
+  description: String
+  ceo: Ceo
+}
+
+type Job {
+  id: ID!
+  title: String!
+  description: String
+  company: Company
+}
+
+type User {
+  id: ID
+  email: String
+  pw: String
+  company: Company
+  car: Car
+}
+
+type Car {
+  id: ID
+  color: String
+  style: CarType
+  description: String
+}
+
+type CarType {
+  id: ID
+  make: String
+  model: String
+}
+
+type Ceo {
+  id: ID
+  name: String
+  hairColor: String
+  car: Car
+  user: User
+}
