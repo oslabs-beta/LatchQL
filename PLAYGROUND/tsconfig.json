@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "es2017" /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */,
-    "module": "ES2022" /* Specify what module code is generated. */,
+    "module": "CommonJS" /* Specify what module code is generated. */,
     "outDir": "./lib2" /* Specify an output folder for all emitted files. */,
     "esModuleInterop": true /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables 'allowSyntheticDefaultImports' for type compatibility. */,
     "forceConsistentCasingInFileNames": true /* Ensure that casing is correct in imports. */,
@@ -10,8 +10,9 @@
     "jsx": "react",
     "sourceMap": true,
     "typeRoots": ["node_modules/@types", "src/types"],
-    "types":["puppeteer", "jest-environment-puppeteer", "node", "jest"]
+    "types":["puppeteer", "jest-environment-puppeteer"],
+    "allowJs": true
   },
   "include": ["client", "server"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "**/__tests__/*"]
 }
