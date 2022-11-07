@@ -40,12 +40,13 @@ function Request(props: RequestProps) {
           <span>Current Cost: {props.costPreview}</span>
         </div>
         <div className="previews-btn">
-          <button onClick={() => props.previewsHandler()}>Preview</button>
+          <button id="previews-btn" onClick={() => props.previewsHandler()}>Preview</button>
         </div>
       </div>
 
       <span>Variables</span>
       <Editor
+        className="variables-input"
         onChange={onVarsChange}
         value=""
         height="160px"

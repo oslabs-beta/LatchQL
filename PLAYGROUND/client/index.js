@@ -3,7 +3,6 @@ import { createRoot, render } from "react-dom/client";
 import App from "./src/App.tsx";
 import "../client/src/styles/index.css";
 
-// import { ChakraProvider } from "@chakra-ui/react";
 
 const container = document.getElementById("root");
 const root = createRoot(container);
