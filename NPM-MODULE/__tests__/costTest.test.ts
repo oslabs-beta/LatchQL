@@ -1,17 +1,18 @@
-// import { describe, it } from "node:test";
 import { describe, it, expect, beforeAll } from '@jest/globals';
 import { calcCost } from '../lib/limiters/cost-limiter.js';
 import fs from "fs";
 import path from 'path';
 
+
 describe('Testing cost limiter', () => {
   interface Queries {
     [key: string]: string;
   }
+
+  //Reading from testQueries file to get fake queries
   let queries: Queries;
   beforeAll((done) => {
     const data = fs.readFileSync(path.resolve(__dirname, "./testQueries.json"), "utf8")
-    
     queries = JSON.parse(data);
     done();
   }) 

@@ -4,7 +4,6 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 module.exports = {
   entry: "./client/index.js",
   output: {
-    // eslint-disable-next-line no-undef
     path: path.resolve(__dirname, "build"),
     publicPath: "/",
     filename: "bundle.js",
@@ -42,7 +41,6 @@ module.exports = {
   devServer: {
     historyApiFallback: true,
     static: {
-      // eslint-disable-next-line no-undef
       directory: path.join(__dirname, "build"),
       publicPath: "/",
     },

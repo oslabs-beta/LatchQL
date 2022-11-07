@@ -9,8 +9,7 @@ const app = express();
 const port = 8080; // default port to listen
 app.use(cors());
 app.use(express.json());
-// /NPM-MODULE/lib/src/server.js
-// /NPM-MODULE/test-db/resolvers.js
+
 //helper middleware function for testing JwtController
 function authSet(req, res, next) {
   res.locals.authLevel = "user";
@@ -24,12 +23,10 @@ app.post("/login", authSet, jwtController.setJwt, (req, res) => {
 });
 
 const typeDefs = await readFile("src/schema.graphql", "utf-8");
-
 let latch = new LatchQL(typeDefs, resolvers);
 
 // start the Express server
 app.listen(port, () => {
-  // tslint:disable-next-line:no-console
   console.log(`server started at http://localhost:${port}`);
   console.log(`GraphQL endpoint: http://localhost:${port}/graphql`);
 });

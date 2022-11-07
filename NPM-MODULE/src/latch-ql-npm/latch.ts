@@ -1,5 +1,4 @@
 import express from "express";
-import { expressjwt } from "express-jwt";
 import proxy from "express-http-proxy";
 import jwt from "jsonwebtoken";
 
@@ -14,11 +13,10 @@ import { graphqlHTTP } from "express-graphql";
 // Import Limiters
 import { calcCost } from "../limiters/cost-limiter.js";
 import { depthLimit } from "../limiters/depth-limiter.js";
-import { isConstructorDeclaration } from "typescript";
 import { rateLimiter } from "../limiters/rate-limiter.js";
+
 import * as dotenv from "dotenv";
 import process from "process";
-
 import redis from "redis";
 
 export default class LatchQL {
@@ -32,6 +30,7 @@ export default class LatchQL {
     this.schema = this.createSchema();
     this.schemaWithMiddleWare = this.addMiddleWare();
   }
+  //use passed in typeDefs to create schema
   createSchema() {
     const schema = makeExecutableSchema({ typeDefs: this.typeDefs, resolvers });
     return schema;
@@ -40,10 +39,12 @@ export default class LatchQL {
     const schemaWithMiddleware = applyMiddleware(this.schema, this.middleWare);
     return schemaWithMiddleware;
   }
+  //primary functionality here
   async middleWare(resolve, root, args, context, info) {
     const redisClient = redis.createClient();
     await redisClient.connect();
 
+    //only need to run checks on initial pass
     if (!context.alreadyRan) {
       context.res.locals.cpuStart = process.cpuUsage().system;
       let now = new Date();
@@ -56,7 +57,6 @@ export default class LatchQL {
         authLevel = context.req.headers["gui"];
         // if not, do the JWT authorization
       } else {
-        console.log("hi");
         const token = context.req.headers.authorization.split(" ")[1];
         //pull the secret key from the .env file
         dotenv.config();
@@ -134,7 +134,6 @@ export default class LatchQL {
 
       context.alreadyRan = true;
     }
-    console.log("running resolver");
     const result = await resolve(root, args, context, info);
     const newDate = new Date();
     let currCpu = process.cpuUsage().system;
@@ -148,6 +147,7 @@ export default class LatchQL {
   }
 
   async startLatch(app: any, port: number) {
+    //start a pass through server to listen on 2222 and proxy those requests to dev user's port
     const newServer = express();
     newServer.all("/*", proxy(`http://localhost:${port}`));
     app.use(
@@ -161,9 +161,9 @@ export default class LatchQL {
         };
       })
     );
+    //set up an endpoint for the playground to retrieve the config file
     app.get("/latchql", (req: any, res: any) => {
       res.header("Access-Control-Allow-Origin", "*");
-      console.log("made it to host server /latchql");
       readFile("./latch_config.json", "utf-8")
         .then((data) => {
           res.status(200).send(data);
@@ -173,7 +173,7 @@ export default class LatchQL {
           res.status(500).send(err);
         });
     });
-
+    //endpoint for playground to retrienve metrics
     app.get("/metrics", async (req: any, res: any) => {
       try {
         const redisClient = redis.createClient();
@@ -188,15 +188,11 @@ export default class LatchQL {
         res.status(500).send(err);
       }
     });
-
+    //endpoint for the playground to get preview stats
     app.post("/previews", async (req: any, res: any) => {
-      // console.log("req.body:", req.body);
+
       try {
-        // console.log(
-        //   "coming in from frontend :",
-        //   req.body.queryPreview,
-        //   req.body.maxDepth
-        // );
+
         const depthPreview = await depthLimit(
           req.body.queryPreview,
           req.body.maxDepth
@@ -206,7 +202,7 @@ export default class LatchQL {
           1.5,
           req.body.maxCost
         );
-        // console.log("in latch post req", depthPreview);
+
         return res.status(200).json([depthPreview, costPreview]);
       } catch (err) {
         console.log(err);
@@ -215,7 +211,7 @@ export default class LatchQL {
     });
 
     newServer.listen(2222, () => {
-      console.log("Proxying GUI requests on port 2222");
+      console.log("Proxying Playground requests on port 2222");
     });
   }
 }

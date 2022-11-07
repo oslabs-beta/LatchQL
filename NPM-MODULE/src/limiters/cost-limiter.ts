@@ -1,50 +1,20 @@
-// export const calcCost = (query, depthFactor, costLimit) => {
-//   let costSum: number = 0,
-//     depthLvl: number = 1,
-//     withinLimit: Boolean;
-//   const split = query.split("\n");
-//   for (let i = 1; i < split.length - 1; i++) {
-//     if (split[i] === "") {
-//       continue;
-//     } else if (split[i].includes("{")) {
-//       depthLvl += 1;
-//     } else if (!split[i].includes("{") && !split[i].includes("}")) {
-//       if (depthLvl === 1) costSum += 1;
-//       else {
-//         costSum += 1 * depthLvl * depthFactor;
-//       }
-//     } else if (split[i].includes("}")) {
-//       depthLvl -= 1;
-//     }
-//   }
-//   // check for whether the query is within the limit
-//   costSum < costLimit ? (withinLimit = true) : (withinLimit = false);
-//   return {
-//     costSum: costSum,
-//     withinLimit: withinLimit,
-//   };
-// };
 
-export const calcCost = (str, depthFactor?, costLimit?) => {
+export const calcCost = (str: string, depthFactor: number, costLimit: number) => {
 
   //seperate the queries and fragments into different string
   let query = str.slice(0, str.indexOf('fragment'));
   let fragments = str.slice(str.indexOf('fragment'));
 
-  // if there more than one fragment, seper
+  // if there more than one fragments, seperate them and store them into an array
   const fragsArr = fragments.split('fragment');
-
-  console.log(fragsArr);
 
   let costSum = 0,
     depthLvl = 0,
     withinLimit = false;
-  let fragName;
-
-  console.log(query);
+  let fragName: string;
 
   const split = query.split('\n');
-  console.log(split);
+ 
   for (let i = 0; i < split.length; i++) {
     if (split[i] === '') {
       continue;
@@ -59,12 +29,8 @@ export const calcCost = (str, depthFactor?, costLimit?) => {
     ) {
       if (depthLvl === 1) {
         costSum += 1;
-        console.log(costSum);
       } else {
-        // console.log(depthLvl);
-        console.log(costSum);
         costSum += 1 * depthLvl * depthFactor;
-        console.log(costSum);
       }
     } else if (split[i].includes('}')) {
       depthLvl -= 1;
@@ -73,20 +39,18 @@ export const calcCost = (str, depthFactor?, costLimit?) => {
       let currIndex = split[i].indexOf('.');
       fragName = split[i].slice(currIndex + 3);
 
-      console.log(depthLvl);
-
+      // helper function to calculate the cost of the fragment
       const calcFragCost = (fragNameStr) => {
         let fragSum = 0;
         let fragDepthLvl = depthLvl;
 
-        console.log(fragDepthLvl);
-
+        //loop throught the fragsArr, and and find the frag that matches the current fragment
         for (let i = 0; i < fragsArr.length; i++) {
           if (fragsArr[i].includes(fragNameStr)) {
-            // fragCosts[fragNameStr] =
-            console.log(fragsArr[i]);
+        
             const current = fragsArr[i].split('\n');
-            console.log(current);
+
+            //loop through current fragment, and calculate the cost the current fragment
             for (let i = 1; i < current.length - 1; i++) {
               console.log(current[i]);
               if (current[i].includes('{')) {
@@ -96,28 +60,24 @@ export const calcCost = (str, depthFactor?, costLimit?) => {
               } else if (
                 !current[i].includes('{') &&
                 !current[i].includes('}') &&
+                // includes any char other than white space
                 current[i].trim().length !== 0
               ) {
                 if (current[i] === ' ') return;
-                console.log(`fragSum`, fragSum, `fragDepthLvl`, fragDepthLvl);
+                // calculate the sum of the current fragment
                 fragSum += fragDepthLvl * depthFactor;
-                console.log(fragSum);
+
               }
             }
           }
         }
-        console.log(fragSum);
+        // add the sum of current fragment to the total cost 
         costSum += fragSum;
-        console.log(costSum);
       };
       calcFragCost(fragName);
-
-      // console.log(fragSum);
-      // console.log(depthLvl);
-      console.log(fragName);
     }
   }
-  console.log(costSum);
+  // if sum of the total cost is smaller than the costLimit, return true. if not, return false
   costSum < costLimit ? (withinLimit = true) : (withinLimit = false);
   return { costSum: costSum, withinLimit: withinLimit }
 };

@@ -2,13 +2,13 @@ import { Company, Job, Ceo, User, Car, CarType } from "./db.js";
 
 export const resolvers = {
   Query: {
-    job: (root, { id }) => {
+    job: ({ id }) => {
       return Job.findById(id);
     },
     jobs: async () => {
       return Job.findAll();
     },
-    company: (root, { id }) => {
+    company: ({ id }) => {
       return Company.findById(id);
     },
     

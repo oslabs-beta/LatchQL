@@ -1,8 +1,4 @@
-// import puppeteer from 'puppeteer';
 const puppeteer = require("puppeteer");
-
-// import { describe, it, expect, beforeAll, afterAll } from '@jest/globals';
-// import { editor } from "monaco-editor/esm/vs/editor/editor.api";
 
 const APP = 'http://localhost:8081/';
 
@@ -15,7 +11,6 @@ describe("Front-end Integration", () => {
         })
         page = await browser.newPage()
     })
-
     afterAll(() => {
         browser.close()
     })

@@ -1,17 +1,15 @@
 import React from "react";
 import "../styles/limiters.css";
-import { LimitsObj, PresetType } from "./Mainframe";
+import { LimitsObj } from "./Mainframe";
 import PresetDropdown from "./PresetDropdown";
 
 type LimitersProps = {
-  // limits: AuthorizationType;
   limits: LimitsObj;
   displayLimits: (authLvl: string) => void;
   allPresets: string[]
 };
 
 function Limiters(props: LimitersProps) {
-  // console.log(props.limits.Admin.depthLimit);
   return (
     <div className="limiters">
       <PresetDropdown

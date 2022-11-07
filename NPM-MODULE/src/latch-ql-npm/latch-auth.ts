@@ -1,15 +1,12 @@
-import cors from "cors";
-import express, { NextFunction, Request, Response } from "express";
-import { expressjwt } from "express-jwt";
-import jwt, { Secret } from "jsonwebtoken";
-import { updateShorthandPropertyAssignment } from "typescript";
+import { NextFunction, Request, Response } from "express";
+import jwt from "jsonwebtoken";
 import * as dotenv from 'dotenv';
 
 dotenv.config();
 let key: string;
+//read secret KEY from .env file -- if not set-up, default to a generic key
 if(process.env.SECRET_KEY)  key = process.env.SECRET_KEY;
 else key = "GENERICKEY";
-
 
 type locals = {
     authLevel?: string,
@@ -24,7 +21,11 @@ type jwtController = {
     setJwt: (req: Request, res: authRes, next: NextFunction) => any,
 }
 
-
+//middleware to be setup in dev user's authentication process:
+    /*
+        dev user will pass in the user's auth level and username to the jwt contorller through 
+        the res.locals element so that an authenticating jwt can be set on the user
+    */
 export const jwtController: jwtController = {
     setJwt : (req: Request, res: authRes, next: NextFunction) => {
         if(!res.locals.authLevel || !res.locals.userName){
@@ -32,11 +33,8 @@ export const jwtController: jwtController = {
         }
         let authLevel: string = res.locals.authLevel;
         let userName: string = res.locals.userName;
-        console.log("Hello from inside jwtController");
-        console.log(authLevel, userName);
         const payload = {userName: userName, authLevel: authLevel};
         const token: string= jwt.sign(payload, key, {expiresIn: "5d"});
-        console.log(token);
         return res.json({token});
     }
 };

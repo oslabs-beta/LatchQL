@@ -1,17 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 import Limiters from "./Limiters";
 import Request from "./Request";
 import "../styles/query.css";
-import { LimitsObj, PresetType } from "./Mainframe";
+import { LimitsObj } from "./Mainframe";
 
 type QueryProps = {
   queryHandler: (query: string) => string;
-  limits: LimitsObj;
-  sendQuery: () => void;
   variableHandler: (vars: string) => void;
   displayLimits: (authLvl: string) => void;
-  allPresets: string[];
+  sendQuery: () => void;
   previewsHandler: () => void;
+  allPresets: string[];
+  limits: LimitsObj;
   depthPreview: number;
   costPreview: number;
 };

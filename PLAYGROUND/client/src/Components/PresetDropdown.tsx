@@ -1,4 +1,4 @@
-import React, { useState, MouseEvent, useEffect } from "react";
+import React, { useState } from "react";
 import dropdown from "../assets/dropdown.png";
 import "../styles/presetdropdown.css";
 

@@ -12,10 +12,6 @@
   border-radius: 10px;
 }
 
-/* #req-var {
-  margin-top: 10px;
-} */
-
 .request span {
   font-size: 1.1rem;
   background-color: #16222f;
@@ -28,11 +24,6 @@
   background: #16222f;
 }
 
-/* .button {
-  background-color: #16222f;
-  border-radius: 10px;
-  
-} */
 
 .jj button {
   display: inline-block;

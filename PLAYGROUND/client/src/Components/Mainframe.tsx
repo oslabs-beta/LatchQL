@@ -1,3 +1,5 @@
+/* Main Container Component */
+
 import React, { useEffect, useState } from "react";
 import "../styles/mainframe.css";
 import Query from "./Query";
@@ -52,7 +54,6 @@ function Mainframe() {
         return res.json();
       })
       .then((data) => {
-        // console.log("data from frontend", data);
         setResponse(JSON.stringify(data, null, 4));
         getMetrics();
       })
@@ -78,7 +79,6 @@ function Mainframe() {
   };
 
   const previewsHandler = () => {
-    console.log("queryPreview:", query);
     fetch("http://localhost:2222/previews", {
       method: "POST",
       body: JSON.stringify({
