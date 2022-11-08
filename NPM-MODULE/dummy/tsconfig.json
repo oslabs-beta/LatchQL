@@ -6,16 +6,18 @@
     "esModuleInterop": true,
     "declaration": true,
     "skipLibCheck": true,
-    "outDir": "./lib",
+    //"outDir": "./lib",
     "strict": true,
     "noImplicitAny": false,
     "moduleResolution": "node",
     "sourceMap": true,
+    "baseUrl" : "dummy",
     "paths": {
-      "*": ["/node_modules/*"]
+      "*": ["/node_modules/*"],
+      "test-db/*" : ["test-db/*"]
     },
     "forceConsistentCasingInFileNames": true,
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "server.ts", "test-db"],
   "exclude": ["node_modules"]
 }

@@ -17,13 +17,11 @@ import * as dotenv from "dotenv";
 import process from "process";
 import redis from "redis";
 
-import findConfig from 'find-config';
-// import { jwtController } from "./latch-auth.js";
+import findNearestFile from 'find-nearest-file';
 
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { isStringLiteral } from "typescript";
-// import * as dotenv from 'dotenv';
 
 
 dotenv.config();
@@ -50,36 +48,36 @@ type jwtController = {
         dev user will pass in the user's auth level and username to the jwt contorller through 
         the res.locals element so that an authenticating jwt can be set on the user
     */
-// const jwtController: jwtController = {
-//     setJwt : (req: Request, res: authRes, next: NextFunction) => {
-//         if(!res.locals.authLevel || !res.locals.userName){
-//             return next();
-//         }
-//         let authLevel: string = res.locals.authLevel;
-//         let userName: string = res.locals.userName;
-//         const payload = {userName: userName, authLevel: authLevel};
-//         const token: string= jwt.sign(payload, key, {expiresIn: "5d"});
-//         return res.json({token});
-//     }
-// };
+const jwtController: jwtController = {
+    setJwt : (req: Request, res: authRes, next: NextFunction) => {
+        if(!res.locals.authLevel || !res.locals.userName){
+            return next();
+        }
+        let authLevel: string = res.locals.authLevel;
+        let userName: string = res.locals.userName;
+        const payload = {userName: userName, authLevel: authLevel};
+        const token: string= jwt.sign(payload, key, {expiresIn: "5d"});
+        return res.json({token});
+    }
+};
 
-class JwtController {
-  public setJwt : (req: Request, res: authRes, next: NextFunction) => any;
-  constructor(){
-    this.setJwt = (req: Request, res: authRes, next: NextFunction) => {
-              if(!res.locals.authLevel || !res.locals.userName){
-                  return next();
-              }
-              let authLevel: string = res.locals.authLevel;
-              let userName: string = res.locals.userName;
-              const payload = {userName: userName, authLevel: authLevel};
-              const token: string= jwt.sign(payload, key, {expiresIn: "5d"});
-              return res.json({token});
-          }
-  }
-}
+// class JwtController {
+//   public setJwt : (req: Request, res: authRes, next: NextFunction) => any;
+//   constructor(){
+//     this.setJwt = (req: Request, res: authRes, next: NextFunction) => {
+//               if(!res.locals.authLevel || !res.locals.userName){
+//                   return next();
+//               }
+//               let authLevel: string = res.locals.authLevel;
+//               let userName: string = res.locals.userName;
+//               const payload = {userName: userName, authLevel: authLevel};
+//               const token: string= jwt.sign(payload, key, {expiresIn: "5d"});
+//               return res.json({token});
+//           }
+//   }
+// }
 
-export {JwtController};
+export {jwtController};
 
 class LatchQL {
   public typeDefs: string;
@@ -134,9 +132,9 @@ class LatchQL {
           }
         });
       }
-      const configPath = findConfig('latch-config.json');
+      const configPath = findNearestFile('latch_config.json');
       console.log(configPath)
-      const authLimits = await readFile("./latch_config.json", "utf8");
+      const authLimits = await readFile(configPath, "utf8");
       const parsedLimits = JSON.parse(authLimits);
 
       const maxDepth = parseInt(parsedLimits[authLevel].depthLimit);
@@ -228,7 +226,9 @@ class LatchQL {
     //set up an endpoint for the playground to retrieve the config file
     app.get("/latchql", (req: any, res: any) => {
       res.header("Access-Control-Allow-Origin", "*");
-      readFile("./latch_config.json", "utf-8")
+      const configPath = findNearestFile('latch_config.json');
+      console.log(configPath);
+      readFile(configPath, "utf-8")
         .then((data) => {
           res.status(200).send(data);
         })
