@@ -1,9 +1,7 @@
 import express from "express";
 import proxy from "express-http-proxy";
-import jwt from "jsonwebtoken";
 
 import { readFile } from "fs/promises";
-import { resolvers } from "../../test-db/resolvers.js";
 import { GraphQLError, GraphQLSchema } from "graphql";
 
 import { makeExecutableSchema } from "@graphql-tools/schema";
@@ -19,9 +17,55 @@ import * as dotenv from "dotenv";
 import process from "process";
 import redis from "redis";
 
-export default class LatchQL {
+import findNearestFile from 'find-nearest-file';
+
+import { NextFunction, Request, Response } from "express";
+import jwt from "jsonwebtoken";
+import { isStringLiteral } from "typescript";
+
+
+dotenv.config();
+let key: string;
+//read secret KEY from .env file -- if not set-up, default to a generic key
+if(process.env.SECRET_KEY)  key = process.env.SECRET_KEY;
+else key = "GENERICKEY";
+
+type locals = {
+    authLevel?: string,
+    userName?: string
+}
+
+interface authRes extends Response {
+    locals : locals,
+}
+
+type jwtController = {
+    setJwt: (req: Request, res: authRes, next: NextFunction) => any,
+}
+
+//middleware to be setup in dev user's authentication process:
+    /*
+        dev user will pass in the user's auth level and username to the jwt contorller through 
+        the res.locals element so that an authenticating jwt can be set on the user
+    */
+const jwtController: jwtController = {
+    setJwt : (req: Request, res: authRes, next: NextFunction) => {
+        if(!res.locals.authLevel || !res.locals.userName){
+            return next();
+        }
+        let authLevel: string = res.locals.authLevel;
+        let userName: string = res.locals.userName;
+        const payload = {userName: userName, authLevel: authLevel};
+        const token: string= jwt.sign(payload, key, {expiresIn: "5d"});
+        return res.json({token});
+    }
+};
+
+export {jwtController};
+
+class LatchQL {
   public typeDefs: string;
-  public resolvers: {};
+  public resolvers: any
   private schema: GraphQLSchema;
   private schemaWithMiddleWare: any;
   constructor(types: string, resolvers: {}) {
@@ -32,7 +76,7 @@ export default class LatchQL {
   }
   //use passed in typeDefs to create schema
   createSchema() {
-    const schema = makeExecutableSchema({ typeDefs: this.typeDefs, resolvers });
+    const schema = makeExecutableSchema({ typeDefs: this.typeDefs, resolvers: this.resolvers });
     return schema;
   }
   addMiddleWare() {
@@ -72,7 +116,9 @@ export default class LatchQL {
           }
         });
       }
-      const authLimits = await readFile("./latch_config.json", "utf8");
+      const configPath = findNearestFile('latch_config.json');
+      console.log(configPath)
+      const authLimits = await readFile(configPath, "utf8");
       const parsedLimits = JSON.parse(authLimits);
 
       const maxDepth = parseInt(parsedLimits[authLevel].depthLimit);
@@ -164,7 +210,9 @@ export default class LatchQL {
     //set up an endpoint for the playground to retrieve the config file
     app.get("/latchql", (req: any, res: any) => {
       res.header("Access-Control-Allow-Origin", "*");
-      readFile("./latch_config.json", "utf-8")
+      const configPath = findNearestFile('latch_config.json');
+      console.log(configPath);
+      readFile(configPath, "utf-8")
         .then((data) => {
           res.status(200).send(data);
         })
@@ -173,7 +221,7 @@ export default class LatchQL {
           res.status(500).send(err);
         });
     });
-    //endpoint for playground to retrienve metrics
+    //endpoint for playground to retrieve metrics
     app.get("/metrics", async (req: any, res: any) => {
       try {
         const redisClient = redis.createClient();
@@ -215,3 +263,10 @@ export default class LatchQL {
     });
   }
 }
+
+export {LatchQL};
+
+// export default {jwtController, LatchQL};
+// module.exports = {
+//   JwtController, LatchQL
+// }
