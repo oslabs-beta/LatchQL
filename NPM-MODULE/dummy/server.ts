@@ -1,14 +1,8 @@
 import cors from "cors";
 import express from "express";
 import { readFile } from "fs/promises";
-import path from 'path';
-
-//const resolvePath: string = path.resolve(__dirname, "./test-db/resolvers.js")
 import { resolvers } from "./test-db/resolvers.js";
-// import { resolvers } from "./../test-db/resolvers.js";
-// import {JwtController} from "latchql";
 import {LatchQL, jwtController} from 'latchql';
-
 
 
 const app = express();
@@ -23,15 +17,7 @@ function authSet(req, res, next) {
   next();
 }
 
-console.log(LatchQL);
-// console.log(JwtController);
-
 // test route for jwtController
-// const jwts = new JwtController();
-// app.post("/login", authSet, jwts.setJwt, (req, res) => {
-//   return res.status(200).send("YES RESPONSE");
-// });
-
 app.post("/login", authSet, jwtController.setJwt, (req, res) => {
   return res.status(200).send("YES RESPONSE");
 });

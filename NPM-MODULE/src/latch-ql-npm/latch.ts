@@ -61,22 +61,6 @@ const jwtController: jwtController = {
     }
 };
 
-// class JwtController {
-//   public setJwt : (req: Request, res: authRes, next: NextFunction) => any;
-//   constructor(){
-//     this.setJwt = (req: Request, res: authRes, next: NextFunction) => {
-//               if(!res.locals.authLevel || !res.locals.userName){
-//                   return next();
-//               }
-//               let authLevel: string = res.locals.authLevel;
-//               let userName: string = res.locals.userName;
-//               const payload = {userName: userName, authLevel: authLevel};
-//               const token: string= jwt.sign(payload, key, {expiresIn: "5d"});
-//               return res.json({token});
-//           }
-//   }
-// }
-
 export {jwtController};
 
 class LatchQL {
