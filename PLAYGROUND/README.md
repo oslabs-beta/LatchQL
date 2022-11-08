@@ -22,8 +22,9 @@ The LatchQL Playground is an optional, built-in playground for testing your Grap
 3. Depth Limiter
 
 4. Cost Limiter
-    ![Cost Limiter](/Users/celine/Desktop/LatchQL/PLAYGROUND/client/src/assets/costLimitor.gif)
-    ![Cost Limiter](./client/src/assets/costLimitor.gif)
+   <!-- ![Cost Limiter](/Users/celine/Desktop/LatchQL/PLAYGROUND/client/src/assets/costLimitor.gif) -->
+
+   ![Cost Limiter](./client/src/assets/costLimitor.gif)
 
 5. Rate Limiter
 
