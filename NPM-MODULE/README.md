@@ -106,20 +106,20 @@ latch.startLatch(app, port);
 
 ## In your server file...
 
-Import your GraphQL Schema and Resolver Functions to pass into startLatch.
+Import your GraphQL Schema and Resolver Functions to pass into startLatch
 
 ```js
 import { resolvers } from './test-db/resolvers.js';
 const typeDefs = await readFile('./schema.graphql', 'utf-8');
 ```
 
-Import LatchQL and jwtController from latchql.
+Import LatchQL and jwtController from latchql
 
 ```js
 import { LatchQL, jwtController } from 'latchql';
 ```
 
-Implment jwtController.setJwt middleware to running express endpoint.
+Implment jwtController.setJwt middleware to running express endpoint
 
 ```js
 app.post('/login', authSet, jwtController.setJwt, (req, res) => {
@@ -127,12 +127,12 @@ app.post('/login', authSet, jwtController.setJwt, (req, res) => {
 });
 ```
 
-Create a new instance of LatchQL passing in your schema and resolvers.
+Create a new instance of LatchQL passing in your schema and resolvers
 ```js
 let latch = new LatchQL(typeDefs, resolvers);
 ```
 
-Lastly, invoke startLatch passing in your express server and port to access endpoints. 
+Lastly, invoke startLatch passing in your express server and port to access endpoints
 ```js
 latch.startLatch(app, port);
 ```

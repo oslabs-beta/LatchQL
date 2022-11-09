@@ -1,3 +1,5 @@
+![Preview](./client/src/assets/finallogo.png)
+
 # LatchQL Playground
 
 The LatchQL Playground is an optional, built-in playground for testing your GraphQL endpoint.

@@ -1,3 +1,5 @@
+![Preview](./PLAYGROUND/client/src/assets/finallogo.png)
+
 # LatchQL NPM Package and Playground
 
 # LatchQL NPM Package
@@ -111,18 +113,18 @@ The LatchQL Playground is an optional, built-in playground for testing your Grap
 # How to use LatchQL Playground
 
 1. Select the right permission level
-    ![Permission Level](./client/src/assets/user-permission-example-2xSpeed.gif)
+    ![Permission Level](./PLAYGROUND/client/src/assets/user-permission-example-2xSpeed.gif)
 
 2. Preview Cost/Depth of the current query
-    ![Preview](./client/src/assets/cost-preview-example_AdobeExpress.gif)
+    ![Preview](./PLAYGROUND/client/src/assets/cost-preview-example_AdobeExpress.gif)
 
 3. Depth Limiter
-    ![Depth Limiter](./client/src/assets/depth-limitor.gif)
+    ![Depth Limiter](./PLAYGROUND/client/src/assets/depth-limitor.gif)
 
 4. Cost Limiter
    <!-- ![Cost Limiter](/Users/celine/Desktop/LatchQL/PLAYGROUND/client/src/assets/costLimitor.gif) -->
 
-   ![Cost Limiter](./client/src/assets/cost-limitor-example-2xSpeed.gif)
+   ![Cost Limiter](./PLAYGROUND/client/src/assets/cost-limitor-example-2xSpeed.gif)
 
 5. Rate Limiter
-   ![Rate Limiter](./client/src/assets/rate-limitor-example-2xSpeed.gif)
+   ![Rate Limiter](./PLAYGROUND/client/src/assets/rate-limitor-example-2xSpeed.gif)
