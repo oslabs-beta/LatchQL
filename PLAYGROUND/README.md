@@ -63,7 +63,7 @@ If you would like to contribute in improving the functionality of LatchQL, pleas
 
 ## To Learn More
 
-Visit the [LatchQL Website](https://github.com/reykeem)
+Visit the [LatchQL Website](https://github.com/reykeem)   
 Read the [LatchQL Medium article](https://github.com/reykeem)
 
 ### License

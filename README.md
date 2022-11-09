@@ -67,6 +67,81 @@ and then repeat step 4.
 
 <br>
 
+# Implementation
+
+## Sample Usage
+
+```js
+import cors from 'cors';
+import express from 'express';
+import { readFile } from 'fs/promises';
+import { resolvers } from './test-db/resolvers.js';
+import { LatchQL, jwtController } from 'latchql';
+
+const app = express();
+const port = 8080; // default port to listen
+app.use(cors());
+app.use(express.json());
+
+//helper middleware function for testing JwtController
+function authSet(req, res, next) {
+  res.locals.authLevel = 'user';
+  res.locals.userName = 'Ray';
+  next();
+}
+
+// test route for jwtController
+app.post('/login', authSet, jwtController.setJwt, (req, res) => {
+  return res.status(200).send('YES RESPONSE');
+});
+
+const typeDefs = await readFile('./schema.graphql', 'utf-8');
+let latch = new LatchQL(typeDefs, resolvers);
+
+// start the Express server
+app.listen(port, () => {
+  console.log(`server started at http://localhost:${port}`);
+  console.log(`GraphQL endpoint: http://localhost:${port}/graphql`);
+});
+
+latch.startLatch(app, port);
+```
+
+## In your server file...
+
+Import your GraphQL Schema and Resolver Functions to pass into startLatch
+
+```js
+import { resolvers } from './test-db/resolvers.js';
+const typeDefs = await readFile('./schema.graphql', 'utf-8');
+```
+
+Import LatchQL and jwtController from latchql
+
+```js
+import { LatchQL, jwtController } from 'latchql';
+```
+
+Implment jwtController.setJwt middleware to running express endpoint
+
+```js
+app.post('/login', authSet, jwtController.setJwt, (req, res) => {
+  return res.status(200).send('YES RESPONSE');
+});
+```
+
+Create a new instance of LatchQL passing in your schema and resolvers
+```js
+let latch = new LatchQL(typeDefs, resolvers);
+```
+
+Lastly, invoke startLatch passing in your express server and port to access endpoints
+```js
+latch.startLatch(app, port);
+```
+
+<br>
+
 # Why do I need GraphQL limiters?
 
 ## Cost limiting
@@ -128,3 +203,30 @@ The LatchQL Playground is an optional, built-in playground for testing your Grap
 
 5. Rate Limiter
    ![Rate Limiter](./PLAYGROUND/client/src/assets/rate-limitor-example-2xSpeed.gif)
+
+# Authors
+
+Alex McPhail: [GitHub](https://github.com/mcphail-alex) ｜ [LinkedIn](https://www.linkedin.com/in/mcphail-alex/)  
+Celine Leung: [GitHub](https://github.com/ccelineleung) ｜ [LinkedIn](https://www.linkedin.com/in/celineleung412/)  
+Hannah Bernstein: [GitHub](https://github.com/hbernie) ｜ [LinkedIn](https://www.linkedin.com/in/bernstein-hannah/)  
+Johnjered Tolentino: [GitHub](https://github.com/Johnjeredivant) | [LinkedIn](https://www.linkedin.com/in/johnjered-tolentino/)  
+Raymond Kim: [GitHub](https://github.com/reykeem) | [LinkedIn](https://www.linkedin.com/in/raymondhkim/)
+
+# How to Contribute
+
+If you would like to contribute in improving the functionality of LatchQL, please submit your ideas and/or bug fixes to our team by forking the repo and submitting your changes via a pull request.
+
+## Iteration Opportunities
+
+1. Storing history GraphQL queries
+2. Editing user's permission level on GUI
+3. Calculating cost and depth of query mutations
+
+## To Learn More
+
+Visit the [LatchQL Website](https://github.com/reykeem)   
+Read the [LatchQL Medium article](https://github.com/reykeem)
+
+### License
+
+Distributed under the MIT License. See [LICENSE](https://github.com/oslabs-beta/LatchQL/blob/main/LICENSE.md) for more information.
