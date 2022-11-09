@@ -1,4 +1,4 @@
-![Preview](./client/src/assets/finallogo.png)
+![Preview](.././PLAYGROUND/client/src/assets/finallogo.png)
 
 # LatchQL
 
@@ -17,16 +17,20 @@ In your terminal:
 
 1. Install LatchQL
 
-`npm install latchql`
+```console
+npm install latchql
+```
 
 2. Install its dependencies
 
-`npm install`
+```console
+npm install
+```
 
 3. Create a configuration file called `latch_config.json` to assign and store your limiter presets.  
    Example:
 
-```
+```json
 {
   "Admin": {
     "depthLimit": "100",
@@ -42,29 +46,34 @@ In your terminal:
     "depthLimit": "0",
     "rateLimit": "0",
     "costLimit": "0"
-  },
+  }
 }
 ```
 
 4. Run redis server
 
-`redis-server`
+```console
+redis-server`
+```
 
 - If you get an error on step 3, you may be running an instance of redis somewhere. To stop it:
 
-`killall redis-server`
+```console
+killall redis-server
+```
+
 and then repeat step 4.
 
 # Implementation
 
 ## Sample Usage
-```
-import cors from "cors";
-import express from "express";
-import { readFile } from "fs/promises";
-import { resolvers } from "./test-db/resolvers.js";
-import {LatchQL, jwtController} from 'latchql';
 
+```js
+import cors from 'cors';
+import express from 'express';
+import { readFile } from 'fs/promises';
+import { resolvers } from './test-db/resolvers.js';
+import { LatchQL, jwtController } from 'latchql';
 
 const app = express();
 const port = 8080; // default port to listen
@@ -73,17 +82,17 @@ app.use(express.json());
 
 //helper middleware function for testing JwtController
 function authSet(req, res, next) {
-  res.locals.authLevel = "user";
-  res.locals.userName = "Ray";
+  res.locals.authLevel = 'user';
+  res.locals.userName = 'Ray';
   next();
 }
 
 // test route for jwtController
-app.post("/login", authSet, jwtController.setJwt, (req, res) => {
-  return res.status(200).send("YES RESPONSE");
+app.post('/login', authSet, jwtController.setJwt, (req, res) => {
+  return res.status(200).send('YES RESPONSE');
 });
 
-const typeDefs = await readFile("./schema.graphql", "utf-8");
+const typeDefs = await readFile('./schema.graphql', 'utf-8');
 let latch = new LatchQL(typeDefs, resolvers);
 
 // start the Express server
@@ -97,7 +106,36 @@ latch.startLatch(app, port);
 
 ## In your server file...
 
-- Import 
+- Import your GraphQL Schema and Resolver Functions to pass into startLatch.
+
+```js
+import { resolvers } from './test-db/resolvers.js';
+const typeDefs = await readFile('./schema.graphql', 'utf-8');
+```
+
+- Import LatchQL and jwtController from latchql.
+
+```js
+import { LatchQL, jwtController } from 'latchql';
+```
+
+- Implment jwtController.setJwt middleware to running express endpoint.
+
+```js
+app.post('/login', authSet, jwtController.setJwt, (req, res) => {
+  return res.status(200).send('YES RESPONSE');
+});
+```
+
+- Create a new instance of LatchQL passing in your schema and resolvers.
+```js
+let latch = new LatchQL(typeDefs, resolvers);
+```
+
+- Lastly, invoke startLatch passing in your express server and port to access endpoints. 
+```js
+latch.startLatch(app, port);
+```
 
 <br>
 

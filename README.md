@@ -17,16 +17,19 @@ In your terminal:
 
 1. Install LatchQL
 
-`npm install LatchQL`
+```console
+npm install LatchQL
+```
 
 2. Install its dependencies
 
-`npm install`
+```console
+npm install`
 
 3. Create a configuration file called `latch_config.json` to assign and store your limiters.  
    Example:
 
-```
+```json
 {
   "Admin": {
     "depthLimit": "100",
@@ -48,11 +51,15 @@ In your terminal:
 
 4. Run redis server
 
-`redis-server`
+```console
+redis-server
+```
 
 - If you get an error on step 3, you may be running an instance of redis somewhere. To stop it:
 
-`killall redis-server`
+```console
+killall redis-server
+```
 and then repeat step 4.
 
 <br>
@@ -99,14 +106,18 @@ The LatchQL Playground is an optional, built-in playground for testing your Grap
 # How to use LatchQL Playground
 
 1. Select the right permission level
+    ![Permission Level](./client/src/assets/user-permission-example-2xSpeed.gif)
 
 2. Preview Cost/Depth of the current query
+    ![Preview](./client/src/assets/cost-preview-example_AdobeExpress.gif)
 
 3. Depth Limiter
+    ![Depth Limiter](./client/src/assets/depth-limitor.gif)
 
 4. Cost Limiter
    <!-- ![Cost Limiter](/Users/celine/Desktop/LatchQL/PLAYGROUND/client/src/assets/costLimitor.gif) -->
 
-   ![](./client/src/assets/costLimitor.gif)
+   ![Cost Limiter](./client/src/assets/cost-limitor-example-2xSpeed.gif)
 
 5. Rate Limiter
+   ![Rate Limiter](./client/src/assets/rate-limitor-example-2xSpeed.gif)
