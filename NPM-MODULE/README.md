@@ -106,9 +106,7 @@ Import LatchQL and jwtController from latchql
 import { LatchQL, jwtController } from 'latchql';
 ```
 
-Implment jwtController.setJwt middleware in your authentication step.  You will 
-need to pass the username and the selected authorization level of a given user to
-the jwtController.setJwt middleware via res.locals.username and res.locals.authLevel
+Implment jwtController.setJwt middleware in your authentication step. You will need to pass the username and the selected authorization level of a given user to the jwtController.setJwt middleware via res.locals.username and res.locals.authLevel
 
 ```js
 app.post('/login', authSet, jwtController.setJwt, (req, res) => {
@@ -121,7 +119,7 @@ Create a new instance of LatchQL passing in your schema and resolvers
 let latch = new LatchQL(typeDefs, resolvers);
 ```
 
-Lastly, invoke startLatch passing in your express server and its port to access endpoints
+Lastly, invoke startLatch passing in your express server and port to access endpoints
 ```js
 latch.startLatch(app, port);
 ```
