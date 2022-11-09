@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "target": "es2017",
+    "module": "CommonJS",
+    "outDir": "./lib2",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "jsx": "react",
+    "sourceMap": true,
+    "typeRoots": ["node_modules/@types", "src/types"],
+    "types":["puppeteer", "jest-environment-puppeteer"],
+    "allowJs": true
+  },
+  "include": ["client", "server"],
+  "exclude": ["node_modules", "**/__tests__/*"]
+}

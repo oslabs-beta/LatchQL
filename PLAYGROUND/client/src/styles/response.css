@@ -1,0 +1,17 @@
+.response {
+  background-color: #16222f;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  width: 47%;
+  height: 97%;
+  margin-right: 40px;
+}
+
+
+.response span {
+  font-size: 1.1rem;
+  background-color: #16222f;
+  border-radius: 10px;
+}

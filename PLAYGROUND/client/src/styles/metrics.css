@@ -1,0 +1,20 @@
+.metrics {
+  background: #16222f;
+  border-radius: 10px;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 40px;
+}
+
+.metric {
+  background: #16222f;
+  border-radius: 10px;
+  padding: 35px;
+  width: 200px;
+  border: 1px white solid;
+}
+
+.metric-span {
+  background-color: #16222f;
+}

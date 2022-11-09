@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "es2017",
+    "types":["node", "jest"],
+    "module": "ES2022",
+    "esModuleInterop": true,
+    "declaration": true,
+    "skipLibCheck": true,
+    //"outDir": "./lib",
+    "strict": true,
+    "noImplicitAny": false,
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "baseUrl" : "dummy",
+    "paths": {
+      "*": ["/node_modules/*"],
+      "test-db/*" : ["test-db/*"]
+    },
+    "forceConsistentCasingInFileNames": true,
+  },
+  "include": ["src/**/*", "server.ts", "test-db"],
+  "exclude": ["node_modules"]
+}

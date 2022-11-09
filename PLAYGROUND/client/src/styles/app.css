@@ -1,0 +1,17 @@
+#logo {
+  width: 120px;
+}
+
+.top img {
+  background-color: transparent;
+}
+
+.app span {
+  font-size: 1rem;
+}
+
+.top {
+  margin: 0px 0px 0px 20px;
+  display: flex;
+  align-items: center;
+}

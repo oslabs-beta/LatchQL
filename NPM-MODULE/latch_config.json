@@ -1,0 +1,22 @@
+{
+  "Admin": {
+    "depthLimit": "100",
+    "rateLimit": "100",
+    "costLimit": "100"
+  },
+  "Gary": {
+    "depthLimit": "10",
+    "rateLimit": "25",
+    "costLimit": "10"
+  },
+  "Non-User": {
+    "depthLimit": "0",
+    "rateLimit": "0",
+    "costLimit": "0"
+  },
+  "Celine-Machine": {
+    "depthLimit": "999",
+    "rateLimit": "999",
+    "costLimit": "999"
+  }
+}
