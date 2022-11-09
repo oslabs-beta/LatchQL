@@ -39,13 +39,7 @@ In your terminal:
 npm install LatchQL
 ```
 
-2. Install its dependencies
-
-```console
-npm install
-```
-
-3. Create a configuration file called `latch_config.json` to assign and store your limiters.  
+2. Create a configuration file called `latch_config.json` in your project's root directory to assign and store your limiters.  
    Example:
 
 ```json
@@ -68,18 +62,18 @@ npm install
 }
 ```
 
-4. Run redis server
+3. Run redis server
 
 ```console
 redis-server
 ```
 
-- If you get an error on step 3, you may be running an instance of redis somewhere. To stop it:
+- If you get an error on step 2, you may be running an instance of redis somewhere. To stop it:
 
 ```console
 killall redis-server
 ```
-and then repeat step 4.
+and then repeat step 3.
 
 <br>
 
@@ -125,20 +119,13 @@ latch.startLatch(app, port);
 
 ## In your server file...
 
-Import your GraphQL Schema and Resolver Functions to pass into startLatch
-
-```js
-import { resolvers } from './test-db/resolvers.js';
-const typeDefs = await readFile('./schema.graphql', 'utf-8');
-```
-
 Import LatchQL and jwtController from latchql
 
 ```js
 import { LatchQL, jwtController } from 'latchql';
 ```
 
-Implment jwtController.setJwt middleware to running express endpoint
+Implment jwtController.setJwt middleware in your authentication step. You will need to pass the username and the selected authorization level of a given user to the jwtController.setJwt middleware via res.locals.username and res.locals.authLevel
 
 ```js
 app.post('/login', authSet, jwtController.setJwt, (req, res) => {
@@ -222,11 +209,11 @@ If you would like to contribute in improving the functionality of LatchQL, pleas
 2. Editing user's permission level on GUI
 3. Calculating cost and depth of query mutations
 
-## To Learn More
+# To Learn More
 
 Visit the [LatchQL Website](https://github.com/reykeem)
 Read the [LatchQL Medium article](https://github.com/reykeem)
 
-### License
+# License
 
 Distributed under the MIT License. See [LICENSE](https://github.com/oslabs-beta/LatchQL/blob/main/LICENSE.md) for more information.
