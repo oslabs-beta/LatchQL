@@ -230,31 +230,3 @@ Read the [LatchQL Medium article](https://github.com/reykeem)
 ### License
 
 Distributed under the MIT License. See [LICENSE](https://github.com/oslabs-beta/LatchQL/blob/main/LICENSE.md) for more information.
-
-
-# Authors
-
-Alex McPhail: [GitHub](https://github.com/mcphail-alex) ｜ [LinkedIn](https://www.linkedin.com/in/mcphail-alex/)  
-Celine Leung: [GitHub](https://github.com/ccelineleung) ｜ [LinkedIn](https://www.linkedin.com/in/celineleung412/)  
-Hannah Bernstein: [GitHub](https://github.com/hbernie) ｜ [LinkedIn](https://www.linkedin.com/in/bernstein-hannah/)  
-Johnjered Tolentino: [GitHub](https://github.com/Johnjeredivant) | [LinkedIn](https://www.linkedin.com/in/johnjered-tolentino/)  
-Raymond Kim: [GitHub](https://github.com/reykeem) | [LinkedIn](https://www.linkedin.com/in/raymondhkim/)
-
-# How to Contribute
-
-If you would like to contribute in improving the functionality of LatchQL, please submit your ideas and/or bug fixes to our team by forking the repo and submitting your changes via a pull request.
-
-## Iteration Opportunities
-
-1. Storing history GraphQL queries
-2. Editing user's permission level on GUI
-3. Calculating cost and depth of query mutations
-
-## To Learn More
-
-Visit the [LatchQL Website](https://github.com/reykeem)   
-Read the [LatchQL Medium article](https://github.com/reykeem)
-
-### License
-
-Distributed under the MIT License. See [LICENSE](https://github.com/oslabs-beta/LatchQL/blob/main/LICENSE.md) for more information.
