@@ -24,7 +24,8 @@ npm install LatchQL
 2. Install its dependencies
 
 ```console
-npm install`
+npm install
+```
 
 3. Create a configuration file called `latch_config.json` to assign and store your limiters.  
    Example:
@@ -97,10 +98,14 @@ The LatchQL Playground is an optional, built-in playground for testing your Grap
 2. Clone the playground.
 3. Install its dependencies:
 
-   `npm install --force`
+   ```console
+   npm install --force
+   ```
 4. Build the playground:
 
-   `npm run dev`
+   ```console
+   npm run dev
+   ```
 
 
 # How to use LatchQL Playground
