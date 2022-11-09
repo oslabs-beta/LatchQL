@@ -47,7 +47,7 @@ npm install latchql
 3. Run redis server
 
 ```console
-redis-server`
+redis-server
 ```
 
 - If you get an error on step 3, you may be running an instance of redis somewhere. To stop it:
