@@ -53,7 +53,7 @@ In your terminal:
 - If you get an error on step 3, you may be running an instance of redis somewhere. To stop it:
 
 `killall redis-server`
-and then repeat step 3.
+and then repeat step 4.
 
 <br>
 
@@ -71,8 +71,12 @@ and then repeat step 3.
 
 **Rate limiting** is a strategy used for limiting network traffic and strain on the server. It's mainly used to prevent bot activity, brute force, DoS, DDoS, and web scraping attacks. By using the rate limiter, users are allocated a maximum of n operations for every fixed size 1-minute time window. Once the client has performed n operations, they must wait.
 
+<br>
 
 # LatchQL Playground
+
+The LatchQL Playground is an optional, built-in playground for testing your GraphQL endpoint.
+
 
 # Features
 

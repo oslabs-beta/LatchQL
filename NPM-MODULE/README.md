@@ -51,7 +51,7 @@ In your terminal:
 - If you get an error on step 3, you may be running an instance of redis somewhere. To stop it:
 
 `killall redis-server`
-and then repeat step 3.
+and then repeat step 4.
 
 <br>
 

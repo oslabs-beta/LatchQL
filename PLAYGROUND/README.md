@@ -10,8 +10,11 @@ The LatchQL Playground is an optional, built-in playground for testing your Grap
 
 # Getting Started
 
-1. Clone the playground.
-2. uhhhhh
+1. Install LatchQL npm package.
+2. Clone the playground.
+3. Install its dependencies
+   `npm install --force`
+4.
 
 # How to use LatchQL Playground
 
@@ -28,6 +31,7 @@ The LatchQL Playground is an optional, built-in playground for testing your Grap
    ![](./client/src/assets/costLimitor.gif)
 
 5. Rate Limiter
+   ![](./client/src/assets/75dab99d364d5802ee5afd7790eacd26df32b00e.gif)
 
 # Authors
 
