@@ -1,10 +1,10 @@
 {
   "name": "latchql",
-  "version": "1.0.1",
+  "version": "1.0.5",
   "description": "A one stop shop for securing a graphQL API with customizable secure authorization levels",
   "type": "module",
-  "main": "latch-ql-npm/latch.js",
-  "types": "latch-ql-npm/latch.d.ts",
+  "main": "nodeModule/latch.js",
+  "types": "nodeModule/latch.d.ts",
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "prestart": "npm run build",
@@ -18,7 +18,8 @@
     "url": "git+https://github.com/oslabs-beta/LatchQL.git"
   },
   "files": [
-    "lib/**/*"
+    "lib/**/*",
+    "nodeModule/**/*"
   ],
   "keywords": [
     "graphQL",

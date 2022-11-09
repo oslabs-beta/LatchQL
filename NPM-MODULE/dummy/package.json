@@ -63,7 +63,7 @@
     "express-jwt": "^7.7.5",
     "fakebase": "^0.3.0",
     "fs": "^0.0.1-security",
-    "latchql": "^1.0.1",
+    "latchql": "^1.0.5",
     "path": "^0.12.7",
     "process": "^0.11.10",
     "tslint": "^6.1.3",

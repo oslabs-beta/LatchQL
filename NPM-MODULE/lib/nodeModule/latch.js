@@ -6,9 +6,9 @@ import { makeExecutableSchema } from "@graphql-tools/schema";
 import { applyMiddleware } from "graphql-middleware";
 import { graphqlHTTP } from "express-graphql";
 // Import Limiters
-import { calcCost } from "../limiters/cost-limiter.js";
-import { depthLimit } from "../limiters/depth-limiter.js";
-import { rateLimiter } from "../limiters/rate-limiter.js";
+import { calcCost } from "./cost-limiter.js";
+import { depthLimit } from "./depth-limiter.js";
+import { rateLimiter } from "./rate-limiter.js";
 import * as dotenv from "dotenv";
 import process from "process";
 import redis from "redis";
@@ -197,3 +197,8 @@ class LatchQL {
     }
 }
 export { LatchQL };
+// export default {jwtController, LatchQL};
+// module.exports = {
+//   JwtController, LatchQL
+// }
+//# sourceMappingURL=latch.js.map
