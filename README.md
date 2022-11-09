@@ -6,7 +6,7 @@
 
 An open-source, free-to-use, lightweight middleware package that adds additional layers of security to authenticate/authorize and provide permissions for users to have different levels of access to a database through graphQL queries.
 
-## Features
+## Features 
 
 - Enables users to customize depth, cost, and rate limiting for all GraphQL queries sent to the server.
 - Authorize and customize limiting for admin, users, and non-user levels.
