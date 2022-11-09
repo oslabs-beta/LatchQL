@@ -12,26 +12,30 @@ The LatchQL Playground is an optional, built-in playground for testing your Grap
 
 1. Install LatchQL npm package.
 2. Clone the playground.
-3. Install its dependencies
-   `npm install --force`
-4.
+3. Install its dependencies:
+
+   ```npm install --force```
+
+4. Build the playground:
+
+   `npm run dev`
 
 # How to use LatchQL Playground
 
 1. Select the right permission level
+   ![Permission Level](./client/src/assets/user-permission-example-2xSpeed.gif)
 
 2. Preview Cost/Depth of the current query
-
+   ![Preview](./client/src/assets/cost-preview-example_AdobeExpress.gif)
+   
 3. Depth Limiter
-   ![](./client/src/assets/depth-limitor.gif)
+   ![Depth Limiter](./client/src/assets/depth-limitor.gif)
 
 4. Cost Limiter
-   <!-- ![Cost Limiter](/Users/celine/Desktop/LatchQL/PLAYGROUND/client/src/assets/costLimitor.gif) -->
-
-   ![](./client/src/assets/costLimitor.gif)
+   ![Cost Limiter](./client/src/assets/cost-limitor-example-2xSpeed.gif)
 
 5. Rate Limiter
-   ![](./client/src/assets/75dab99d364d5802ee5afd7790eacd26df32b00e.gif)
+   ![Rate Limiter](./client/src/assets/rate-limitor-example-2xSpeed.gif)
 
 # Authors
 
