@@ -6,7 +6,7 @@
     "esModuleInterop": true,
     "declaration": true,
     "skipLibCheck": true,
-    "outDir": "./lib",
+    "outDir": "./lib/nodeModule",
     "strict": true,
     "noImplicitAny": false,
     "moduleResolution": "node",
