@@ -168,6 +168,7 @@ latch.startLatch(app, port);
 ```
 
 <br>
+
 ## Don't have a server?
 
 Included in the NPM-MODULE directory is a dummy folder which includes an already built-out mock express server which you can use to test the LatchQL authentication and middleware package. Clone the repo, navigate to the dummy directory, install dependencies and run the command `npm start` to spin up the server.
@@ -237,6 +238,8 @@ If you would like to contribute in improving the functionality of LatchQL, pleas
 # To Learn More
 
 Visit the [LatchQL Website](https://www.latchql.io)
+<br>
+<br>
 Read the [LatchQL Medium article](https://www.linkedin.com/company/latchql/)
 
 # License

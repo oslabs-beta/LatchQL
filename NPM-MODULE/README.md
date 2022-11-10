@@ -185,6 +185,8 @@ If you would like to contribute in improving the functionality of LatchQL, pleas
 # To Learn More
 
 Visit the [LatchQL Website](https://www.latchql.io)
+<br>
+<br>
 Read the [LatchQL Medium article](https://www.linkedin.com/company/latchql/)
 
 # License
