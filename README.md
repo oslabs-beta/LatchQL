@@ -2,11 +2,11 @@
 
 # LatchQL NPM Package and Playground
 
-# __LatchQL NPM Package__
+# **LatchQL NPM Package**
 
 An open-source, free-to-use, lightweight middleware package that adds additional layers of security to authenticate/authorize and provide permissions for users to have different levels of access to a database through graphQL queries.
 
-## Features 
+## Features
 
 - Enables users to customize depth, cost, and rate limiting for all GraphQL queries sent to the server.
 - Authorize and customize limiting for admin, users, and non-user levels.
@@ -58,22 +58,44 @@ npm install LatchQL
     "depthLimit": "0",
     "rateLimit": "0",
     "costLimit": "0"
-  },
+  }
 }
 ```
 
-3. Run redis server
+3. Create a .env file and save SECRET_KEY as an environment variable. \*Note: if none is set, it will default to "GENERICKEY".
+
+```
+SECRET_KEY=MYSECRETKEY
+```
+
+4. Install redis globally on your machine
+
+   Using Homebrew package manager for Mac OS users:
+
+````console
+ brew update
+ brew install redis
+```On Windows:
+```console
+ sudo apt-add-repository ppa:redislabs/redis
+ sudo apt-get update
+ sudo apt-get upgrade
+ sudo apt-get install redis-server
+````
+
+5. Run redis server
 
 ```console
 redis-server
 ```
 
-- If you get an error on step 2, you may be running an instance of redis somewhere. To stop it:
+- If you get an error on step 4, you may be running an instance of redis somewhere. To stop it:
 
 ```console
 killall redis-server
 ```
-and then repeat step 3.
+
+and then repeat step 5.
 
 <br>
 
@@ -82,11 +104,11 @@ and then repeat step 3.
 ## Sample Usage
 
 ```js
-import cors from 'cors';
-import express from 'express';
-import { readFile } from 'fs/promises';
-import { resolvers } from './test-db/resolvers.js';
-import { LatchQL, jwtController } from 'latchql';
+import cors from "cors";
+import express from "express";
+import { readFile } from "fs/promises";
+import { resolvers } from "./test-db/resolvers.js";
+import { LatchQL, jwtController } from "latchql";
 
 const app = express();
 const port = 8080; // default port to listen
@@ -95,17 +117,17 @@ app.use(express.json());
 
 //helper middleware function for testing JwtController
 function authSet(req, res, next) {
-  res.locals.authLevel = 'user';
-  res.locals.userName = 'Ray';
+  res.locals.authLevel = "user";
+  res.locals.userName = "Ray";
   next();
 }
 
 // test route for jwtController
-app.post('/login', authSet, jwtController.setJwt, (req, res) => {
-  return res.status(200).send('YES RESPONSE');
+app.post("/login", authSet, jwtController.setJwt, (req, res) => {
+  return res.status(200).send("YES RESPONSE");
 });
 
-const typeDefs = await readFile('./schema.graphql', 'utf-8');
+const typeDefs = await readFile("./schema.graphql", "utf-8");
 let latch = new LatchQL(typeDefs, resolvers);
 
 // start the Express server
@@ -122,33 +144,39 @@ latch.startLatch(app, port);
 Import LatchQL and jwtController from latchql
 
 ```js
-import { LatchQL, jwtController } from 'latchql';
+import { LatchQL, jwtController } from "latchql";
 ```
 
 Implment jwtController.setJwt middleware in your authentication step. You will need to pass the username and the selected authorization level of a given user to the jwtController.setJwt middleware via res.locals.username and res.locals.authLevel
 
 ```js
-app.post('/login', authSet, jwtController.setJwt, (req, res) => {
-  return res.status(200).send('YES RESPONSE');
+app.post("/login", authSet, jwtController.setJwt, (req, res) => {
+  return res.status(200).send("YES RESPONSE");
 });
 ```
 
 Create a new instance of LatchQL passing in your schema and resolvers
+
 ```js
 let latch = new LatchQL(typeDefs, resolvers);
 ```
 
 Lastly, invoke startLatch passing in your express server and port to access endpoints
+
 ```js
 latch.startLatch(app, port);
 ```
 
 <br>
 
-# __LatchQL Playground__
+## Don't have a server?
+
+Included in the NPM-MODULE directory is a dummy folder which includes an already built-out mock express server which you can use to test the LatchQL authentication and middleware package. Clone the repo, navigate to the dummy directory, install dependencies and run the command `npm start` to spin up the server.
+<br>
+
+# **LatchQL Playground**
 
 The LatchQL Playground is an optional, built-in playground for testing your GraphQL endpoint.
-
 
 # Features
 
@@ -165,27 +193,25 @@ The LatchQL Playground is an optional, built-in playground for testing your Grap
    ```console
    npm install --force
    ```
+
 4. Build the playground:
 
    ```console
    npm run dev
    ```
 
-
 # How to use LatchQL Playground
 
 1. Select the right permission level
-    ![Permission Level](./PLAYGROUND/client/src/assets/user-permission-example-2xSpeed.gif)
+   ![Permission Level](./PLAYGROUND/client/src/assets/user-permission-example-2xSpeed.gif)
 
 2. Preview Cost/Depth of the current query
-    ![Preview](./PLAYGROUND/client/src/assets/cost-preview-example_AdobeExpress.gif)
+   ![Preview](./PLAYGROUND/client/src/assets/cost-preview-example_AdobeExpress.gif)
 
 3. Depth Limiter
-    ![Depth Limiter](./PLAYGROUND/client/src/assets/depth-limitor.gif)
+   ![Depth Limiter](./PLAYGROUND/client/src/assets/depth-limitor.gif)
 
 4. Cost Limiter
-   <!-- ![Cost Limiter](/Users/celine/Desktop/LatchQL/PLAYGROUND/client/src/assets/costLimitor.gif) -->
-
    ![Cost Limiter](./PLAYGROUND/client/src/assets/cost-limitor-example-2xSpeed.gif)
 
 5. Rate Limiter
@@ -211,8 +237,10 @@ If you would like to contribute in improving the functionality of LatchQL, pleas
 
 # To Learn More
 
-Visit the [LatchQL Website](https://github.com/reykeem)
-Read the [LatchQL Medium article](https://github.com/reykeem)
+Visit the [LatchQL Website](https://www.latchql.io)
+<br>
+<br>
+Read the [LatchQL Medium article](https://www.linkedin.com/company/latchql/)
 
 # License
 

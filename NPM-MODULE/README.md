@@ -44,30 +44,44 @@ npm install latchql
 }
 ```
 
-3. Run redis server
+3. Create a .env file and save SECRET_KEY as an environment variable. \*Note: if none is set, it will default to "GENERICKEY".
+
+```
+SECRET_KEY=MYSECRETKEY
+```
+
+4. Install redis with homebrew on macOS.
+
+- If you've already installed redis, skip this step.
+
+```console
+brew install redis
+```
+
+5. Run redis server
 
 ```console
 redis-server
 ```
 
-- If you get an error on step 3, you may be running an instance of redis somewhere. To stop it:
+- If you get an error on step 5, you may be running an instance of redis somewhere. To stop it:
 
 ```console
 killall redis-server
 ```
 
-and then repeat step 3.
+and then repeat step 5.
 
 # Implementation
 
 ## Sample Usage
 
 ```js
-import cors from 'cors';
-import express from 'express';
-import { readFile } from 'fs/promises';
-import { resolvers } from './test-db/resolvers.js';
-import { LatchQL, jwtController } from 'latchql';
+import cors from "cors";
+import express from "express";
+import { readFile } from "fs/promises";
+import { resolvers } from "./test-db/resolvers.js";
+import { LatchQL, jwtController } from "latchql";
 
 const app = express();
 const port = 8080; // default port to listen
@@ -76,17 +90,17 @@ app.use(express.json());
 
 //helper middleware function for testing JwtController
 function authSet(req, res, next) {
-  res.locals.authLevel = 'user';
-  res.locals.userName = 'Ray';
+  res.locals.authLevel = "user";
+  res.locals.userName = "Ray";
   next();
 }
 
 // test route for jwtController
-app.post('/login', authSet, jwtController.setJwt, (req, res) => {
-  return res.status(200).send('YES RESPONSE');
+app.post("/login", authSet, jwtController.setJwt, (req, res) => {
+  return res.status(200).send("YES RESPONSE");
 });
 
-const typeDefs = await readFile('./schema.graphql', 'utf-8');
+const typeDefs = await readFile("./schema.graphql", "utf-8");
 let latch = new LatchQL(typeDefs, resolvers);
 
 // start the Express server
@@ -103,26 +117,34 @@ latch.startLatch(app, port);
 Import LatchQL and jwtController from latchql
 
 ```js
-import { LatchQL, jwtController } from 'latchql';
+import { LatchQL, jwtController } from "latchql";
 ```
 
 Implment jwtController.setJwt middleware in your authentication step. You will need to pass the username and the selected authorization level of a given user to the jwtController.setJwt middleware via res.locals.username and res.locals.authLevel
 
 ```js
-app.post('/login', authSet, jwtController.setJwt, (req, res) => {
-  return res.status(200).send('YES RESPONSE');
+app.post("/login", authSet, jwtController.setJwt, (req, res) => {
+  return res.status(200).send("YES RESPONSE");
 });
 ```
 
 Create a new instance of LatchQL passing in your schema and resolvers
+
 ```js
 let latch = new LatchQL(typeDefs, resolvers);
 ```
 
 Lastly, invoke startLatch passing in your express server and port to access endpoints
+
 ```js
 latch.startLatch(app, port);
 ```
+
+<br>
+
+## Don't have a server?
+
+Included in the NPM-MODULE directory is a dummy folder which includes an already built-out mock express server which you can use to test the LatchQL authentication and middleware package. Clone the repo, navigate to the dummy directory, install dependencies and run the command `npm start` to spin up the server.
 
 <br>
 
@@ -162,8 +184,10 @@ If you would like to contribute in improving the functionality of LatchQL, pleas
 
 # To Learn More
 
-Visit the [LatchQL Website](https://github.com/reykeem)
-Read the [LatchQL Medium article](https://github.com/reykeem)
+Visit the [LatchQL Website](https://www.latchql.io)
+<br>
+<br>
+Read the [LatchQL Medium article](https://www.linkedin.com/company/latchql/)
 
 # License
 
