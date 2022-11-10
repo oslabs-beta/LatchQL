@@ -81,7 +81,7 @@ SECRET_KEY=MYSECRETKEY
 redis-server
 ```
 
-- If you get an error on step 4, you may be running an instance of redis somewhere. To stop it:
+- If you get an error on step 5, you may be running an instance of redis somewhere. To stop it:
 
 ```console
 killall redis-server
