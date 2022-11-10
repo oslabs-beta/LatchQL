@@ -46,7 +46,7 @@ npm install latchql
 
 3. Create a .env file and save SECRET_KEY as an environment variable. \*Note: if none is set, it will default to "GENERICKEY".
 
-```json
+```
 SECRET_KEY=MYSECRETKEY
 ```
 
