@@ -1,8 +1,4 @@
-![Preview](./PLAYGROUND/client/src/assets/finallogo.png)
-
-# LatchQL NPM Package and Playground
-
-# **LatchQL NPM Package**
+# LatchQL
 
 An open-source, free-to-use, lightweight middleware package that adds additional layers of security to authenticate/authorize and provide permissions for users to have different levels of access to a database through graphQL queries.
 
@@ -13,22 +9,6 @@ An open-source, free-to-use, lightweight middleware package that adds additional
 - Throw errors _before_ execution using depth and cost limiting algorithms.
 - Utilize a caching method with Redis for limiting the rate of user requests to your GraphQL endpoint.
 
-# Why do I need GraphQL limiters?
-
-## Cost limiting
-
-**Cost limiting** is essential for securing your GraphQL endpoint. By putting a limit on the cost of a single GraphQL transaction, you can prevent resource overload by blocking excessively expensive requests.
-
-## Depth limiting
-
-**Depth limiting** is vital for protecting the server against malicious query attacks. This limit is commonly used for never ending query loops that expose the endpoint to potential attacks. By using the depth limiter, you can validate the depth of imcoming queries on a user's permission level and prevent execution if it exceeds the limit.
-
-## Rate limiting
-
-**Rate limiting** is a strategy used for limiting network traffic and strain on the server. It's mainly used to prevent bot activity, brute force, DoS, DDoS, and web scraping attacks. By using the rate limiter, users are allocated a maximum of n operations for every fixed size 1-minute time window. Once the client has performed n operations, they must wait.
-
-<br>
-
 ## Getting started
 
 In your terminal:
@@ -36,10 +16,10 @@ In your terminal:
 1. Install LatchQL
 
 ```console
-npm install LatchQL
+npm install latchql
 ```
 
-2. Create a configuration file called `latch_config.json` in your project's root directory to assign and store your limiters.  
+2. Create a configuration file called `latch_config.json` in your project's root directory to assign and store your limiter presets.  
    Example:
 
 ```json
@@ -68,20 +48,13 @@ npm install LatchQL
 SECRET_KEY=MYSECRETKEY
 ```
 
-4. Install redis globally on your machine
+4. Install redis with homebrew on macOS.
 
-   Using Homebrew package manager for Mac OS users:
+- If you've already installed redis, skip this step.
 
-````console
- brew update
- brew install redis
-```On Windows:
 ```console
- sudo apt-add-repository ppa:redislabs/redis
- sudo apt-get update
- sudo apt-get upgrade
- sudo apt-get install redis-server
-````
+brew install redis
+```
 
 5. Run redis server
 
@@ -89,15 +62,13 @@ SECRET_KEY=MYSECRETKEY
 redis-server
 ```
 
-- If you get an error on step 4, you may be running an instance of redis somewhere. To stop it:
+- If you get an error on step 5, you may be running an instance of redis somewhere. To stop it:
 
 ```console
 killall redis-server
 ```
 
 and then repeat step 5.
-
-<br>
 
 # Implementation
 
@@ -172,50 +143,24 @@ latch.startLatch(app, port);
 ## Don't have a server?
 
 Included in the NPM-MODULE directory is a dummy folder which includes an already built-out mock express server which you can use to test the LatchQL authentication and middleware package. Clone the repo, navigate to the dummy directory, install dependencies and run the command `npm start` to spin up the server.
+
 <br>
 
-# **LatchQL Playground**
+# Why do I need GraphQL limiters?
 
-The LatchQL Playground is an optional, built-in playground for testing your GraphQL endpoint.
+## Cost limiting
 
-# Features
+**Cost limiting** is essential for securing your GraphQL endpoint. By putting a limit on the cost of a single GraphQL transaction, you can prevent resource overload by blocking excessively expensive requests.
 
-- Preview cost and depth of your current query before execution.
-- Displays important metrics for tracking response time and CPU usage.
-- Save variables to reference in the body of your GraphQL queries.
+## Depth limiting
 
-# Getting Started
+**Depth limiting** is vital for protecting the server against malicious query attacks. This limit is commonly used for never ending query loops that expose the endpoint to potential attacks. By using the depth limiter, you can validate the depth of imcoming queries on a user's permission level and prevent execution if it exceeds the limit.
 
-1. Install LatchQL npm package.
-2. Clone the playground.
-3. Install its dependencies:
+## Rate limiting
 
-   ```console
-   npm install --force
-   ```
+**Rate limiting** is a strategy used for limiting network traffic and strain on the server. It's mainly used to prevent bot activity, brute force, DoS, DDoS, and web scraping attacks. By using the rate limiter, users are allocated a maximum of n operations for every fixed size 1-minute time window. Once the client has performed n operations, they must wait.
 
-4. Build the playground:
-
-   ```console
-   npm run dev
-   ```
-
-# How to use LatchQL Playground
-
-1. Select the right permission level
-   ![Permission Level](./PLAYGROUND/client/src/assets/user-permission-example-2xSpeed.gif)
-
-2. Preview Cost/Depth of the current query
-   ![Preview](./PLAYGROUND/client/src/assets/cost-preview-example_AdobeExpress.gif)
-
-3. Depth Limiter
-   ![Depth Limiter](./PLAYGROUND/client/src/assets/depth-limitor.gif)
-
-4. Cost Limiter
-   ![Cost Limiter](./PLAYGROUND/client/src/assets/cost-limitor-example-2xSpeed.gif)
-
-5. Rate Limiter
-   ![Rate Limiter](./PLAYGROUND/client/src/assets/rate-limitor-example-2xSpeed.gif)
+<br>
 
 # Authors
 
@@ -240,7 +185,7 @@ If you would like to contribute in improving the functionality of LatchQL, pleas
 Visit the [LatchQL Website](https://www.latchql.io)
 <br>
 <br>
-Read the [LatchQL Medium article](https://medium.com/@mcphail.alex/latchql-c88ce527ec50)
+Read the [LatchQL Medium article](https://medium.com/@mcphail.alex/latchql-c88ce527ec50/)
 
 # License
 
