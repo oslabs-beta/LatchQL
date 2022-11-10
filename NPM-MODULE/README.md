@@ -63,11 +63,11 @@ and then repeat step 3.
 ## Sample Usage
 
 ```js
-import cors from 'cors';
-import express from 'express';
-import { readFile } from 'fs/promises';
-import { resolvers } from './test-db/resolvers.js';
-import { LatchQL, jwtController } from 'latchql';
+import cors from "cors";
+import express from "express";
+import { readFile } from "fs/promises";
+import { resolvers } from "./test-db/resolvers.js";
+import { LatchQL, jwtController } from "latchql";
 
 const app = express();
 const port = 8080; // default port to listen
@@ -76,17 +76,17 @@ app.use(express.json());
 
 //helper middleware function for testing JwtController
 function authSet(req, res, next) {
-  res.locals.authLevel = 'user';
-  res.locals.userName = 'Ray';
+  res.locals.authLevel = "user";
+  res.locals.userName = "Ray";
   next();
 }
 
 // test route for jwtController
-app.post('/login', authSet, jwtController.setJwt, (req, res) => {
-  return res.status(200).send('YES RESPONSE');
+app.post("/login", authSet, jwtController.setJwt, (req, res) => {
+  return res.status(200).send("YES RESPONSE");
 });
 
-const typeDefs = await readFile('./schema.graphql', 'utf-8');
+const typeDefs = await readFile("./schema.graphql", "utf-8");
 let latch = new LatchQL(typeDefs, resolvers);
 
 // start the Express server
@@ -103,25 +103,27 @@ latch.startLatch(app, port);
 Import LatchQL and jwtController from latchql
 
 ```js
-import { LatchQL, jwtController } from 'latchql';
+import { LatchQL, jwtController } from "latchql";
 ```
 
-Implment jwtController.setJwt middleware in your authentication step.  You will 
+Implment jwtController.setJwt middleware in your authentication step. You will
 need to pass the username and the selected authorization level of a given user to
 the jwtController.setJwt middleware via res.locals.username and res.locals.authLevel
 
 ```js
-app.post('/login', authSet, jwtController.setJwt, (req, res) => {
-  return res.status(200).send('YES RESPONSE');
+app.post("/login", authSet, jwtController.setJwt, (req, res) => {
+  return res.status(200).send("YES RESPONSE");
 });
 ```
 
 Create a new instance of LatchQL passing in your schema and resolvers
+
 ```js
 let latch = new LatchQL(typeDefs, resolvers);
 ```
 
 Lastly, invoke startLatch passing in your express server and its port to access endpoints
+
 ```js
 latch.startLatch(app, port);
 ```
@@ -164,8 +166,8 @@ If you would like to contribute in improving the functionality of LatchQL, pleas
 
 # To Learn More
 
-Visit the [LatchQL Website](https://github.com/reykeem)
-Read the [LatchQL Medium article](https://github.com/reykeem)
+Visit the [LatchQL Website](https:www.latchql.io)
+Read the [LatchQL Medium article](https://medium.com/@mcphail.alex/latchql-c88ce527ec50)
 
 # License
 

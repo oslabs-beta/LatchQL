@@ -33,7 +33,6 @@ The LatchQL Playground is an optional, built-in playground for testing your Grap
 
 2. Preview Cost/Depth of the current query
    ![Preview](./client/src/assets/cost-preview-example_AdobeExpress.gif)
-   
 3. Depth Limiter
    ![Depth Limiter](./client/src/assets/depth-limitor.gif)
 
@@ -63,8 +62,8 @@ If you would like to contribute in improving the functionality of LatchQL, pleas
 
 ## To Learn More
 
-Visit the [LatchQL Website](https://github.com/reykeem)   
-Read the [LatchQL Medium article](https://github.com/reykeem)
+Visit the [LatchQL Website](https://www.latchql.io)  
+Read the [LatchQL Medium article](https://medium.com/@mcphail.alex/latchql-c88ce527ec50)
 
 ### License
 
