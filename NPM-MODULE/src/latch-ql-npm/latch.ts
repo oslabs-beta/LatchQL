@@ -17,55 +17,54 @@ import * as dotenv from "dotenv";
 import process from "process";
 import redis from "redis";
 
-import findNearestFile from 'find-nearest-file';
+import findNearestFile from "find-nearest-file";
 
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { isStringLiteral } from "typescript";
 
-
 dotenv.config();
 let key: string;
 //read secret KEY from .env file -- if not set-up, default to a generic key
-if(process.env.SECRET_KEY)  key = process.env.SECRET_KEY;
+if (process.env.SECRET_KEY) key = process.env.SECRET_KEY;
 else key = "GENERICKEY";
 
 type locals = {
-    authLevel?: string,
-    userName?: string
-}
+  authLevel?: string;
+  userName?: string;
+};
 
 interface authRes extends Response {
-    locals : locals,
+  locals: locals;
 }
 
 type jwtController = {
-    setJwt: (req: Request, res: authRes, next: NextFunction) => any,
-}
+  setJwt: (req: Request, res: authRes, next: NextFunction) => any;
+};
 
 //middleware to be setup in dev user's authentication process:
-    /*
+/*
         dev user will pass in the user's auth level and username to the jwt contorller through 
         the res.locals element so that an authenticating jwt can be set on the user
     */
 const jwtController: jwtController = {
-    setJwt : (req: Request, res: authRes, next: NextFunction) => {
-        if(!res.locals.authLevel || !res.locals.userName){
-            return next();
-        }
-        let authLevel: string = res.locals.authLevel;
-        let userName: string = res.locals.userName;
-        const payload = {userName: userName, authLevel: authLevel};
-        const token: string= jwt.sign(payload, key, {expiresIn: "5d"});
-        return res.json({token});
+  setJwt: (req: Request, res: authRes, next: NextFunction) => {
+    if (!res.locals.authLevel || !res.locals.userName) {
+      return next();
     }
+    let authLevel: string = res.locals.authLevel;
+    let userName: string = res.locals.userName;
+    const payload = { userName: userName, authLevel: authLevel };
+    const token: string = jwt.sign(payload, key, { expiresIn: "5d" });
+    return res.json({ token });
+  },
 };
 
-export {jwtController};
+export { jwtController };
 
 class LatchQL {
   public typeDefs: string;
-  public resolvers: any
+  public resolvers: any;
   private schema: GraphQLSchema;
   private schemaWithMiddleWare: any;
   constructor(types: string, resolvers: {}) {
@@ -76,7 +75,10 @@ class LatchQL {
   }
   //use passed in typeDefs to create schema
   createSchema() {
-    const schema = makeExecutableSchema({ typeDefs: this.typeDefs, resolvers: this.resolvers });
+    const schema = makeExecutableSchema({
+      typeDefs: this.typeDefs,
+      resolvers: this.resolvers,
+    });
     return schema;
   }
   addMiddleWare() {
@@ -116,8 +118,8 @@ class LatchQL {
           }
         });
       }
-      const configPath = findNearestFile('latch_config.json');
-      console.log(configPath)
+      const configPath = findNearestFile("latch_config.json");
+      console.log(configPath);
       const authLimits = await readFile(configPath, "utf8");
       const parsedLimits = JSON.parse(authLimits);
 
@@ -210,7 +212,7 @@ class LatchQL {
     //set up an endpoint for the playground to retrieve the config file
     app.get("/latchql", (req: any, res: any) => {
       res.header("Access-Control-Allow-Origin", "*");
-      const configPath = findNearestFile('latch_config.json');
+      const configPath = findNearestFile("latch_config.json");
       console.log(configPath);
       readFile(configPath, "utf-8")
         .then((data) => {
@@ -238,9 +240,7 @@ class LatchQL {
     });
     //endpoint for the playground to get preview stats
     app.post("/previews", async (req: any, res: any) => {
-
       try {
-
         const depthPreview = await depthLimit(
           req.body.queryPreview,
           req.body.maxDepth
@@ -264,7 +264,7 @@ class LatchQL {
   }
 }
 
-export {LatchQL};
+export { LatchQL };
 
 // export default {jwtController, LatchQL};
 // module.exports = {
