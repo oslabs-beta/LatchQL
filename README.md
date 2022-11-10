@@ -70,10 +70,10 @@ SECRET_KEY=MYSECRETKEY
 
 4. Install redis globally on your machine. For macOS users, use Homebrew package manager. If you've already installed redis, skip this step.
 
-````console
+```console
  brew update
  brew install redis
-```
+ ```
 
 5. Run redis server
 
