@@ -62,7 +62,13 @@ npm install LatchQL
 }
 ```
 
-3. Install redis globally on your machine
+3. Create a .env file and save SECRET_KEY as an environment variable. \*Note: if none is set, it will default to "GENERICKEY".
+
+```
+SECRET_KEY=MYSECRETKEY
+```
+
+4. Install redis globally on your machine
 
    Using Homebrew package manager for Mac OS users:
 
@@ -77,7 +83,7 @@ npm install LatchQL
  sudo apt-get install redis-server
 ````
 
-4. Run redis server
+5. Run redis server
 
 ```console
 redis-server
@@ -89,7 +95,7 @@ redis-server
 killall redis-server
 ```
 
-and then repeat step 4.
+and then repeat step 5.
 
 <br>
 
@@ -161,6 +167,10 @@ Lastly, invoke startLatch passing in your express server and port to access endp
 latch.startLatch(app, port);
 ```
 
+<br>
+## Don't have a server?
+
+Included in the NPM-MODULE directory is a dummy folder which includes an already built-out mock express server which you can use to test the LatchQL authentication and middleware package. Clone the repo, navigate to the dummy directory, install dependencies and run the command `npm start` to spin up the server.
 <br>
 
 # **LatchQL Playground**
