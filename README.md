@@ -68,20 +68,12 @@ npm install LatchQL
 SECRET_KEY=MYSECRETKEY
 ```
 
-4. Install redis globally on your machine
-
-   Using Homebrew package manager for Mac OS users:
+4. Install redis globally on your machine. For macOS users, use Homebrew package manager. If you've already installed redis, skip this step.
 
 ````console
  brew update
  brew install redis
-```On Windows:
-```console
- sudo apt-add-repository ppa:redislabs/redis
- sudo apt-get update
- sudo apt-get upgrade
- sudo apt-get install redis-server
-````
+```
 
 5. Run redis server
 
