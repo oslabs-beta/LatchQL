@@ -62,7 +62,7 @@ If you would like to contribute in improving the functionality of LatchQL, pleas
 
 # To Learn More
 
-Visit the [LatchQL Website](https://www.latchql.io)  
+Visit the [LatchQL Website](https://queryos.github.io/latchql.github.io/)  
 Read the [LatchQL Medium article](https://medium.com/@mcphail.alex/latchql-c88ce527ec50)
 
 # License
