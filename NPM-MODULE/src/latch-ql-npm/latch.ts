@@ -11,7 +11,7 @@ import { graphqlHTTP } from "express-graphql";
 // Import Limiters
 import { calcCost } from "./cost-limiter.js";
 import { depthLimit } from "./depth-limiter.js";
-import { rateLimiter } from "./rate-limiter.js";
+// import { rateLimiter } from "./rate-limiter.js";
 
 import * as dotenv from "dotenv";
 import process from "process";
@@ -42,6 +42,12 @@ type jwtController = {
   setJwt: (req: Request, res: authRes, next: NextFunction) => any;
 };
 
+export type redisConfigType = {
+  port?: number;
+  host?: string;
+  password?: string;
+};
+
 //middleware to be setup in dev user's authentication process:
 /*
         dev user will pass in the user's auth level and username to the jwt contorller through 
@@ -65,13 +71,24 @@ export { jwtController };
 class LatchQL {
   public typeDefs: string;
   public resolvers: any;
+  public redisClient: any;
   private schema: GraphQLSchema;
+  // private client: ReturnType<typeof createClient>;
   private schemaWithMiddleWare: any;
-  constructor(types: string, resolvers: {}) {
+  constructor(types: string, resolvers: {}, redisConfig?: redisConfigType) {
     this.typeDefs = types;
     this.resolvers = resolvers;
+    this.redisClient = redisConfig
+      ? redis.createClient({
+          socket: { host: redisConfig?.host, port: redisConfig?.port },
+          password: redisConfig?.password,
+        })
+      : redis.createClient();
     this.schema = this.createSchema();
     this.schemaWithMiddleWare = this.addMiddleWare();
+    this.redisClient.connect().then(() => {
+      console.log("Connected to redisCache");
+    });
   }
   //use passed in typeDefs to create schema
   createSchema() {
@@ -85,10 +102,11 @@ class LatchQL {
     const schemaWithMiddleware = applyMiddleware(this.schema, this.middleWare);
     return schemaWithMiddleware;
   }
+  
   //primary functionality here
   async middleWare(resolve, root, args, context, info) {
-    const redisClient = redis.createClient();
-    await redisClient.connect();
+    // const redisClient = this.redisConfig ? redis.createClient({socket: {port: this.redisConfig.port, host: this.redisConfig.host},password: this.redisConfig.password}) : redis.createClient();
+    // await redisClient.connect();
 
     //only need to run checks on initial pass
     if (!context.alreadyRan) {
@@ -119,9 +137,22 @@ class LatchQL {
         });
       }
       const configPath = findNearestFile("latch_config.json");
-      console.log(configPath);
       const authLimits = await readFile(configPath, "utf8");
       const parsedLimits = JSON.parse(authLimits);
+      function rateLimiter(user_ip: any, queryCost: number, rateLimit: number, redisClient: any) {
+        // const redisClient = redis.createClient();
+        // await redisClient.connect();
+        console.log("in rate limiter", redisClient);
+        let time = 60; //1 minute
+        let rounded = Math.floor(queryCost);
+    
+        //totalCost is user_ip's current total
+        let totalCost = redisClient.incrBy(user_ip, rounded);
+        //if user_ip is just created, add an expiration of 60 seconds before deleting
+        if (Number(totalCost) === rounded) redisClient.expire(user_ip, time);
+        if (Number(totalCost) >= rateLimit) return false;
+        else return true;
+      }
 
       const maxDepth = parseInt(parsedLimits[authLevel].depthLimit);
       const rateLimit = parseInt(parsedLimits[authLevel].rateLimit);
@@ -162,7 +193,15 @@ class LatchQL {
           }
         );
       }
-      const withinRateLimit = await rateLimiter(user_ip, costSum, rateLimit);
+      
+      console.log("before rate limit");
+      const withinRateLimit = await rateLimiter(
+        user_ip,
+        costSum,
+        rateLimit,this.redisClient
+      );
+      console.log("after rate limit");
+
       if (!withinRateLimit) {
         throw new GraphQLError(
           `Your query exceeds maximum rate limit of ${rateLimit} per 10s`,
@@ -179,17 +218,16 @@ class LatchQL {
           }
         );
       }
-
       context.alreadyRan = true;
     }
     const result = await resolve(root, args, context, info);
     const newDate = new Date();
     let currCpu = process.cpuUsage().system;
     const totalCpu = currCpu - context.res.locals.cpuStart;
-    await redisClient.set("cpu", totalCpu);
+    this.redisClient.set("cpu", totalCpu);
 
     const totalTime = newDate.getTime() - context.res.locals.timeStart;
-    await redisClient.set("time", totalTime);
+    this.redisClient.set("time", totalTime);
 
     return result;
   }
@@ -213,7 +251,6 @@ class LatchQL {
     app.get("/latchql", (req: any, res: any) => {
       res.header("Access-Control-Allow-Origin", "*");
       const configPath = findNearestFile("latch_config.json");
-      console.log(configPath);
       readFile(configPath, "utf-8")
         .then((data) => {
           res.status(200).send(data);
@@ -226,11 +263,11 @@ class LatchQL {
     //endpoint for playground to retrieve metrics
     app.get("/metrics", async (req: any, res: any) => {
       try {
-        const redisClient = redis.createClient();
-        await redisClient.connect();
+        // const redisClient = this.redisConfig ? redis.createClient({socket: {port: this.redisConfig.port, host: this.redisConfig.host},password: this.redisConfig.password}) : redis.createClient()
+        // await redisClient.connect();
         res.header("Access-Control-Allow-Origin", "*");
-        const cpu = await redisClient.get("cpu");
-        const time = await redisClient.get("time");
+        const cpu = this.redisClient.get("cpu");
+        const time = this.redisClient.get("time");
         const percent = Number(cpu) / 1000 / Number(time);
         res.status(200).send([percent, time]);
       } catch (err) {

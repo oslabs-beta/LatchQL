@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "es2017",
-    "types":["node", "jest"],
+    "types": ["node", "jest"],
     "module": "ES2022",
     "esModuleInterop": true,
     "declaration": true,
@@ -15,6 +15,7 @@
       "*": ["/node_modules/*"]
     },
     "forceConsistentCasingInFileNames": true,
+    "strictPropertyInitialization": false
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules"]

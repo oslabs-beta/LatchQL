@@ -2,8 +2,8 @@ import cors from "cors";
 import express from "express";
 import { readFile } from "fs/promises";
 import { resolvers } from "./test-db/resolvers.js";
-import {LatchQL, jwtController} from 'latchql';
-
+// import {LatchQL, jwtController} from 'latchql';
+import { LatchQL, jwtController } from "../src/latch-ql-npm/latch.js";
 
 const app = express();
 const port = 8080; // default port to listen
@@ -23,7 +23,13 @@ app.post("/login", authSet, jwtController.setJwt, (req, res) => {
 });
 
 const typeDefs = await readFile("./schema.graphql", "utf-8");
-let latch = new LatchQL(typeDefs, resolvers);
+const redisConfig = {
+  port: 6379,
+  host: "localhost",
+};
+
+// Instantiate LatchQL
+let latch = new LatchQL(typeDefs, resolvers, redisConfig);
 
 // start the Express server
 app.listen(port, () => {
